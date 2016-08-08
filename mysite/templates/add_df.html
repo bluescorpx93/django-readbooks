@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block title %} Add Book {% endblock %}
+
+{% block body %}
+<style>
+.btnsize1 { height:7%;	padding: 2%; margin-top:3%; }
+.iconspace { padding-right: 4%;} 
+.pad-zero{padding:0;}
+.well{margin:0;}
+</style>
+
+<div class='col-md-10 col-md-offset-1 pad-zero' >
+	{% if success %}
+	<div class='col-md-12'>
+		<div class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+				<strong>Hey!</strong> {{ success }}
+		</div>
+	</div>
+	{% endif %}
+
+	{% if problem %}
+	<div class='col-md-12'>
+		<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+				<strong>Oops!</strong> {{ problem }}
+		</div>
+	</div>
+	{% endif %}
+
+<div class='col-md-8'>
+	<div class='col-md-12' id="add_book_form" style='padding-top: 5%;'>
+			<div class = 'well pad-zero'>
+				<h2 class="well text-center" > Add a New Book</h2>
+
+				<form action='/readbooks/add_book_df/' method='post' style='padding-top:4%;'>
+				{% csrf_token %}
+					<div class='form-group'> <label for="id_title" class='control-label col-md-3 '> <h5>Title</h5> </label> <div class='col-md-8'>{{ add_book_form.title }}</div>	</div>
+
+					<div class='form-group '><label for="id_author" class='col-md-3 control-label'><h5>Author</h5> </label>	<div class='col-md-8'>{{ add_book_form.author }}</div></div>
+				
+					<div class='form-group '>	<label for="id_publisher" class='col-md-3 control-label'> <h5>Publisher</h5> </label>		<div class='col-md-8'>{{ add_book_form.publisher }}</div>	</div>
+
+					<div class='form-group '>	<label for="id_genre" class='col-md-3 control-label'><h5>Genre</h5> </label>	<div class='col-md-8'>{{ add_book_form.genre }}</div>	</div>
+
+					<div class='form-group '>	<label for ="id_publication_date" class='col-md-3 control-label'><h5>Publication Date</h5> </label> <div class='col-md-8'>{{ add_book_form.publication_date }}</div>	</div>
+
+					<div class='form-group '>	<label for="id_cover_picture" class='col-md-3 control-label'> <h5>Cover Picture</h5> </label> <div class='col-md-8'>{{ add_book_form.cover_picture }}</div> </div>
+
+					<div class='form-group '>	<label for="id_book_synopsis" class='col-md-3 control-label'> <h5>Book Synopsis</h5> </label> <div class='col-md-8'>{{ add_book_form.book_synopsis }}</div> </div>
+
+					<div class='form-group' style='padding-left: 30%;'>
+						<button type='submit' class='btn col-md-7 btn-info'> Add!</button>
+					</div>
+			</form>
+				
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+	<div class='col-md-6'>
+		<div class = 'col-md-12' style="padding-top: 15%;">
+
+			<div class='container'>
+				<button type="button" class="btn col-md-7 col-md-offset-2 btn-info text-uppercase btnsize1" data-toggle="modal" data-target="#addAuthor"> <i class="fa fa-plus iconspace"> </i> Add Author </button>
+			</div>
+
+			<div class='container'>
+				<button type="button" class="btn col-md-7 col-md-offset-2 btn-info text-uppercase btnsize1" data-toggle="modal" data-target="#addGenre"> <i class="fa fa-plus iconspace"> </i> Add Genre </button>
+			</div>
+
+			<div class='container'>
+				<button type="button" class="btn col-md-7 col-md-offset-2 btn-info text-uppercase btnsize1" data-toggle="modal" data-target="#addReview"> <i class="fa fa-plus iconspace"> </i> Add Review </button>
+			</div>
+
+			
+			<div class="modal fade" id="addAuthor" tabindex="-1" role="dialog">
+			  <div class="modal-dialog" role="document">
+			  	<div class="modal-content">
+			  		<div class='well'>
+			  			<div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        	<h2 class="modal-title text-uppercase text-center">Add Review</h2>
+			      	</div>
+			      	<form action = "/readbooks/add_review_df/" method="post">
+								{% csrf_token %}				      		
+								<div class="modal-body">
+					      	<style> .form-group{ padding: 2% 0 2% 0; }</style>
+					        <div class="form-group" '>
+					          <label for="id_heading" class=" col-md-4 control-label">Heading</label>
+				            <div class='col-md-7'>
+				            	{{ add_review_form.heading }}                	
+				            </div>
+				          </div>
+				          <div class="form-group">
+				            <label for="id_book" class=" col-md-4 control-label">Book</label>
+				            <div class='col-md-7'>
+				            <input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
+				            </div>
+				          </div>
+				          <div class="form-group">
+				            <label for="id_review" class=" col-md-4 control-label">Review</label>
+				            <div class='col-md-7'>
+				            	{{ add_author_form.review }}                	
+				            </div>
+				          </div>
+				          
+				      	</div>
+				      	<div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        	<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Review</button>
+				      	</div>
+			      	</form>
+			      </div>
+			     </div>
+			    </div>
+			  </div>
+
+
+			<div class="modal fade" id="addAuthor" tabindex="-1" role="dialog">
+			  <div class="modal-dialog" role="document">
+			  	<div class="modal-content">
+				  		<div class='well'>
+				  			<div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        	<h2 class="modal-title text-uppercase text-center">Add Author</h2>
+				      	</div>
+				      	<form action="/readbooks/add_author_df/" method='post'>
+				        	{% csrf_token %}
+					      	<div class="modal-body">
+						      	<style> .form-group{ padding: 2% 0 2% 0; }</style>
+						        <div class="form-group" '>
+						          <label for="id_first_name" class=" col-md-4 control-label">First Name</label>
+					            <div class='col-md-7'>
+					            	{{ add_author_form.first_name }}                	
+					            </div>
+					          </div>
+					          <div class="form-group">
+					            <label for="id_last_name" class=" col-md-4 control-label">Last Name</label>
+					            <div class='col-md-7'>
+					            	{{ add_author_form.last_name }}                	
+					            </div>
+					          </div>
+					          <div class="form-group">
+					            <label for="id_date_of_birth" class=" col-md-4 control-label">Birthday</label>
+					            <div class='col-md-7'>
+					            	{{ add_author_form.date_of_birth }}                	
+					            </div>
+					          </div>
+					          <div class="form-group">
+					            <label for="id_gender" class=" col-md-4 control-label">Gender</label>
+					            <div class='col-md-7'>
+					            	{{ add_author_form.gender }}                	
+					            </div>
+					          </div>
+					          <div class="form-group">
+					            <label for="id_profile_picture" class=" col-md-4 control-label">Avatar</label>
+					            <div class='col-md-7'>
+					            	{{ add_author_form.profile_picture }}                	
+					            </div>
+					          </div>
+					          <div class="form-group">
+					            <label for="id_bio" class=" col-md-4 control-label">About </label>
+					            <div class='col-md-7'>
+					            	{{ add_author_form.bio }}                	
+					            </div>
+					          </div>
+					      	</div>
+					      	<div class="modal-footer">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					        	<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Author</button>
+					      	</div>
+					      </form>
+					    </div>
+				    </div>
+			  </div>
+		  	
+		  </div>
+
+			    
+	  </div>
+	</div>
+
+</div>
+
+{% endblock %}

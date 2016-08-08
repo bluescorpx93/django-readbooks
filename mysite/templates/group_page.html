@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %} {{ group_obj.name }} {% endblock %}
+{% block body %}
+<style>
+.pad-right{ padding-right: 3%;}
+.well {	margin:0;}
+.iconspace { padding-right: 2%;} 
+.btnsize1 { height:7%;}
+.btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
+.pic-container{ background-color: #f5f5f5; height:50%;border:0;padding:4% 0 2% 0;}
+.pad-zero{padding:0;}
+</style>
+
+
+<div class='col-md-10 col-md-offset-1 '>
+	
+	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
+		<div class="col-md-12 well " style='padding-bottom:0;'>
+			<h3 class='text-center text-uppercase'> {{ group_obj.name }} </h3>
+			<div class=' pic-container'>
+				<img src="{{ MEDIA_URL }}/{{ group_obj.cover_picture }}" class="img-responsive image-fit-frame"/>
+			</div>
+			<div class='panel panel-default' style='border-radius: 0;'>
+				<div class='panel-heading' >
+					<h5> <small > {{ group_obj.group_description }} </small> </h5>
+					<h5> {{ group_obj.member_count }} Members</h5>
+					<h5> {{ group_obj.topic_count }} Topics </h5>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	<div class='col-md-6' style='padding:0 0 0 0.5%'>
+		<div class='col-md-12 well'>
+			<h4 class='text-center'> <small>Topics and Book-Recommendations of  {{ group_obj.name }}</small> </h4>
+		</div>
+		<div class='col-md-6 pad-zero' >
+			<button type="button" class="btn btn-block btn-info btnsize2" id="book_rec_btn"> <h4> <i class="fa fa-book iconspace"></i> Book-Suggestions </h4> </button> 
+		</div>
+		<div class='col-md-6 pad-zero'> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="topics_btn"> <h4> <i class="a fa-comments iconspace"></i> Topics </h4> </button> 
+		</div>
+	</div>
+
+	<div class='col-md-6' id = "topics_col" style='padding:0 0 0 0.5%'>
+		<div class='col-md-12 pad-zero'>
+			{% if not topics_by_group_obj %}
+				<h5 class='text-center well '> No Topics in this Gruop </h5>
+			{% endif %}
+			<div class='col-md-12 pad-zero' >
+				{% for topic in topics_by_group_obj %}
+					<div class='col-md-12 pad-zero'>
+						<a href="/readbooks/topic/{{ topic.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-comments iconspace'> </i> {{ topic.name }} </button> </a>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+			
+	<div class='col-md-6' id="book_rec_col" style='padding:0 0 0 0.5%'>
+		{% if not book_recs_by_group_obj %}
+		<h5 class='text-center well'> No Book Suggestions</h5>
+		{% endif %}
+		<div class='col-md-12 pad-zero'>
+			{% for object in book_recs_by_group_obj %}
+			<div class='col-md-12 pad-zero'>
+				<a href='/readbooks/book/{{ object.book.id }}'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-book iconspace'> </i> {{ object.book.title }} </button> </a>
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+	$("#topics_col").hide();
+	$("#book_rec_col").hide();
+	$("#book_rec_btn").click(function(){
+		$("#topics_col").hide();
+		$("#book_rec_col").toggle("fade");
+	});
+	$("#topics_btn").click(function(){
+		$("#book_rec_col").hide();
+		$("#topics_col").toggle("fade");
+	});
+});
+</script>
+{% endblock %}

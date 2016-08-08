@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{ critic_obj.first_name }} {{ critic_obj.last_name }} {% endblock %}
+{% block body %}
+<link href="{% static 'extended/profile.css' %}" rel="stylesheet" >
+
+<div class='col-md-10 col-md-offset-1 '>
+
+	<div class='col-md-6' style='padding:0% 0.5% 0 0;'>
+		<div class="col-md-12 well " style='padding-bottom:0;'>
+			<h3 class='text-center text-uppercase'> {{ critic_obj.first_name }} {{ critic_obj.last_name }} </h3>
+
+			<div class='pic-container'>
+				<img src="{{ MEDIA_URL }}/{{ critic_obj.profile_picture }}" class="img-responsive image-fit-frame"/>
+			</div>
+			<div class='panel panel-default' style='border-radius: 0;'>
+				<div class='panel-heading' >
+					<h5>  {{ critic_obj.gender }} ,<small style='padding-left: 3%;'> Birthday </small> {{ critic_obj.date_of_birth }}</h5>
+					<h5> <small class='pad-right'> Favorite Quote</small>	<em> {{ critic_obj.favorite_quote }} </em>  </h5>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class='col-md-6' style='padding:0 0 0 0.5%'>
+		<div class='col-md-12 well'>
+			<h4 class='text-center'> <small>Check out the Reviews of {{ critic_obj.first_name }} {{ critic_obj.last_name }} </small> </h4>
+		</div>
+		<div class='col-md-12 pad-zero' >
+			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"> <h4> <i class="fa fa-bullhorn iconspace"></i> Reviews </h4> </button> 
+		</div>
+	</div>
+
+	<div class='col-md-6' id="reviews_col" style='padding:0 0 0 0.5%;'>
+		<div class='col-md-12 pad-zero'>
+			{% if not reviews_by_critic_obj %}
+				<h5 class='text-center well'> No Reviews Published</h5>
+			{% endif %}
+			<div class='col-md-12 pad-zero' >
+				{% for review in reviews_by_critic_obj %}
+					{% if review.status == 'Published' %}
+						<div class='col-md-6 pad-zero'>
+							<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-bullhorn iconspace'></i>  {{ review.heading }} </button>	</a>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+		<div class= 'col-md-12'>
+			<!-- show all  -->
+		</div>
+	</div>
+</div>
+<script>
+$(document).ready(function(){
+	$("#reviews_col").hide();
+	$("#reviews_btn").click(function(){
+		$("#reviews_col").toggle("fade");
+	});
+
+});
+</script>
+{% endblock %}

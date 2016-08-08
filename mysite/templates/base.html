@@ -1,0 +1,71 @@
+{% load static %}
+<html>
+<head>
+	<title> {% block title %} {% endblock %} </title>
+	<script type="text/javascript" src="{% static 'jquery/jquery-2.2.4.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'jquery/jquery-ui.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+	<link href="{% static 'bootstrap/css/bootstrap.min.css' %}"	rel="stylesheet" >
+	<!-- <link href="{% static 'cosmo-bootstrap/bootstrap.min.css' %}"	rel="stylesheet" > -->
+	<link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" >
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<style>
+.a{text-decoration: none;}
+.text-center{text-align: center;}
+.image-fit-frame{	max-width: 100%;min-width:100%;max-height: 100%;min-height:100%;border: 0px;object-fit: contain;}
+
+</style>
+
+<body>
+	<div class="jumbotron" style='padding:0; min-height:100%; margin:0;'>
+		<div class="navbar navbar-default" style='margin-bottom:0;'>
+			<div class='col-md-10 col-md-offset-1'>
+							<ul class="nav navbar-nav text-uppercase ">
+				{% if user.is_authenticated %}
+				<li>
+					 <a href="{% url 'readbooks_index_url' %} ">Readbooks</a>
+				</li>
+				<li >
+					 <a href="{% url 'search_url' %}">Search</a>
+				</li>
+				<li >
+					<a href="{% url 'list_recent_models_url' %}">New</a>
+				</li>
+				
+				<li>
+					<a href="{% url 'messages_url' %}"> Messages</a>
+				</li>
+				<li>
+					<a href="{% url 'add_book_url_bf' %}"> Add Book BF</a>
+				</li>
+					<li>
+					<a href="{% url 'add_df_url' %}"> Add DF</a>
+				</li>
+				<li>
+					<a href="{% url 'user_settings_url_bf' %}"> Settings BSF</a>
+				</li>
+				<li>
+					<a href="{% url 'user_settings_url_df' %}"> Settings DF</a>
+				</li>
+				<li>
+					<a href="/readbooks/userprofile/{{ user.id }}/"> Profile</a>
+				</li>
+				<li>
+					<a href="{% url 'logout_url' %}"> Log Out</a>
+				</li>
+				{% endif %}
+			</ul>				
+			</div>
+
+		</div>
+		<div class="container-fluid" style='margin-bottom:0;'>
+			{% block body %} {% endblock %}
+		</div>
+	</div>
+
+</body>
+
+
+</html>

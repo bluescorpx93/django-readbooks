@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} {{ the_user.first_name }} {{ the_user.last_name }} {% endblock %}
+
+{% block body %}
+<div class='container'>
+{{ the_user.first_name }} {{ the_user.last_name }}
+{{ the_userprofile.bio }} {{ the_userprofile.gender }}
+{{ the_userprofile.date_of_birth }} {{ the_userprofile.profile_picture }}
+
+<img src="{{MEDIA_URL}}/{{the_userprofile.profile_picture}}"/>
+
+
+{% endblock %}

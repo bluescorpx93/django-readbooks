@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %} Settings {% endblock %}
+
+{% block body %}
+<h3> {{ excp }} </h3>
+
+<div class='col-md-12'>
+	{% if problem %}
+		<div class='col-md-12'>
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+					<strong>Oops!</strong> {{ problem }} 
+			</div>
+		</div>
+	{% endif %}
+
+	 {% if success %}
+		<div class='col-md-12'>
+			<div class="alert alert-sucess alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+					<strong>Yes!</strong> {{ success }} 
+			</div>
+		</div>
+	{% endif %}
+
+	<div class='col-md-6'>
+		<h2 style='padding: 2%;'> Update Profile </h2>
+		<form action='/readbooks/settings_df/' class='form-horizontal' method='post' name='form'>
+		{% csrf_token %}
+			<div class='form-group '>
+				<label for ="id_first_name" class='col-md-4 control-label text-uppercase'>First Name </label>
+				<div class='col-md-8'>
+					{{ form.first_name }}
+				</div>
+			</div>
+			<div class='form-group '>
+				<label for ="id_last_name" class='col-md-4 control-label text-uppercase'>Last Name </label>
+				<div class='col-md-8'>
+					{{ form.last_name }}
+				</div>
+			</div>
+			<div class='form-group '>
+				<label for ="id_bio" class='col-md-4 control-label text-uppercase'>Bio </label>
+				<div class='col-md-8'>
+					{{ form.bio }}
+				</div>
+			</div>
+			<div class='form-group '>
+				<label for ="id_gender" class='col-md-4 text-uppercase control-label'>Gender </label>
+				<div class='col-md-8'>
+					{{ form.gender }}
+				</div>
+			</div>
+			<div class='form-group '>
+				<label for ="id_date_of_birth" class='text-uppercase col-md-4 control-label'>Birthday </label>
+				<div class='col-md-8'>
+					{{ form.date_of_birth }}
+				</div>
+			</div>
+			<div class='form-group '>
+				<label for ="id_profile_picture" class='col-md-4 text-uppercase control-label'>Profile Picture </label>
+				<div class='col-md-8'>
+					{{ form.profile_picture }}
+				</div>
+			</div>
+			<div class='form-group' style='padding-left: 30%;'>
+				<button type='submit' class='btn btn-info btn-lg'> Update!</button>
+			</div>
+		</form>
+	</div>
+
+	<div class='col-md-6'>
+		<h2 style='padding: 2%;'> Profile Summary </h2>
+		<style>
+		.well{
+			padding:1% 1% 1% 4%;
+			margin:0;
+		}
+		</style>
+		<div class = 'well'>
+			<h4> <strong> {{ loggeduser.first_name }} {{ loggeduser.last_name}} </strong></h4>
+		</div>
+		<div class='well'>
+			<h5> {{ loggeduserprofile.bio }} </h5>
+		</div>
+		<div class='well'>
+			<h5> {{ loggeduserprofile.gender }} </h5>
+		</div>
+		<div class='well'>
+			<h5> {{ loggeduserprofile.date_of_birth|date:"c" }} </h5>
+		</div>
+		<div class='well'>
+			<h5> {{ loggeduserprofile.profile_picture }} </h5>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block title %} New {% endblock %}
+{% block body %}
+
+<style>
+.pic-container{ background-color: #f5f5f5; height:40%;border:0;padding:2% 0 2% 0;}
+.well {	margin:0;}
+.btnsize1 { height:7%;}
+.btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
+.iconspace { padding-right: 2%;} 
+
+</style>
+
+<div id="recent_tabs">
+<div class="row">
+	<ul class="nav nav-tabs nav-justified">
+		<li role="presentation"> <a href="#books" data-toggle="tab" id="book_a_tag" data-target="#books_div"><i class="fa fa-book"></i> Books  <span class="badge"></span></a>	</li>
+		<li >	<a href="#authors" data-toggle="tab" id="author_a_tag" data-target="#authors_div"><i class="fa fa-user"></i> Authors <span class="badge"></span></a> </li>
+		<li >	<a href="#reviews" data-toggle="tab" id="reviews_a_tag" data-target="#reviews_div"><i class="fa fa-bullhorn"></i> Reviews <span class="badge"></span></a>	</li>
+		<li> <a href="#groups" data-toggle="tab" id="groups_a_tag" data-target="#groups_div"><i class="fa fa-group"></i> Groups <span class="badge"></span></a>	</li>
+		<li> <a href="#topics" data-toggle="tab" id="topics_a_tag" data-target="#topics_div"><i class="fa fa-comments"></i> Topics <span class="badge"></span>	</a> </li>
+	</ul>
+</div>
+<div class="row">
+	<div class="tab-content ">
+
+		<div role="tabpanel" class="tab-pane fade in active" id="books_div">
+			{% for book in recent_books %}
+			<div class='well col-md-3 text-center'>
+				<a href="{% url 'book_byID_url' book.id %}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-info btnsize2" > <h5> {{ book.title }} </h5></button>  </a>
+				<div class='pic-container'>
+					<img src="{{ MEDIA_URL }}/{{ book.cover_picture }}" class="img-responsive image-fit-frame" />
+				</div>
+				<div class="well">
+					<a href="/readbooks/author/{{ book.author.id }}" > {{ book.author }}</a> <br>
+					<a href="/readbooks/publisher/{{ book.publisher.id }}" > <i> {{ book.publisher }} Publishers</i></a>
+					<h5> {{ book.book_synopsis|truncatechars:30 }}</h5>
+				</div>				
+			</div>
+			{% endfor %}
+		</div>
+
+		<div role="tabpanel" class="tab-pane fade" id="authors_div">
+			{% for author in recent_authors %}
+			<div class=' well col-md-3'>
+				<a href="/readbooks/author/{{ author.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-primary btnsize2" > <h5> {{ author.first_name }} {{ author.last_name }} </h5></button>  </a>
+				<div class='pic-container'>
+					<img src="{{ MEDIA_URL }}/{{ author.profile_picture }}" class="img-responsive image-fit-frame" />
+				</div>
+				<div class="well">
+					{{ author.bio|truncatechars:30 }}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+
+		<div role="tabpanel" class="tab-pane fade" id="reviews_div">
+			{% for review in recent_reviews %}
+				{% if review.status == 'Published' %}
+					<div class='well col-md-3'>
+						<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-warning btnsize2" > <h5> {{ review.heading }} </h5> </button>  </a>
+						<div class='pic-container'>
+							<img src="{{ MEDIA_URL }}/{{ review.critic.profile_picture }}" class="img-responsive image-fit-frame"/>
+						</div>
+						<div class='well'>
+							<a href="/readbooks/critic/{{ review.critic.id }}" >{{ review.critic }} </a> reviews <br> <a href="/readbooks/book/{{ review.book.id }}" ><strong >{{ review.book }} </strong> </a>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<div role="tabpanel" class="tab-pane fade" id="groups_div">
+			{% for group in recent_groups %}
+					<div class='well col-md-3'>
+						<a href="/readbooks/group/{{ group.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-success btnsize2" > <h5> {{ group.name }} </h5></button>  </a>
+						<div class='pic-container'>
+							<img src="{{ MEDIA_URL }}/{{ group.cover_picture }}" class="img-responsive image-fit-frame" />
+						</div>
+						<div class="well">
+							<h5 > {{ group.group_description|truncatechars:30 }}  </h5>
+							{{ group.topic_count }} Topics
+							{{ group.member_count }} Members
+						</div>
+					</div>
+			{% endfor %}
+		</div>
+
+		<div role="tabpanel" class="tab-pane fade" id="topics_div">
+			<div class='col-md-10 col-md-offset-1' style='padding-top: 3%;' >
+				<div class='panel panel-success'  >
+					<div class='panel-heading'>
+						<h3 class='text-center text-uppercase'> <i class='fa fa-fire iconspace'></i> Topics </h>
+					</div>
+					<div class='panel-body'>
+						<div class='list-group'>
+							{% for topic in recent_topics %}
+							<a href='/readbooks/topic/{{ topic.id }}' class='list-group-item'>  <h4 style='padding-left: 2%;'><i class='fa fa-comments'> </i> {{ topic.name }} </h4> </a>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+{% endblock %}
+<script>
+$( function() {
+    var tabs = $( "#recent_tabs" ).tabs();
+    tabs.find( ".ui-tabs-nav" ).sortable({
+      axis: "x",
+      stop: function() {
+        tabs.tabs( "refresh" );
+      }
+    });
+  } );
+</script>

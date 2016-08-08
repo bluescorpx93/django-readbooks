@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %} {{ loggeduser.first_name }} {{ loggeduser.last_name }} {% endblock %}
+
+{% block body %}
+
+<div class='col-md-6'>
+	<div class='container' style='height:60%;'>
+		<form class='form-horizontal' role='form' name='userinfo_form' action='.' method='POST'>
+		{% csrf_token %}
+			<div class='form-group col-md-12'>
+				<legend class='text-uppercase ' style="padding-top: 2%;"> Personal Details</legend>
+				<label for='userfirstname' class='col-md-3 control-label '> First Name</label>
+				<div class='col-md-8'>
+					<input type='text' class='form-control' id='userfirstname' value='{{ loggeduser.first_name }}' name="userfirstname"/>
+				</div>
+			</div>
+
+			<div class='form-group col-md-12'>
+				<label for= 'userlastname' class='col-md-3 control-label '> Last Name </label>
+				<div class='col-md-8'>
+					<input type='text' class='form-control' id='userlastname' value="{{ loggeduser.last_name }}" name='userlastname' />
+				</div>
+			</div>
+
+			<div class='form-group col-md-12'>
+				<label for= 'userbio' class='col-md-3 control-label '> Bio </label>
+				<div class='col-md-8'>
+					<input type='text' class='form-control' id='userbio' value="{{ loggedProfile.bio }}" name='userbio' />
+				</div>
+			</div>
+
+			<div class='form-group col-md-12'>
+				<label for= 'userinfo-gender' class='col-md-3 control-label '> Gender </label>
+				<div class='col-md-9'>
+					<div class='col-md-12'>
+						<label class="radio-inline active">
+							<input type="radio" name="usergender" id="usergender_male" checked="checked" value="Male"> Male
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="usergender" id="usergender_female" checked="" value="Female"> Female
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="usergender" id="usergender_other" value="Other"> Other
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<div class='form-group col-md-12'>
+				<label for= 'userinfo-dob' class='col-md-3 control-label '> Birthday </label>
+				<div class='col-md-9'>
+					<div class='col-md-12'>
+						<input type="date"  name="userdob" id="userdob" value='{{ loggedProfile.date_of_birth|date:"c" }}'>
+					</div>
+				</div>
+			</div>
+
+			<div class='form-group col-md-12'>
+				<label for= 'userprofilepic' class='col-md-3 control-label pull-left'> Profile Picture </label>
+				<div class="col-md-9">
+					<div class='col-md-12'>
+					<input type='file' id='userprofilepic' enctype="multipart/form-data" name='userprofilepic' value='file.src'/>
+					</div>
+				</div>
+			</div>
+
+			<div class='form-group'>
+			   <div class='col-md-12' style='padding-top:3%;'>
+			     <button type='submit' class='btn btn-success pull-right'> <i class='fa fa-check'></i> Change</button>
+			   </div>
+			</div>
+
+		</form>
+	</div>	
+</div>
+
+<div class='col-md-6' >
+	<div class='container' style='height:60%;'>
+		<legend class='text-uppercase' style=' padding-top:2%;'> Profile Summary</legend>
+		<style> .well{ padding: 1% 1% 1% 4%; margin:0;} </style>
+		<div class='text-uppercase ' >
+			<div class='row well '>
+				<h4 class='col-md-3'> <small> name</small> </h4>
+				{% if user_type == 'Reader' %}
+				<h4 class='col-md-9'> <small> <strong> <a href="/readbooks/reader/{{ loggedProfile.id }}" class='text-capitalize'  > <i class='fa fa-user'> </i>  {{ loggeduser.first_name }} {{ loggeduser.last_name}} </a>
+				 </strong> </small> </h4>
+				{% endif %}
+
+				{% if user_type == 'Critic' %}
+				<h4 class='col-md-9'> <small> <strong> <a href="/readbooks/critic/{{ loggedProfile.id }}" class='text-capitalize'  > <i class='fa fa-user'> </i>  {{ loggeduser.first_name }} {{ loggeduser.last_name}} </a>
+				 </strong> </small> </h4>
+				{% endif %}
+
+			</div>
+			<div class='row well'>
+				<h4 class='col-md-3'> <small> gender</small> </h4>
+				<h4 class='col-md-9'> <small> <strong> {{loggedProfile.gender}} </strong></small></h4>
+			</div>
+			<div class='row well'>
+				<h4 class='col-md-3'> <small> bio</small> </h4>
+				<h4 class='col-md-6'> <small> <strong> {{ loggedProfile.bio }}</strong></small></h4>
+			</div>
+			<div class='row well'>
+				<h4 class='col-md-3'> <small> birthday</small> </h4>
+				<h4 class='col-md-9'> <small> <strong> {{ loggedProfile.date_of_birth|date:"c" }}</strong></small></h4>
+			</div>
+			<div class='row well'>
+				<h4 class='col-md-3'> <small> profile Picture </small> </h4>
+				<h4 class='col-md-9'> <small> <strong> {{ loggedProfile.profile_picture }} </strong></small></h4>
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}

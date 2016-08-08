@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% block title %} Search {% endblock %}
+{% block body %}
+<style> .center-div{float: none; margin: 0 auto;}</style>
+
+		<div class="col-md-10 col-md-offset-1" style=" padding-top:4%;">
+			<form class = "form-horizontal" action="" method="GET">
+				<fieldset>
+					<div class="form-group">
+						<legend style="text-align: center;">
+							Find what you're looking for
+						</legend>
+						<div class="col-md-10 col-md-offset-1">
+							<div class="input-group">
+								<input type="text" name="query" class="form-control" placeholder="Books, Authors, Genres, Critics, Reviews, Groups, Topics etc.">
+								<span class="input-group-btn">
+									<button type="button submit" class="btn btn-default"> <i class="fa fa-search"></i> Search </button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		
+
+
+
+		{% if books %}
+			<div class="col-md-10 col-md-offset-1 center-div" >
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Books</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							{% for book in books %}
+							<a href="/readbooks/book/{{ book.id }}" class="list-group-item">
+								<h5 class="list-group-item-heading"><i class="fa fa-book"></i> {{ book.title }} </h5>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="panel-footer">
+						{{ books|length }} Book{{ books|pluralize }} Found with <strong>{{ query_string }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if authors %}
+			<div class="col-md-10 col-md-offset-1 center-div" >
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Authors</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							{% for author in authors %}
+							<a href="/readbooks/author/{{ author.id }}" class="list-group-item">
+								<h5 class="list-group-item-heading"><i class="fa fa-user"></i> {{ author.first_name }} {{ author.last_name }}</h5>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="panel-footer">
+						{{ authors|length }} Author{{ authors|pluralize }} Found with <strong>{{ query_string }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if critics %}
+			<div class="col-md-10 col-md-offset-1 center-div"  >
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Critics</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							{% for critic in critics %}
+							<a href="/readbooks/critic/{{ critic.id }}" class="list-group-item">
+								<h5 class="list-group-item-heading"><i class="fa fa-user"></i> {{ critic.first_name}} {{ critic.last_name }}</h5>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="panel-footer">
+						{{ critics|length }} Critic{{ critics|pluralize }} Found with <strong>{{ query_string }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if genres %}
+			<div class="col-md-10 col-md-offset-1 center-div"  >
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Genre</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							{% for genre in genres %}
+							<a href="/readbooks/genre/{{ genre.id }}" class="list-group-item">
+								<h5 class="list-group-item-heading"><i class="fa fa-filter"></i> {{ genre.name }}</h5>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="panel-footer">
+						{{ genres|length }} Genre{{ genres|pluralize }} Found with <strong>{{ query_string }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if topics %}
+			<div class="col-md-10 col-md-offset-1 center-div" >
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Topics</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							{% for topic in topics %}
+							<a href="/readbooks/topic/{{ dtopic.id }}" class="list-group-item">
+								<h5 class="list-group-item-heading"><i class="fa fa-comments"></i> {{ topic.name }} </h5>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="panel-footer">
+						{{ topics|length }} Topic{{ topics|pluralize }} Found with <strong>{{ query_string }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if groups %}
+			<div class="col-md-10 col-md-offset-1 center-div" >
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Groups</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							{% for group in groups %}
+							<a href="/readbooks/group/{{ group.id }}" class="list-group-item">
+								<h5 class="list-group-item-heading"><i class="fa fa-group"></i> {{ group.name }} </h5>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="panel-footer">
+						{{ groups|length }} Group{{ groups|pluralize }} Found with <strong>{{ query_string }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if publishers %}
+			<div class="col-md-10 col-md-offset-1 center-div" >
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Publishers</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							{% for pub in publishers %}
+							<a href="/readbooks/publisher/{{ pub.id }}" class="list-group-item">
+								<h5 class="list-group-item-heading"><i class="fa fa-leanpub"></i> {{ pub.name }} </h5>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="panel-footer">
+						{{ publishers|length }} Publisher{{ publishers|pluralize }} Found with <strong>{{ query_string }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if reviews %}
+			<div class="col-md-10 col-md-offset-1 center-div" >
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Reviews</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							{% for review in reviews %}
+							<a href="/readbooks/review/{{ review.id }}" class="list-group-item">
+								<h5 class="list-group-item-heading"><i class="fa fa-bullhorn"></i> {{ review.heading }} </h5>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="panel-footer">
+						{{ reviews|length }} Review{{ reviews|pluralize }} Found with <strong>{{ query_string }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if readers %}
+			<div class="col-md-10 col-md-offset-1 center-div" >
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Readers</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							{% for reader in readers %}
+							<a href="/readbooks/reader/{{ reader.id }}" class="list-group-item">
+								<h5 class="list-group-item-heading"> {{ reader.first_name }} {{ reader.last_name }} </h5>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="panel-footer">
+						{{ readers|length }} Reader{{ readers|pluralize }} Found with <strong>{{ query_string }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		</div>
+
+{% endblock %}

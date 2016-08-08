@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %} {{ publisher_obj.name }} {% endblock %}
+{% block body %}
+{% load static %}
+<link href="{% static 'extended/profile.css' %}" rel="stylesheet" >
+
+<div class='col-md-10 col-md-offset-1 '>
+
+	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
+		<div class="col-md-12 well " style='padding-bottom: 0;'>
+			<h3 class='text-center text-uppercase'> {{ publisher_obj.name }} </h3>
+			<div class='pic-container'>
+				<img src="{{ MEDIA_URL }}/{{  publisher_obj.cover_picture }}" class="img-responsive image-fit-frame"/>
+			</div>
+			<div class='panel panel-default' style='border-radius: 0;'>
+				<div class='panel-heading' >
+					<h5> <small class='pad-right'> Location </small> {{ publisher_obj.address }} </h5>
+					<h5> <small class='pad-right'> Visit </small><a href="{{ publisher_obj.website }}"> {{ publisher_obj.website }} </a></h5>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class='col-md-6' style='padding:0 0 0 0.5%;'>
+		<div class='col-md-12 well'>
+			<h4 class='text-center'> <small>Check out the Books published by {{ publisher_obj.name }} </small>  </h4>
+		</div>
+		<div class='col-md-12 pad-zero' >
+			<button type="button" class="btn btn-block btn-info btnsize2" id="books_btn"> <h4> <i class="fa fa-book iconspace"></i> Books </h4> </button>
+		</div>
+	</div>
+
+	<div class='col-md-6' id="books_col" style='padding:0% 0 0 0.5%;'>
+		<div class='col-md-12 pad-zero' >
+			{% if not books_by_publisher_obj %}
+				<h5 class='text-center well'> No Books Published </h5>
+			{% endif %}
+			<div class='col-md-12 pad-zero'>
+				{% for book in books_by_publisher_obj %}
+					<div class='col-md-6' style='padding:0;'>
+						<a href="/readbooks/book/{{ book.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-book iconspace'></i> {{ book.title }}</button>	</a>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class= 'col-md-12'>
+			<!-- show all  -->
+		</div>
+	</div>
+</div>
+<script>
+$(document).ready(function(){
+	$("#books_col").hide();
+	$("#books_btn").click(function(){
+		$("#books_col").toggle("fade");
+	});
+
+});
+</script>
+{% endblock %}

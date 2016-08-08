@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %} Add Book {% endblock %}
+{% block body %}
+<div class='col-md-8 col-md-offset-2'>
+	{% if success %}
+	<div class='col-md-12'>
+		<div class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+				<strong>Hey!</strong> {{ success }}
+		</div>
+	</div>
+	{% endif %}
+
+	<h2 style='padding:3%;'> Create a New Book</h2>
+
+	{{ btitle }} {{bauthor}} {{bpublisher}} {{bgenre}} {{bpubdate}} {{bcover_pic}} {{ bsynopsis }}
+
+	<form class='form-horizontal' action="/readbooks/add_book_bf/" method='post'>
+	{% csrf_token %}
+		<div class='form-group'>
+			<label for ="new_booktitle" class='control-label col-md-2 '> Title </label>
+			<div class='col-md-8'>
+				<input type="text" class='form-control' placeholder="Enter Book Title" name='new_booktitle' id='new_booktitle'/>
+			</div>
+		</div>
+		<div class='form-group'>
+			<label for ="add_author" class='control-label col-md-2 '> Authors </label>
+			<div class='col-md-8'>
+	  		<select id="add_author" class="form-control" name="add_author">
+	  			<option value="" selected="selected"> Who's the Writer? </option>
+					{% for author in all_authors %}
+						<option value="{{ author }}">{{ author.first_name }} {{ author.last_name }} </option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+		<div class='form-group'>
+			<label for ="add_publisher" class='control-label col-md-2 '> Publishers </label>
+			<div class='col-md-8'>
+	  		<select id="add_publisher" class="form-control" name="add_publisher">
+	  			<option value="" selected="selected"> Publisher of the book </option>
+					{% for publisher in all_publishers %}
+						<option value="{{ publisher.id }}">{{ publisher.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
+		<div class='form-group'>
+			<label for ="add_genre" class='control-label  col-md-2 '> Genre </label>
+			<div class='col-md-8'>
+				<input list="genre" class='form-control' placeholder="What's the type?" name="add_genre" />
+		  		<datalist id="genre">
+		    		{% for genre in all_genres %}
+						<option value="{{ genre.name }}">
+					{% endfor %}
+		  		</datalist>
+			</div>
+		</div>
+
+		<div class='form-group'>
+			<label for ="add_pubdate" class='control-label  col-md-2 '> Publication Date </label>
+			<div class='col-md-8'>
+				<input type='text' name="add_pubdate" class='form-control' placeholder="When did it get published? Please enter the date as: YYYY-MM-DD">
+			</div>
+		</div>
+
+		<div class='form-group'>
+			<label for ="add_bookcover" class='control-label  col-md-2 '> Cover Pic</label>
+			<div class='col-md-8'>
+				<input type='file' name="add_bookcover"  placeholder="Set a nice cover for this book">
+			</div>
+		</div>
+
+		<div class='form-group'>
+			<label for ="add_booksummary" class='control-label  col-md-2 '> Synopsis</label>
+			<div class='col-md-8'>
+				<input type='textarea' name="add_booksummary" class='form-control' placeholder="What's the book about?">
+			</div>
+		</div>
+
+		<div class='form-group'	>
+			<button type='submit' class='btn btn-primary btn-lg' style='margin-left:40%;'> Add Book</button>	
+		</div>
+	</form>
+</div>
+
+{% endblock %}

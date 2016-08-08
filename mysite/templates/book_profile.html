@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block title %} {{ book_obj.title }} {% endblock %}
+{% block body %}
+<style>
+.pad-right{ padding-right: 3%;}
+.well {	margin:0;}
+.iconspace { padding-right: 2%;} 
+.btnsize1 { height:7%;}
+.btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
+.pic-container{ background-color: #f5f5f5; height:50%;border:0;padding:4% 0 2% 0;}
+.pad-zero{padding:0;}
+</style>
+
+<div class='col-md-10 col-md-offset-1 '>
+	
+	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
+		<div class="col-md-12 well " style='padding-bottom:0;'>
+			<h3 class='text-center text-uppercase'> {{ book_obj.title }} </h3>
+			<div class=' pic-container'>
+				<img src="{{ MEDIA_URL }}/{{ book_obj.cover_picture }}" class="img-responsive image-fit-frame"/>
+			</div>
+			<div class='panel panel-default' style='border-radius: 0;'>
+				<div class='panel-heading' >
+					<h5> <small > Written By </small> <a href="/readbooks/author/{{ book_obj.author.id }}">  {{ book_obj.author.first_name }} {{ book_obj.author.last_name }} </a> <small> and Published by </small> <a href="/readbooks/publisher/{{ book_obj.publisher.id }}">  {{ book_obj.publisher.name }}  </a> </h5>
+					<h5> <small > Published on </small>	{{ book_obj.publication_date }} </h5>
+					<h5> <small > Genre </small> {% for genre in book_obj.genre.all %}
+						<a href="/readbooks/genre/{{ genre.id }}"> {{ genre.name }}</a>
+					{% endfor %} </h5>
+					<h5> <small class='pad-right'> The story is about: </small> {{ book_obj.book_synopsis|truncatechars:200 }}</h5>
+				</div>
+			</div>						
+		</div>
+	</div>
+	
+	<div class='col-md-6' style='padding:0 0 0 0.5%'>
+		<div class='col-md-12 well'>
+			<h4 class='text-center'> <small>Check out the Reviews and Populartiy of {{book_obj.title}}</small> </h4>
+		</div>
+		<div class='col-md-6 pad-zero' >
+			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"> <h4> <i class="fa fa-bullhorn iconspace"></i> Reviews </h4> </button> 
+		</div>
+		<div class='col-md-6 pad-zero'> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="comments_btn"> <h4> <i class="a fa-comment iconspace"></i> Popularity </h4> </button> 
+		</div>
+	</div>
+
+	<div class='col-md-6' id="reviews_col" style='padding:0 0 0 0.5%;'>
+		<div class='col-md-12 pad-zero'>
+			{% if user_type == 'Critic' %}
+			<button type="button" class="btn col-md-7 col-md-offset-2 btn-info text-uppercase btnsize1" data-toggle="modal" data-target="#addReview"> <i class="fa fa-plus iconspace"> </i> Add Review </button>
+				<div class="modal fade" id="addReview" tabindex="-1" role="dialog">
+				  <div class="modal-dialog" role="document">
+				  	<div class="modal-content">
+				  		<div class='well'>
+				  			<div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        	<h2 class="modal-title text-uppercase text-center">Add Review</h2>
+				      	</div>
+				      	<form action = "/readbooks/add_review_df/" method="post">
+									{% csrf_token %}				      		
+									<div class="modal-body">
+						      	<style> .form-group{ padding: 2% 0 2% 0; }</style>
+						        <div class="form-group" '>
+						          <label for="id_heading" class=" col-md-4 control-label">Heading</label>
+					            <div class='col-md-7'>
+					            	{{ add_review_form.heading }}                	
+					            </div>
+					          </div>
+					          <div class="form-group">
+					            <label for="id_book" class=" col-md-4 control-label">Book</label>
+					            <div class='col-md-7'>
+					            <input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
+					            </div>
+					          </div>
+					          <div class="form-group">
+					            <label for="id_review" class=" col-md-4 control-label">Review</label>
+					            <div class='col-md-7'>
+					            	{{ add_review_form.review }}                	
+					            </div>
+					          </div>
+					          
+					      	</div>
+					      	<div class="modal-footer">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					        	<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Review</button>
+					      	</div>
+				      	</form>
+				      </div>
+				     </div>
+				    </div>
+				  </div>
+
+			{% endif %}
+
+			{% if not reviews_book_obj %}
+				<h5 class='text-center well'> No Reviews Published</h5>
+			{% endif %}
+			<div class='col-md-12' style='padding:0;'>
+				{% for review in reviews_book_obj %}
+					<div class='col-md-6 pad-zero' >
+						<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-bullhorn iconspace'> </i> {{ review.heading }} </button> </a>
+					</div>
+				{% endfor %}
+			</div>
+			<div class='col-md-12'>
+				<!-- show all -->
+			</div>
+		</div>
+	</div>	
+
+	<div class='col-md-6' id="comments_col" style='padding:0 0 0 0.5%;'>
+		<div class='col-md-12 well pad-zero' >
+			{% if not comments_by_book_obj %}
+				<h4 class='text-center well'> Not really popular among people</h4>
+			{% endif %}
+			{% for comment in comments_by_book_obj %}
+				<div class='panel panel-default' style='border-radius: 0; margin:0;border:0;padding:0;'>
+					<div class='panel-heading' >
+						<h5> <small style="padding-right:3%;"> <i class='fa fa-user'></i> <a href="/readbooks/reader/{{ comment.reader.id }}"> {{ comment.reader }} </a> </small> {{ comment.reader_comment }}  <small class='pull-right'> {{ comment.message_time }}</small></h5>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>	
+</div>
+
+<script>
+$(document).ready(function(){
+	$("#reviews_col").hide();
+	$("#comments_col").hide();
+	$("#reviews_btn").click(function(){
+		$("#comments_col").hide();
+		$("#reviews_col").toggle("fade");
+	});
+	$("#comments_btn").click(function(){
+		$("#reviews_col").hide();
+		$("#comments_col").toggle("fade");
+	});
+});
+</script>
+
+{% endblock %}
