@@ -32,14 +32,16 @@
 	<div class='col-md-12' id="add_book_form" style='padding-top: 5%;'>
 			<div class = 'well pad-zero'>
 				<h2 class="well text-center" > Add a New Book</h2>
-
 				<form action='/readbooks/add_book_df/' method='post' style='padding-top:4%;'>
 				{% csrf_token %}
-					<div class='form-group'> <label for="id_title" class='control-label col-md-3 '> <h5>Title</h5> </label> <div class='col-md-8'>{{ add_book_form.title }}</div>	</div>
+				{{ add_book_form.errors }}
+				{{ add_book_form.non_field_errors }}
+				{{ add_book_form.as_p }}
+<!-- 					<div class='form-group'> <label for="id_title" class='control-label col-md-3 '> <h5>Title</h5> </label> <div class='col-md-8'>{{ add_book_form.title }}</div>	</div>
 
 					<div class='form-group '><label for="id_author" class='col-md-3 control-label'><h5>Author</h5> </label>	<div class='col-md-8'>{{ add_book_form.author }}</div></div>
 				
-					<div class='form-group '>	<label for="id_publisher" class='col-md-3 control-label'> <h5>Publisher</h5> </label>		<div class='col-md-8'>{{ add_book_form.publisher }}</div>	</div>
+					<div class='form-group '>	<label for="id_publisher" class='col-md-3 control-label'> <h5>Publisher</h5> </label>	<div class='col-md-8'>{{ add_book_form.publisher }}</div>	</div>
 
 					<div class='form-group '>	<label for="id_genre" class='col-md-3 control-label'><h5>Genre</h5> </label>	<div class='col-md-8'>{{ add_book_form.genre }}</div>	</div>
 
@@ -48,7 +50,7 @@
 					<div class='form-group '>	<label for="id_cover_picture" class='col-md-3 control-label'> <h5>Cover Picture</h5> </label> <div class='col-md-8'>{{ add_book_form.cover_picture }}</div> </div>
 
 					<div class='form-group '>	<label for="id_book_synopsis" class='col-md-3 control-label'> <h5>Book Synopsis</h5> </label> <div class='col-md-8'>{{ add_book_form.book_synopsis }}</div> </div>
-
+ -->
 					<div class='form-group' style='padding-left: 30%;'>
 						<button type='submit' class='btn col-md-7 btn-info'> Add!</button>
 					</div>

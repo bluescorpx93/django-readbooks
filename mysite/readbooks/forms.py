@@ -6,6 +6,7 @@ from models import *
 #         model = models.User
 #         fields = []
 
+
 class UserProfileForm(forms.Form):
 	first_name = forms.CharField()
 	last_name = forms.CharField()
@@ -16,10 +17,15 @@ class UserProfileForm(forms.Form):
 	profile_picture = forms.ImageField()
         # fields = ['gender', 'bio', 'profile_picture', 'date_of_birth' ]
 
+class AddBookForm2(forms.ModelForm):
+	class Meta:
+		model = Book
+		fields = ['title', 'author', 'publisher', 'genre', 'publication_date', 'cover_picture', 'book_synopsis', ]
+		
 class AddBookForm(forms.ModelForm):
 	class Meta:
 		model = Book
-		fields = ['title', 'author', 'publisher', 'genre', 'publication_date', 'cover_picture', 'book_synopsis']
+		fields = ['title', 'author', 'publisher', 'genre', 'publication_date', 'cover_picture', 'book_synopsis', ]
 		# widgets = {	'title': forms.TextInput(attrs={'placeholder': 'Title of the book', 'class':'form-control','id': 'booktitle', 'id':'title'}), 'author': forms.Select(attrs={'class': 'form-control', 'id':'author'}), 'publisher': forms.Select(attrs={'class': 'form-control',}), 'genre': forms.SelectMultiple(attrs={'class': 'form-control',}), 'publication_date' : forms.DateInput(attrs={'class': 'form-control',}), 'cover_picture': forms.FileInput(),			'book_synopsis': forms.Textarea(attrs={'class': 'form-control','placeholder': "What's the story about?"}), }
 
 
