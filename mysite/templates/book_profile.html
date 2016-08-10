@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block title %} {{ book_obj.title }} {% endblock %}
 {% block body %}
+
 <style>
 .pad-right{ padding-right: 3%;}
 .well {	margin:0;}
 .iconspace { padding-right: 2%;} 
-.btnsize1 { height:7%; margin-top:10%;}
-.btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
+.btnsize1 { height:7%; margin-top:7%; margin-bottom: 5%;}
+.btnsize2 {height:10%; text-transform:uppercase;border-radius:0;}
 .pic-container{ background-color: #f5f5f5; height:50%;border:0;padding:4% 0 2% 0;}
 .pad-zero{padding:0;}
 </style>
@@ -60,14 +61,14 @@
 					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				        	<h2 class="modal-title text-uppercase text-center">Add Review</h2>
 				      	</div>
-				      	<form action = "/readbooks/add_review_df/" method="post">
+				      	<form action = "/readbooks/add_review_bf/" method="post">
 									{% csrf_token %}				      		
 									<div class="modal-body">
 						      	<style> .form-group{ padding: 2% 0 2% 0; }</style>
 						        <div class="form-group" '>
 						          <label for="id_heading" class=" col-md-4 control-label">Heading</label>
 					            <div class='col-md-7'>
-					            	{{ add_review_form.heading }}                	
+					            	<input type="text" id="id_heading" name="heading" class='form-control'>
 					            </div>
 					          </div>
 					          <div class="form-group">
@@ -85,7 +86,7 @@
 					          <div class="form-group">
 					            <label for="id_review" class=" col-md-4 control-label">Review</label>
 					            <div class='col-md-7'>
-					            	{{ add_review_form.review }}                	
+					            	<input type='text' id='id_review' class='form-control' name='review'>
 					            </div>
 					          </div>
 					          

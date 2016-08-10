@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 {% block title %} Add Book {% endblock %}
 {% block body %}
-<div class='col-md-8 col-md-offset-2'>
+<style>
+.pad-right{ padding-right: 3%;}
+.pad-bottom{padding-bottom: 5%;}
+.well {	margin:0;}
+.iconspace { padding-right: 2%;} 
+.btnsize1 { height:7%;}
+.btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
+.pad-zero{padding:0;}
+</style>
+<div class='col-md-10 col-md-offset-1 '>
+
 	{% if success %}
 	<div class='col-md-12'>
 		<div class="alert alert-success alert-dismissible" role="alert">
@@ -11,79 +21,91 @@
 	</div>
 	{% endif %}
 
-	<h2 style='padding:3%;'> Create a New Book</h2>
-
-	{{ btitle }} {{bauthor}} {{bpublisher}} {{bgenre}} {{bpubdate}} {{bcover_pic}} {{ bsynopsis }}
-
-	<form class='form-horizontal' action="/readbooks/add_book_bf/" method='post'>
-	{% csrf_token %}
-		<div class='form-group'>
-			<label for ="new_booktitle" class='control-label col-md-2 '> Title </label>
-			<div class='col-md-8'>
-				<input type="text" class='form-control' placeholder="Enter Book Title" name='new_booktitle' id='new_booktitle'/>
+	<div class='col-md-8 well' id = "new_book_form">
+		<h3 class='text-center text-uppercase pad-bottom'> New Book</h3>
+		<form class='form-horizontal' action="/readbooks/add_book_bf/" method='post'>
+		{% csrf_token %}
+			<div class='form-group'>
+				<label for ="new_booktitle" class='control-label col-md-3 '> Title </label>
+				<div class='col-md-8'>
+					<input type="text" class='form-control' placeholder="Enter Book Title" name='new_booktitle' id='new_booktitle'/>
+				</div>
 			</div>
-		</div>
-		<div class='form-group'>
-			<label for ="add_author" class='control-label col-md-2 '> Authors </label>
-			<div class='col-md-8'>
-				<!-- <input type='select' list='add_author_list' name='add_author'> -->
-	  		<select id="add_author" class="form-control" name="add_author">
-	  			<!-- <option value="" selected="selected"> Who's the Writer? </option> -->
-					{% for author in all_authors %}
-						<option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }} </option>
-					{% endfor %}
-				</select>
+			<div class='form-group'>
+				<label for ="id_add_author" class='control-label col-md-3 '> Authors </label>
+				<div class='col-md-8'>
+		  			<select id="id_add_author" class="form-control" name="add_author">
+		  				<option value="" selected="selected"> Who's the Writer? </option>
+						{% for author in all_authors %}
+							<option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }} </option>
+						{% endfor %}
+					</select>
+				</div>
 			</div>
-		</div>
-		<div class='form-group'>
-			<label for ="add_publisher" class='control-label col-md-2 '> Publishers </label>
-			<div class='col-md-8'>
-	  		<select id="add_publisher" class="form-control" name="add_publisher">
-	  			<option value="" selected="selected"> Publisher of the book </option>
-					{% for publisher in all_publishers %}
-						<option value="{{ publisher.id }}">{{ publisher.name }}</option>
-					{% endfor %}
-				</select>
+			<div class='form-group'>
+				<label for ="id_add_publisher" class='control-label col-md-3 '> Publishers </label>
+				<div class='col-md-8'>
+			  		<select id="id_add_publisher" class="form-control" name="add_publisher">
+			  			<option value="" selected="selected"> Publisher of the book </option>
+						{% for publisher in all_publishers %}
+							<option value="{{ publisher.id }}">{{ publisher.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
 			</div>
+			<div class='form-group'>
+				<label for ="id_add_genre" class='control-label col-md-3 '> Genre </label>
+				<div class='col-md-8'>
+					<select multiple="multiple" id="id_add_genre" name="add_genre" class='form-control'>
+			    		{% for genre in all_genres %}
+							<option value="{{ genre.id }}">{{ genre.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for ="add_pubdate" class='control-label  col-md-3 '> Publication Date </label>
+				<div class='col-md-8'>
+					<input type='text' name="add_pubdate" class='form-control' placeholder="Please enter the date as: YYYY-MM-DD">
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for ="add_bookcover" class='control-label  col-md-3 '> Cover Pic</label>
+				<div class='col-md-8'>
+					<input type='file' name="add_bookcover"  placeholder="Set a nice cover for this book">
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for ="add_booksummary" class='control-label  col-md-3 '> Synopsis</label>
+				<div class='col-md-8'>
+					<input type='textarea' name="add_booksummary" class='form-control' placeholder="What's the book about?">
+				</div>
+			</div>
+			<div class='form-group'	>
+				<button type='submit' class='btn btn-primary btn-lg' style='margin-left:40%;'> Add Book</button>	
+			</div>
+		</form>	
+	</div>
+
+	<div class='col-md-4'>
+		<div class='col-md-12 well'>
+			<h5 class='text-capitalize text-center'>Control Panel for Readers</h5>
+		</div>
+		<div class='col-md-12 pad-zero' >
+			<button type="button" class="btn btn-block btn-info btnsize2" id="book_form_btn"> <h5> <i class="fa fa-book iconspace"></i> Add Book </h5> </button> 
+		</div>
+		<div class='col-md-12 pad-zero' >
+			<button type="button" class="btn btn-block btn-info btnsize2" id="author_form_btn"> <h5> <i class="fa fa-user iconspace"></i> Add Author </h5> </button> 
+		</div>
+		<div class='col-md-12 pad-zero' >
+			<button type="button" class="btn btn-block btn-info btnsize2" id="publisher_form_btn"> <h5> <i class="fa fa-leanpub iconspace"></i> Add Publisher </h5> </button> 
+		</div>
+		<div class='col-md-12 pad-zero' >
+			<button type="button" class="btn btn-block btn-info btnsize2" id="genre_form_btn"> <h5> <i class="fa fa-filter iconspace"></i> Add Genre </h5> </button> 
 		</div>
 
-		<div class='form-group'>
-			<label for ="add_genre" class='control-label  col-md-2 '> Genre </label>
-			<div class='col-md-8'>
-				<input list="genre" class='form-control' placeholder="What's the type?" name="add_genre" />
-		  		<datalist id="genre">
-		    		{% for genre in all_genres %}
-						<option value="{{ genre.name }}">
-					{% endfor %}
-		  		</datalist>
-			</div>
-		</div>
-
-		<div class='form-group'>
-			<label for ="add_pubdate" class='control-label  col-md-2 '> Publication Date </label>
-			<div class='col-md-8'>
-				<input type='text' name="add_pubdate" class='form-control' placeholder="When did it get published? Please enter the date as: YYYY-MM-DD">
-			</div>
-		</div>
-
-		<div class='form-group'>
-			<label for ="add_bookcover" class='control-label  col-md-2 '> Cover Pic</label>
-			<div class='col-md-8'>
-				<input type='file' name="add_bookcover"  placeholder="Set a nice cover for this book">
-			</div>
-		</div>
-
-		<div class='form-group'>
-			<label for ="add_booksummary" class='control-label  col-md-2 '> Synopsis</label>
-			<div class='col-md-8'>
-				<input type='textarea' name="add_booksummary" class='form-control' placeholder="What's the book about?">
-			</div>
-		</div>
-
-		<div class='form-group'	>
-			<button type='submit' class='btn btn-primary btn-lg' style='margin-left:40%;'> Add Book</button>	
-		</div>
-	</form>
+	</div>
+	
 </div>
 
 {% endblock %}

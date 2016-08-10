@@ -178,47 +178,13 @@ class Comment(models.Model):
 	def __str__(self):
 		return '%s - %s' %(self.reader, self.reader_comment)
 
-class BookRecommendation(models.Model):
-	book = models.ForeignKey(Book, on_delete=models.CASCADE)
-	group = models.ForeignKey(Group, on_delete=models.CASCADE)
-	recommender = models.ForeignKey(Reader, on_delete=models.CASCADE)
-	upvotes = models.IntegerField(default=0)
-	downvotes = models.IntegerField(default=0)
-	# class Meta:
-	# 	ordering = ['book']
-	# def __str__(self):
-	# 	return self.book
-
 class ReadersCurrentlyRead(models.Model):
 	book	=	models.ForeignKey(Book, on_delete=models.CASCADE)
 	reader	=	models.ForeignKey(Reader, on_delete=models.CASCADE)
-	book_status_message	=	models.CharField(max_length=2000)
-	message_time	=	models.DateTimeField(auto_now=True)
-	class Meta:
-		ordering= ['message_time']
-
+	
 class Membership(models.Model):
 	groups	=	models.ForeignKey(Group)
 	members	=	models.ForeignKey(Reader)
 	join_date	=	models.DateField(default=date.today)
 	status	=	(('Moderator', 'Moderator'), ('Admin', 'Admin'), ('Member', 'Member'))
 	member_status	=	models.CharField(max_length=9, choices=status)
-
-class BooksReadByUsers(models.Model):
-	books	=	models.ManyToManyField(Book)
-	readers	= 	models.ManyToManyField(Reader)
-
-class UserProfile(models.Model):
-	user = models.ForeignKey(User)
-	user_choices = (('Reader', 'Reader'), ('Critic', 'Critic') )
-	user_type = models.CharField(max_length=6, choices=user_choices)
-	bio	=	models.CharField(max_length=256)
-	gender_choices	= 	(('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other'))
-	gender = models.CharField(max_length=6, choices=gender_choices)
-	date_of_birth	=	models.DateField(default=date.today,blank=True,)
-	profile_picture	=	models.ImageField(upload_to=user_upload_dir, blank=True)
-	upvotes = models.IntegerField(default=0)
-	downvotes = models.IntegerField(default=0)
-	def __str__(self):
-		return self.user.username
-

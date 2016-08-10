@@ -32,12 +32,9 @@
 	
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
 		<div class='col-md-12 well'>
-			<h4 class='text-center'> <small>Topics and Book-Recommendations of  {{ group_obj.name }}</small> </h4>
+			<h4 class='text-center'> <small>Topics in {{ group_obj.name }}</small> </h4>
 		</div>
-		<div class='col-md-6 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="book_rec_btn"> <h4> <i class="fa fa-book iconspace"></i> Book-Suggestions </h4> </button> 
-		</div>
-		<div class='col-md-6 pad-zero'> 
+		<div class='col-md-12 pad-zero'> 
 			<button type="button" class="btn btn-block btn-info btnsize2" id="topics_btn"> <h4> <i class="a fa-comments iconspace"></i> Topics </h4> </button> 
 		</div>
 	</div>
@@ -57,30 +54,12 @@
 		</div>
 	</div>
 			
-	<div class='col-md-6' id="book_rec_col" style='padding:0 0 0 0.5%'>
-		{% if not book_recs_by_group_obj %}
-		<h5 class='text-center well'> No Book Suggestions</h5>
-		{% endif %}
-		<div class='col-md-12 pad-zero'>
-			{% for object in book_recs_by_group_obj %}
-			<div class='col-md-12 pad-zero'>
-				<a href='/readbooks/book/{{ object.book.id }}'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-book iconspace'> </i> {{ object.book.title }} </button> </a>
-			</div>
-		{% endfor %}
-		</div>
-	</div>
 </div>
 
 <script>
 $(document).ready(function(){
 	$("#topics_col").hide();
-	$("#book_rec_col").hide();
-	$("#book_rec_btn").click(function(){
-		$("#topics_col").hide();
-		$("#book_rec_col").toggle("fade");
-	});
 	$("#topics_btn").click(function(){
-		$("#book_rec_col").hide();
 		$("#topics_col").toggle("fade");
 	});
 });

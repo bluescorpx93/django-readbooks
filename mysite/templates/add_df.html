@@ -79,109 +79,108 @@
 
 			
 			<div class="modal fade" id="addAuthor" tabindex="-1" role="dialog">
-			  <div class="modal-dialog" role="document">
-			  	<div class="modal-content">
-			  		<div class='well'>
-			  			<div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        	<h2 class="modal-title text-uppercase text-center">Add Review</h2>
-			      	</div>
-			      	<form action = "/readbooks/add_review_df/" method="post">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class='well'>
+							<div class="modal-header">
+							  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h2 class="modal-title text-uppercase text-center">Add Review</h2>
+							</div>
+							<form action = "/readbooks/add_review_df/" method="post">
 								{% csrf_token %}				      		
 								<div class="modal-body">
-					      	<style> .form-group{ padding: 2% 0 2% 0; }</style>
-					        <div class="form-group" '>
-					          <label for="id_heading" class=" col-md-4 control-label">Heading</label>
-				            <div class='col-md-7'>
-				            	{{ add_review_form.heading }}                	
-				            </div>
-				          </div>
-				          <div class="form-group">
-				            <label for="id_book" class=" col-md-4 control-label">Book</label>
-				            <div class='col-md-7'>
-				            <input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
-				            </div>
-				          </div>
-				          <div class="form-group">
-				            <label for="id_review" class=" col-md-4 control-label">Review</label>
-				            <div class='col-md-7'>
-				            	{{ add_author_form.review }}                	
-				            </div>
-				          </div>
-				          
-				      	</div>
-				      	<div class="modal-footer">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        	<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Review</button>
-				      	</div>
-			      	</form>
-			      </div>
-			     </div>
-			    </div>
-			  </div>
+									<style> .form-group{ padding: 2% 0 2% 0; }</style>
+									<div class="form-group" '>
+										<label for="id_heading" class=" col-md-4 control-label">Heading</label>
+										<div class='col-md-7'>
+											{{ add_review_form.heading }}                	
+										</div>
+									 </div>
+									<div class="form-group">
+										<label for="id_book" class=" col-md-4 control-label">Book</label>
+										<div class='col-md-7'>
+											<input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="id_review" class=" col-md-4 control-label">Review</label>
+										<div class='col-md-7'>
+											{{ add_author_form.review }}                	
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Review</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 
 
 			<div class="modal fade" id="addAuthor" tabindex="-1" role="dialog">
 			  <div class="modal-dialog" role="document">
-			  	<div class="modal-content">
-				  		<div class='well'>
-				  			<div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        	<h2 class="modal-title text-uppercase text-center">Add Author</h2>
-				      	</div>
-				      	<form action="/readbooks/add_author_df/" method='post'>
-				        	{% csrf_token %}
-					      	<div class="modal-body">
-						      	<style> .form-group{ padding: 2% 0 2% 0; }</style>
-						        <div class="form-group" '>
-						          <label for="id_first_name" class=" col-md-4 control-label">First Name</label>
-					            <div class='col-md-7'>
-					            	{{ add_author_form.first_name }}                	
-					            </div>
-					          </div>
-					          <div class="form-group">
-					            <label for="id_last_name" class=" col-md-4 control-label">Last Name</label>
-					            <div class='col-md-7'>
-					            	{{ add_author_form.last_name }}                	
-					            </div>
-					          </div>
-					          <div class="form-group">
-					            <label for="id_date_of_birth" class=" col-md-4 control-label">Birthday</label>
-					            <div class='col-md-7'>
-					            	{{ add_author_form.date_of_birth }}                	
-					            </div>
-					          </div>
-					          <div class="form-group">
-					            <label for="id_gender" class=" col-md-4 control-label">Gender</label>
-					            <div class='col-md-7'>
-					            	{{ add_author_form.gender }}                	
-					            </div>
-					          </div>
-					          <div class="form-group">
-					            <label for="id_profile_picture" class=" col-md-4 control-label">Avatar</label>
-					            <div class='col-md-7'>
-					            	{{ add_author_form.profile_picture }}                	
-					            </div>
-					          </div>
-					          <div class="form-group">
-					            <label for="id_bio" class=" col-md-4 control-label">About </label>
-					            <div class='col-md-7'>
-					            	{{ add_author_form.bio }}                	
-					            </div>
-					          </div>
-					      	</div>
-					      	<div class="modal-footer">
-						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					        	<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Author</button>
-					      	</div>
-					      </form>
-					    </div>
-				    </div>
+				<div class="modal-content">
+						<div class='well'>
+							<div class="modal-header">
+							  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h2 class="modal-title text-uppercase text-center">Add Author</h2>
+							</div>
+							<form action="/readbooks/add_author_df/" method='post'>
+							{% csrf_token %}
+								<div class="modal-body">
+									<style> .form-group{ padding: 2% 0 2% 0; }</style>
+								  <div class="form-group" '>
+									 <label for="id_first_name" class=" col-md-4 control-label">First Name</label>
+									<div class='col-md-7'>
+										{{ add_author_form.first_name }}                	
+									</div>
+								 </div>
+								 <div class="form-group">
+									<label for="id_last_name" class=" col-md-4 control-label">Last Name</label>
+									<div class='col-md-7'>
+										{{ add_author_form.last_name }}                	
+									</div>
+								 </div>
+								 <div class="form-group">
+									<label for="id_date_of_birth" class=" col-md-4 control-label">Birthday</label>
+									<div class='col-md-7'>
+										{{ add_author_form.date_of_birth }}                	
+									</div>
+								 </div>
+								 <div class="form-group">
+									<label for="id_gender" class=" col-md-4 control-label">Gender</label>
+									<div class='col-md-7'>
+										{{ add_author_form.gender }}                	
+									</div>
+								 </div>
+								 <div class="form-group">
+									<label for="id_profile_picture" class=" col-md-4 control-label">Avatar</label>
+									<div class='col-md-7'>
+										{{ add_author_form.profile_picture }}                	
+									</div>
+								 </div>
+								 <div class="form-group">
+									<label for="id_bio" class=" col-md-4 control-label">About </label>
+									<div class='col-md-7'>
+										{{ add_author_form.bio }}                	
+									</div>
+								 </div>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Author</button>
+								</div>
+							</form>
+						 </div>
+					 </div>
 			  </div>
-		  	
+			
 		  </div>
 
-			    
+				 
 	  </div>
 	</div>
 

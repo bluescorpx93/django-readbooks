@@ -4,6 +4,7 @@
 	<title> {% block title %} {% endblock %} </title>
 	<script type="text/javascript" src="{% static 'jquery/jquery-2.2.4.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'jquery/jquery-ui.min.js' %}"></script>
+	<link href="{% static 'jquery/jquery-ui.css' %}" rel="stylesheet">
 	<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 	<link href="{% static 'bootstrap/css/bootstrap.min.css' %}"	rel="stylesheet" >
 	<!-- <link href="{% static 'cosmo-bootstrap/bootstrap.min.css' %}"	rel="stylesheet" > -->
@@ -37,22 +38,11 @@
 					<a href="{% url 'messages_url' %}"> Messages</a>
 				</li>
 				<li>
-					<a href="{% url 'add_book_url_bf' %}"> Add Book BF</a>
+					<a href="{% url 'add_book_url_bf' %}"> Add </a>
 				</li>
-					<li>
-					<a href="{% url 'add_df_url' %}"> Add DF</a>
-				</li>
+				
 				<li>
-					<a href="{% url 'user_settings_url_bf' %}"> Settings BF</a>
-				</li>
-				<li>
-					<a href="{% url 'user_settings_url_df' %}"> Settings DF</a>
-				</li>
-				<li>
-					<a href="{% url 'add_book_df2_url' %}"> Add B DF2</a>
-				</li>
-				<li>
-					<a href="/readbooks/userprofile/{{ user.id }}/"> Profile</a>
+					<a href="{% url 'user_settings_url_bf' %}"> Settings</a>
 				</li>
 				<li>
 					<a href="{% url 'logout_url' %}"> Log Out</a>

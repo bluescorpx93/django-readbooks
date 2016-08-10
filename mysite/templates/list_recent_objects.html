@@ -32,7 +32,7 @@
 					<img src="{{ MEDIA_URL }}/{{ book.cover_picture }}" class="img-responsive image-fit-frame" />
 				</div>
 				<div class="well">
-					<a href="/readbooks/author/{{ book.author.id }}" > {{ book.author }}</a> <br>
+					<a href="/readbooks/author/{{ book.author.id }}" > {{ book.author.first_name }} {{book.author.last_name}} </a> <br>
 					<a href="/readbooks/publisher/{{ book.publisher.id }}" > <i> {{ book.publisher }} Publishers</i></a>
 					<h5> {{ book.book_synopsis|truncatechars:30 }}</h5>
 				</div>				

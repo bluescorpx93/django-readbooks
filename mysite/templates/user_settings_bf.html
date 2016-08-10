@@ -1,37 +1,52 @@
 {% extends 'base.html' %}
-{% block title %} {{ loggeduser.first_name }} {{ loggeduser.last_name }} {% endblock %}
-
+{% block title %} {{ loggedProfile.first_name }} {{ loggedProfile.last_name }} {% endblock %}
 {% block body %}
+<style> .common_height{ height:70%;} </style>
 
-<div class='col-md-6'>
-	<div class='container' style='height:60%;'>
+<div class='col-md-10 col-md-offset-1 '>
+{% if success %}
+<div class='col-md-12'>
+	<div class="alert alert-success alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			<strong>Hey!</strong> {{ success }}
+	</div>
+</div>
+{% endif %}
+
+{% if problem %}
+<div class='col-md-12'>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			<strong>Oops!</strong> {{ problem }}
+	</div>
+</div>
+{% endif %}
+
+	<div class='col-md-6 well common_height' style='margin-top:5%;'>
 		<form class='form-horizontal' role='form' name='userinfo_form' action='.' method='POST'>
 		{% csrf_token %}
-			<div class='form-group col-md-12'>
-				<legend class='text-uppercase ' style="padding-top: 2%;"> Personal Details</legend>
-				<label for='userfirstname' class='col-md-3 control-label '> First Name</label>
+			<div class='form-group col-md-12 '>
+				<legend class='text-uppercase' style=' padding-top:3%;'> Personal Details </legend>
+				<label for='userfirstname' class='col-md-4 control-label '> First Name</label>
 				<div class='col-md-8'>
-					<input type='text' class='form-control' id='userfirstname' value='{{ loggeduser.first_name }}' name="userfirstname"/>
+					<input type='text' class='form-control' id='userfirstname' value='{{ loggedProfile.first_name }}' name="userfirstname"/>
 				</div>
 			</div>
-
 			<div class='form-group col-md-12'>
-				<label for= 'userlastname' class='col-md-3 control-label '> Last Name </label>
+				<label for= 'userlastname' class='col-md-4 control-label '> Last Name </label>
 				<div class='col-md-8'>
-					<input type='text' class='form-control' id='userlastname' value="{{ loggeduser.last_name }}" name='userlastname' />
+					<input type='text' class='form-control' id='userlastname' value="{{ loggedProfile.last_name }}" name='userlastname' />
 				</div>
 			</div>
-
 			<div class='form-group col-md-12'>
-				<label for= 'userbio' class='col-md-3 control-label '> Bio </label>
+				<label for= 'userbio' class='col-md-4 control-label '> About Me </label>
 				<div class='col-md-8'>
 					<input type='text' class='form-control' id='userbio' value="{{ loggedProfile.bio }}" name='userbio' />
 				</div>
 			</div>
-
 			<div class='form-group col-md-12'>
-				<label for= 'userinfo-gender' class='col-md-3 control-label '> Gender </label>
-				<div class='col-md-9'>
+				<label for= 'userinfo-gender' class='col-md-4 control-label '> Gender </label>
+				<div class='col-md-8'>
 					<div class='col-md-12'>
 						<label class="radio-inline">
 							<input type="radio" name="usergender" id="usergender_male" checked="checked" value="Male"> Male
@@ -45,52 +60,48 @@
 					</div>
 				</div>
 			</div>
-
 			<div class='form-group col-md-12'>
-				<label for= 'userinfo-dob' class='col-md-3 control-label '> Birthday </label>
-				<div class='col-md-9'>
-					<div class='col-md-12'>
-						<input type="date"  name="userdob" id="userdob" value='{{ loggedProfile.date_of_birth|date:"c" }}'>
-					</div>
+				<label for= 'userinfo-dob' class='col-md-4 control-label '> Birthday </label>
+				<div class='col-md-8'>
+					<input type="text" class='form-control' name="userdob" id="datepicker" value='{{ loggedProfile.date_of_birth|date:"c" }}'>			
 				</div>
 			</div>
-
 			<div class='form-group col-md-12'>
-				<label for= 'userprofilepic' class='col-md-3 control-label pull-left'> Profile Picture </label>
-				<div class="col-md-9">
+				<label for= 'userprofilepic' class='col-md-4 control-label pull-left'> Profile Picture </label>
+				<div class="col-md-8">
 					<div class='col-md-12'>
 					<input type='file' id='userprofilepic' enctype="multipart/form-data" name='userprofilepic' value='file.src'/>
 					</div>
 				</div>
 			</div>
-
 			<div class='form-group'>
-			   <div class='col-md-12' style='padding-top:3%;'>
-			     <button type='submit' class='btn btn-success pull-right'> <i class='fa fa-check'></i> Change</button>
-			   </div>
+				<div class='col-md-4 col-md-offset-4' style='padding-top:3%;'>
+					<button type='submit' class='btn btn-primary '> <i class='fa fa-check'></i> Update</button>
+				</div>
 			</div>
-
 		</form>
-	</div>	
-</div>
+	
+	</div>
 
-<div class='col-md-6' >
-	<div class='container' style='height:60%;'>
-		<legend class='text-uppercase' style=' padding-top:2%;'> Profile Summary</legend>
+	<div class='col-md-6 well common_height' style='margin-top: 5%'>
+		<legend class='text-uppercase' style=' padding-top:3%;'> Profile Summary</legend>
 		<style> .well{ padding: 1% 1% 1% 4%; margin:0;} </style>
 		<div class='text-uppercase ' >
 			<div class='row well '>
 				<h4 class='col-md-3'> <small> name</small> </h4>
 				{% if user_type == 'Reader' %}
-				<h4 class='col-md-9'> <small> <strong> <a href="/readbooks/reader/{{ loggedProfile.id }}" class='text-capitalize'  > <i class='fa fa-user'> </i>  {{ loggeduser.first_name }} {{ loggeduser.last_name}} </a>
+				<h4 class='col-md-9'> <small> <strong> <a href="/readbooks/reader/{{ loggedProfile.id }}" class='text-capitalize'  > <i class='fa fa-user'> </i>  {{ loggedProfile.first_name }} {{ loggedProfile.last_name}} </a>
 				 </strong> </small> </h4>
 				{% endif %}
 
 				{% if user_type == 'Critic' %}
-				<h4 class='col-md-9'> <small> <strong> <a href="/readbooks/critic/{{ loggedProfile.id }}" class='text-capitalize'  > <i class='fa fa-user'> </i>  {{ loggeduser.first_name }} {{ loggeduser.last_name}} </a>
+				<h4 class='col-md-9'> <small> <strong> <a href="/readbooks/critic/{{ loggedProfile.id }}" class='text-capitalize'  > <i class='fa fa-user'> </i>  {{ loggedProfile.first_name }} {{ loggedProfile.last_name}} </a>
 				 </strong> </small> </h4>
 				{% endif %}
-
+			</div>
+			<div class='row well'>
+				<h4 class='col-md-3'> <small> Account </small> </h4>
+				<h4 class='col-md-9'> <small> <strong> {{ user_type }} </strong></small></h4>
 			</div>
 			<div class='row well'>
 				<h4 class='col-md-3'> <small> gender</small> </h4>
@@ -109,7 +120,20 @@
 				<h4 class='col-md-9'> <small> <strong> {{ loggedProfile.profile_picture }} </strong></small></h4>
 			</div>
 		</div>
-		
 	</div>
+
 </div>
+
+<select id="format" hidden="true">
+	 <option id="date_format" value="yy-mm-dd">ISO 8601 - yy-mm-dd</option>
+</select>
+
+<script>
+$(document).ready(function(){
+	$("#datepicker").datepicker();
+	$("#datepicker").datepicker("option", "dateFormat", $("#date_format").val());
+
+ });
+</script>
+
 {% endblock %}

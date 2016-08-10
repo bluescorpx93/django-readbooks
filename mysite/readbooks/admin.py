@@ -20,10 +20,6 @@ class GenreAdmin(admin.ModelAdmin):
 	list_display  =	('name', )
 	search_fields =	('name', )
 
-class BookRecommendationAdmin(admin.ModelAdmin):
-	list_display = ('book', 'group', 'recommender' )
-	search_fields = ('book','recommender',  )
-
 class PublisherAdmin(admin.ModelAdmin):
 	list_display  =	('name', 'website')
 	search_fields =	('name', 'website')
@@ -78,5 +74,4 @@ admin.site.register(models.Group, GroupAdmin)
 admin.site.register(models.Topic, TopicAdmin)
 admin.site.register(models.TopicReply, TopicReplyAdmin)
 admin.site.register(models.Membership, MembershipAdmin)
-admin.site.register(models.BookRecommendation, BookRecommendationAdmin)
-admin.site.register(models.UserProfile, UserProfileAdmin)
+

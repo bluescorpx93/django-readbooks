@@ -9,16 +9,12 @@ urlpatterns	= [
 	url(r'^add_book_bf/$', views.add_book_bf, name='add_book_url_bf'),
 
 	url(r'^add_df/$', views.add_df, name='add_df_url'),
-	url(r'^add_book_df/$', views.add_book_df, name='add_book_url_df'),
 	url(r'^add_author_df/$', views.add_author_df, name='add_author_url_df'),
 
 	url(r'^settings_bf/$', views.update_userinfo_bf, name='user_settings_url_bf'),
-	url(r'^settings_df/$', views.update_userinfo_df, name='user_settings_url_df'),
-	url(r'^edit_author_df/(?P<author_id>[0-9]+)/$', views.edit_author_df, name='edit_author_df_url'),
 	url(r'^messages/$', views.messages, name='messages_url'),
-	url(r'^userprofile/(?P<user_id>[0-9]+)/$', views.show_user_profile, name='user_profile'),
-	url(r'^add_review_df/$', views.add_review_df, name='add_review_url_df'), 
-	url(r'add_book_df2/$', views.add_book_df2, name='add_book_df2_url'),
+	url(r'^add_review_bf/$', views.add_review_bf, name='add_review_url_bf'), 
+	url(r'^edit_review/$', views.edit_review, name='edit_review_url'),
 	url(r'^home/$', views.readbooks_index, name='readbooks_index_url'),
 	url(r'^search/$', views.search,	name='search_url'),
 	url(r'^new/$', views.list_recent_models, name='list_recent_models_url'),
@@ -30,7 +26,7 @@ urlpatterns	= [
 	url(r'^critic/(?P<critic_id>[0-9]+)/$', views.show_critic_by_id, name='critic_byID_url'),
 	url(r'^group/(?P<group_id>[0-9]+)/$', views.show_group_by_id, name='group_byID_url'),
 	url(r'^topic/(?P<topic_id>[0-9]+)/$', views.show_topic_by_id, name='topic_byID_url'),
-	url(r'review/(?P<review_id>[0-9]+)/$', views.show_review_by_id, name='review_byID_url'),
-	url(r'genre/(?P<genre_id>[0-9]+)/$', views.show_genre_by_id, name='genre_byID_url'),
+	url(r'^review/(?P<review_id>[0-9]+)/$', views.show_review_by_id, name='review_byID_url'),
+	url(r'^genre/(?P<genre_id>[0-9]+)/$', views.show_genre_by_id, name='genre_byID_url'),
 
 ]

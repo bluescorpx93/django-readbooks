@@ -44,6 +44,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'django.contrib.context_processors.media',
             ],
         },
     },
@@ -51,7 +52,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -85,18 +86,18 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
-
 
 STATICFILES_DIR=    (os.path.join(
 os.path.dirname(__file__), 'static'), )
 STATIC_ROOT =   os.path.join(BASE_DIR, 'static')
 STATIC_URL =    '/static/'
-MEDIA_ROOT =    os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT =    os.path.join(BASE_DIR, 'media')
+# MEDIAFILES_DIR= MEDIA_ROOT
 MEDIA_URL  =    '/media/'
 
 LOGIN_URL = '/readbooks/'
