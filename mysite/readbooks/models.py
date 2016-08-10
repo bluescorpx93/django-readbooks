@@ -41,7 +41,7 @@ class Critic(models.Model):
 	user_type = models.CharField(max_length=6, default="Critic")
 	first_name	=	models.CharField(max_length=256)
 	last_name	=	models.CharField(max_length=256)
-	favorite_quote	=	models.CharField(max_length=256)
+	bio	=	models.CharField(max_length=256)
 	gender_choices	= 	(('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other'))
 	gender = models.CharField(max_length=6, choices=gender_choices)
 	date_of_birth	=	models.DateField(default=date.today)
@@ -122,7 +122,7 @@ class Review(models.Model):
 	@classmethod
 	def create(cls, heading):
 		review = cls(heading=heading)
-		return author
+		return review
 
 class Reader(models.Model):
 	user = models.ForeignKey(User)

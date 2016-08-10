@@ -5,7 +5,7 @@
 .pad-right{ padding-right: 3%;}
 .well {	margin:0;}
 .iconspace { padding-right: 2%;} 
-.btnsize1 { height:7%;}
+.btnsize1 { height:7%; margin-top:10%;}
 .btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
 .pic-container{ background-color: #f5f5f5; height:50%;border:0;padding:4% 0 2% 0;}
 .pad-zero{padding:0;}
@@ -46,8 +46,12 @@
 
 	<div class='col-md-6' id="reviews_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero'>
+			{% if not reviews_book_obj %}
+				<h5 class='text-center well'> No Reviews Published</h5>
+			{% endif %}
+
 			{% if user_type == 'Critic' %}
-			<button type="button" class="btn col-md-7 col-md-offset-2 btn-info text-uppercase btnsize1" data-toggle="modal" data-target="#addReview"> <i class="fa fa-plus iconspace"> </i> Add Review </button>
+			<button type="button" class="btn col-md-6 col-md-offset-3 btn-info text-uppercase btnsize1" data-toggle="modal" data-target="#addReview"> <i class="fa fa-plus iconspace"> </i> Add Review </button>
 				<div class="modal fade" id="addReview" tabindex="-1" role="dialog">
 				  <div class="modal-dialog" role="document">
 				  	<div class="modal-content">
@@ -69,7 +73,13 @@
 					          <div class="form-group">
 					            <label for="id_book" class=" col-md-4 control-label">Book</label>
 					            <div class='col-md-7'>
-					            <input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
+						            <input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
+					            </div>
+					          </div>
+					          <div class="form-group">
+					            <label for="id_status" class=" col-md-4 control-label">Status</label>
+					            <div class='col-md-7'>
+										{{ add_review_form.status }}
 					            </div>
 					          </div>
 					          <div class="form-group">
@@ -92,9 +102,7 @@
 
 			{% endif %}
 
-			{% if not reviews_book_obj %}
-				<h5 class='text-center well'> No Reviews Published</h5>
-			{% endif %}
+			
 			<div class='col-md-12' style='padding:0;'>
 				{% for review in reviews_book_obj %}
 					<div class='col-md-6 pad-zero' >

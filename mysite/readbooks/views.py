@@ -7,6 +7,8 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
+from django.contrib import messages
+from datetime import date
 
 def user_upload_dir(instance, filename):
 	return 'profile_pics/users/user_{0}/{1}'.format(instance.id, filename)
@@ -35,7 +37,7 @@ def search(request):
 			error	=	True
 		else:
 			return render(request,'search.html',{ 
-			'books':	models.models.Book.objects.filter(title__icontains=query_string),
+			'books':	models.Book.objects.filter(title__icontains=query_string),
 			'authors': models.Author.objects.filter(Q(first_name__icontains=query_string) | Q(last_name__icontains=query_string)), 
 			'critics':  models.Critic.objects.filter(Q(first_name__icontains=query_string)|  Q(last_name__icontains=query_string)), 
 			'topics': models.Topic.objects.filter(Q(name__icontains=query_string)), 
@@ -43,7 +45,7 @@ def search(request):
 			'groups': models.Group.objects.filter(name__icontains=query_string), 
 			'publishers': models.Publisher.objects.filter(name__icontains=query_string),
 			'readers':models.Reader.objects.filter(Q(first_name__icontains=query_string)|  Q(last_name__icontains=query_string)),
-			'reviews': Review.objects.filter(heading__icontains=query_string),
+			'reviews': models.Review.objects.filter(heading__icontains=query_string),
 			'query_string': query_string,})
 	return render(request, 'search.html')
 
@@ -60,11 +62,11 @@ def list_recent_models(request):
 def show_book_by_id(request, book_id):
 	try:
 		book_obj = models.Book.objects.get(id=int(book_id))
-		reviews_book_obj = Review.objects.filter(book=int(book_id)).order_by('-id')[:10]
-		comments_by_book_obj = Comment.objects.filter(book=int(book_id)).order_by('-id')
+		reviews_book_obj = models.Review.objects.filter(book=int(book_id)).order_by('-id')[:10]
+		comments_by_book_obj = models.Comment.objects.filter(book=int(book_id)).order_by('-id')
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html',)
-	return render(request, 'book_profile.html', {'book_obj': book_obj,'reviews_book_obj': reviews_book_obj, 'comments_by_book_obj': comments_by_book_obj,'user_type': ReaderorCritic(request), 'add_review_form': AddReviewForm()})
+	return render(request, 'book_profile.html', {'book_obj': book_obj,'reviews_book_obj': reviews_book_obj, 'comments_by_book_obj': comments_by_book_obj,'user_type': ReaderorCritic(request.user.id), 'add_review_form': forms.AddReviewForm()})
 
 @login_required
 def show_author_by_id(request, author_id):
@@ -89,7 +91,7 @@ def show_reader_by_id(request, reader_id):
 	try:
 		reader_obj =models.Reader.objects.get(id=int(reader_id))
 		reader_obj_age = calculate_age(reader_obj.date_of_birth)
-		currentbooks_by_reader_obj = ReadersCurrentlyRead.objects.filter(reader=int(reader_id))
+		currentbooks_by_reader_obj = models.ReadersCurrentlyRead.objects.filter(reader=int(reader_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
 	return render(request, 'reader_profile.html', { 'reader_obj': reader_obj, 'reader_obj_age': reader_obj_age, 'currentbooks_by_reader_obj': currentbooks_by_reader_obj,})
@@ -98,7 +100,7 @@ def show_reader_by_id(request, reader_id):
 def show_critic_by_id(request, critic_id):
 	try:
 		critic_obj =  models.Critic.objects.get(id=int(critic_id))
-		reviews_by_critic_obj = Review.objects.filter(critic=int(critic_id))
+		reviews_by_critic_obj = models.Review.objects.filter(critic=int(critic_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
 	return render(request, 'critic_profile.html', {	'critic_obj': critic_obj, 'reviews_by_critic_obj': reviews_by_critic_obj,})
@@ -106,7 +108,7 @@ def show_critic_by_id(request, critic_id):
 @login_required
 def show_review_by_id(request, review_id):
 	try:
-		review_obj= Review.objects.get(id=int(review_id))
+		review_obj= models.Review.objects.get(id=int(review_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
 	return render(request, 'book_review.html', {'review_obj': review_obj})
@@ -116,7 +118,7 @@ def show_group_by_id(request, group_id):
 	try:
 		group_obj = models.Group.objects.get(id=int(group_id))
 		topics_by_group_obj = models.Topic.objects.filter(group=int(group_id))
-		book_recs_by_group_obj = BookRecommendation.objects.filter(group=int(group_id))
+		book_recs_by_group_obj = models.BookRecommendation.objects.filter(group=int(group_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
 	return render(request, 'group_page.html', {'group_obj': group_obj, 'topics_by_group_obj': topics_by_group_obj, 'book_recs_by_group_obj': book_recs_by_group_obj, 'user_type': ReaderorCritic(request),})
@@ -125,7 +127,7 @@ def show_group_by_id(request, group_id):
 def show_topic_by_id(request, topic_id):
 	try:
 		topic_obj = models.Topic.objects.get(id=int(topic_id))
-		replies_by_topic_obj= TopicReply.objects.filter(topic=int(topic_id))
+		replies_by_topic_obj= models.TopicReply.objects.filter(topic=int(topic_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
 	return render(request, 'topic_page.html', {'topic_obj': topic_obj, 'replies_by_topic_obj': replies_by_topic_obj,})
@@ -146,7 +148,7 @@ def sitelogin(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				return render(request, 'index.html')
+				return HttpResponseRedirect("/readbooks/home/")
 			else:
 				return render(request, 'login.html', {'problem': "User doesn't exist!",})
 		else:
@@ -202,14 +204,16 @@ def update_userinfo_bf(request):
 		loggedProfile =  models.Critic.objects.get(user_id=request.user.id)
 	context_dict = {'loggeduser': loggeduser, 'loggedProfile': loggedProfile, 'user_type':user_type,}
 	if request.method=='POST':
-		loggeduser.first_name = request.POST.get('userfirstname')
-		loggeduser.last_name= request.POST.get('userlastname')
-		loggedProfile.bio = request.POST.get('userbio')
-		loggedProfile.gender = request.POST.get('usergender')
+		loggeduser.first_name = request.POST['userfirstname']
+		loggeduser.last_name= request.POST['userlastname']
+		loggeduser.save()
+		loggedProfile.first_name=request.POST['userfirstname']
+		loggedProfile.last_name=request.POST['userlastname']
+		loggedProfile.bio = request.POST['userbio']
+		loggedProfile.gender = request.POST['usergender']
 		loggedProfile.date_of_birth = request.POST.get('userdob')
 		# image_location=user_upload_dir(loggeduserprofile, request.POST.get('userprofilepic'))
 		loggedProfile.profile_picture = request.POST['userprofilepic']
-		loggeduser.save()
 		loggedProfile.save()
 		return render(request, 'user_settings_bf.html', context_dict)
 	else:
@@ -257,11 +261,9 @@ def add_book_df2(request):
 @login_required
 def add_book_df(request):
 	add_book_form = forms.AddBookForm(request.POST or None)
-
 	# if request.method=='POST':
-	try: 
-		if add_book_form.is_valid():
-			newbook = add_book_form.save(commit=False)
+	if add_book_form.is_valid():
+		newbook = add_book_form.save(commit=False)
 		# newbook = Book.create(title=add_book_form.cleaned_data['title'])
 		# newbook.save()
 		# newbook.author= add_book_form.cleaned_data['author']
@@ -270,12 +272,13 @@ def add_book_df(request):
 		# newbook.publication_date = add_book_form.cleaned_data['publication_date']
 		# newbook.cover_picture = add_book_form.cleaned_data['cover_picture']
 		# newbook.book_synopsis = add_book_form.cleaned_data['book_synopsis']
-			newbook.save()
+		newbook.save()
 		# return render (request, 'add_df.html', {'add_book_form':forms.AddBookForm(),'add_author_form': forms.AddAuthorForm(),'success': "Book Created!",})
-		else:
-			return render(request, 'add_df.html', {'add_book_form':forms.AddBookForm(),'add_author_form':forms.AddAuthorForm(),'problem': "There was a problem",})
-	except Exception as exc:
-		return render(request, 'add_df.html', {'add_author_form':forms.AddAuthorForm(), 'add_book_form':forms.AddBookForm(),'problem': exc })
+	else:
+		# messages.debug(request, 'What happened')
+		return render(request, 'add_df.html', {'add_book_form':forms.AddBookForm(),'add_author_form':forms.AddAuthorForm(),'problem': "There was a problem",})
+	# except Exception as exc:
+	# 	return render(request, 'add_df.html', {'add_author_form':forms.AddAuthorForm(), 'add_book_form':forms.AddBookForm(),'problem': exc })
 
 	return render(request, 'add_df.html', {'add_author_form':forms.AddAuthorForm(), 'add_book_form':forms.AddBookForm(),'problem': exc })
 
@@ -287,11 +290,12 @@ def add_df(request):
 @login_required
 def add_book_bf(request):
 	if request.method == 'POST':
-		newbook = models.Book.objects.create(title=request.POST['new_booktitle'], author=request.POST['add_author'],publisher=request.POST['add_publisher'], genre=request.POST['add_genre'],publication_date= request.POST['add_pubdate'],book_synopsis= request.POST['add_booksummary'],cover_picture= request.POST['add_bookcover'])
+		newbook = models.Book.objects.create(title=request.POST['new_booktitle'])
+		# , author=request.POST['add_author'],publisher=request.POST['add_publisher'], genre=request.POST['add_genre'],publication_date= request.POST['add_pubdate'],book_synopsis= request.POST['add_booksummary'],cover_picture= request.POST['add_bookcover'])
 
-	return render(request, 'add_book_bf.html',{
-	'all_authors': models.Author.objects.all(), 'all_genres': models.Genre.objects.all(),	'all_publishers': models.Publisher.objects.all(),
-	})
+	# return render(request, 'add_book_bf.html',{
+	# 'all_authors': models.Author.objects.all(), 'all_genres': models.Genre.objects.all(),	'all_publishers': models.Publisher.objects.all(),
+	# })
 
 			# , author=request.POST['add_author'],publisher=request.POST['add_publisher'], genre=request.POST['add_genre'],publication_date= request.POST['add_pubdate'],book_synopsis= request.POST['add_booksummary'],cover_picture= request.POST['add_bookcover'])
 		# newbook.save()
@@ -302,7 +306,7 @@ def add_book_bf(request):
 		# newbook.book_synopsis= request.POST['add_booksummary']
 		# newbook.cover_picture= request.POST['add_bookcover']
 		# newbook.save()
-		# return render(request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_genres': models.Genre.objects.all(),	'all_publishers': models.Publisher.objects.all(),})
+		return render(request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_genres': models.Genre.objects.all(),	'all_publishers': models.Publisher.objects.all(),})
 	# else:
 	# return render (request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_genres': models.Genre.objects.all(),	'all_publishers': models.Publisher.objects.all(),	})
 
@@ -311,7 +315,7 @@ def add_author_df(request):
 	if request.method=='POST':
 		add_author_form = forms.AddAuthorForm(request.POST)
 		if add_author_form.is_valid():
-			newauthor = Author.create(first_name=add_author_form.cleaned_data['first_name'])
+			newauthor = models.Author.create(first_name=add_author_form.cleaned_data['first_name'])
 			newauthor.save()
 			newauthor.last_name=add_author_form.cleaned_data['last_name']
 			newauthor.gender=add_author_form.cleaned_data['gender']
@@ -324,18 +328,28 @@ def add_author_df(request):
 		return render(request, 'add_df.html', {'add_book_form':forms.AddBookForm(),'add_author_form':forms.AddAuthorForm(),})
 
 def add_review_df(request):
-	loggedCritic =  models.Critic.objects.get(user_id=auth.user.id)
+	loggedCritic =  models.Critic.objects.get(user_id=request.user.id)
 	if request.method=='POST':
 		add_review_form = forms.AddReviewForm(request.POST)
-		if add_review_form.is_valid():
-			newreview = Review.create(heading=add_review_form.cleaned_data['heading'])
-			newreview.save()
-			newreview.critic = loggedCritic.id
-			# newreview.book = add_review_form.cleaned_data['book_id']
-			newreview.review = add_review_form.cleaned_data['review']
-			newreview.save()
-			return newreview
+		newreview = models.Review.create(heading=request.POST['heading'])
+		book_to_assign = models.Book.objects.get(id=int(request.POST['book_id']))
+		# if add_review_form.is_valid():
+			# newreview.save()
+		newreview.status= request.POST['status']
+		newreview.critic = loggedCritic
+		newreview.book = book_to_assign
+		newreview.review = request.POST['review']
+		newreview.save()
+		# return newreview
 	else:
 		return render(request, 'add_df.html', {'add_review_form':forms.AddReviewForm()} )
 
 			# newreview.Book = 
+@login_required
+def edit_author_df(request, author_id):
+	author = models.Author.objects.get(id=author_id)
+	form = forms.AddAuthorForm(request.POST or None, instance=author)
+	if form.is_valid():
+		author=form.save(commit=False)
+		author.save()
+	return render(request, 'edit_author.html', {'form': form, 'author': author})

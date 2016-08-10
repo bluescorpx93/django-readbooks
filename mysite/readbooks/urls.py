@@ -14,7 +14,7 @@ urlpatterns	= [
 
 	url(r'^settings_bf/$', views.update_userinfo_bf, name='user_settings_url_bf'),
 	url(r'^settings_df/$', views.update_userinfo_df, name='user_settings_url_df'),
-
+	url(r'^edit_author_df/(?P<author_id>[0-9]+)/$', views.edit_author_df, name='edit_author_df_url'),
 	url(r'^messages/$', views.messages, name='messages_url'),
 	url(r'^userprofile/(?P<user_id>[0-9]+)/$', views.show_user_profile, name='user_profile'),
 	url(r'^add_review_df/$', views.add_review_df, name='add_review_url_df'), 
