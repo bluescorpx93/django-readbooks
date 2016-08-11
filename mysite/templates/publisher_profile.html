@@ -7,7 +7,7 @@
 <div class='col-md-10 col-md-offset-1 '>
 
 	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
-		<div class="col-md-12 well " style='padding-bottom: 0;'>
+		<div class="col-md-12 well bordrad-zero " style='padding-bottom: 0;'>
 			<h3 class='text-center text-uppercase'> {{ publisher_obj.name }} </h3>
 			<div class='pic-container'>
 				<img src="{{ MEDIA_URL }}/{{  publisher_obj.cover_picture }}" class="img-responsive image-fit-frame"/>
@@ -22,7 +22,7 @@
 	</div>
 
 	<div class='col-md-6' style='padding:0 0 0 0.5%;'>
-		<div class='col-md-12 well'>
+		<div class='col-md-12 well bordrad-zero'>
 			<h4 class='text-center'> <small>Check out the Books published by {{ publisher_obj.name }} </small>  </h4>
 		</div>
 		<div class='col-md-12 pad-zero' >
@@ -33,7 +33,7 @@
 	<div class='col-md-6' id="books_col" style='padding:0% 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero' >
 			{% if not books_by_publisher_obj %}
-				<h5 class='text-center well'> No Books Published </h5>
+				<h5 class='text-center well bordrad-zero'> No Books Published </h5>
 			{% endif %}
 			<div class='col-md-12 pad-zero'>
 				{% for book in books_by_publisher_obj %}

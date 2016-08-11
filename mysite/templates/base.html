@@ -16,6 +16,7 @@
 .a{text-decoration: none;}
 .text-center{text-align: center;}
 .image-fit-frame{	max-width: 100%;min-width:100%;max-height: 100%;min-height:100%;border: 0px;object-fit: contain;}
+.bordrad-zero{border-radius: 0;}
 
 </style>
 
@@ -23,7 +24,7 @@
 	<div class="jumbotron" style='padding:0; min-height:100%; margin:0;'>
 		<div class="navbar navbar-default" style='margin-bottom:0;'>
 			<div class='col-md-10 col-md-offset-1'>
-							<ul class="nav navbar-nav text-uppercase ">
+				<ul class="nav navbar-nav text-uppercase">
 				{% if user.is_authenticated %}
 				<li>
 					 <a href="{% url 'readbooks_index_url' %} ">Readbooks</a>

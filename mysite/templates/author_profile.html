@@ -7,7 +7,7 @@
 <div class='col-md-10 col-md-offset-1 '>
 	
 	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
-		<div class="col-md-12 well " style='padding-bottom:0;'>
+		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
 			<h3 class='text-center text-uppercase'> {{ author_obj.first_name }} {{ author_obj.last_name }} </h3>
 			<div class='pic-container'>
 				<img src="{{ MEDIA_URL }}/{{ author_obj.profile_picture }}" class="img-responsive image-fit-frame"/>
@@ -19,11 +19,10 @@
 				</div>
 			</div>
 		</div>
-		<a href="{% url 'edit_author_df_url' author_id=author_obj.id %}"> <button class='btn btn-default btn-block'>Edit</button></a>
 	</div>
 
 	<div class='col-md-6' style='padding:0 0 0 0.5%;'>
-		<div class='col-md-12 well'>
+		<div class='col-md-12 well bordrad-zero'>
 			<h4 class='text-center'> <small>Check out the Books written by {{book_obj.title}}</small>  </h4>
 		</div>
 		<div class='col-md-12 pad-zero' >
@@ -34,7 +33,7 @@
 	<div class='col-md-6' id="books_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero' >
 			{% if not books_by_author_obj %}
-				<h5 class='text-center well'> No Books Written</h5>
+				<h5 class='text-center well bordrad-zero'> No Books Written</h5>
 			{% endif %}
 			<div class='col-md-12 pad-zero' >
 				{% for book in books_by_author_obj %}

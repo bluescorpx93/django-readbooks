@@ -4,9 +4,9 @@
 
 <style>
 .pad-right{ padding-right: 3%;}
-.well {	margin:0;}
+.well {margin:0;}
 .iconspace { padding-right: 2%;} 
-.btnsize1 { height:7%; margin-top:7%; margin-bottom: 5%;}
+.btnsize1 { height:7%; margin-top:7%; margin-bottom: 5%;border-radius: 0;}
 .btnsize2 {height:10%; text-transform:uppercase;border-radius:0;}
 .pic-container{ background-color: #f5f5f5; height:50%;border:0;padding:4% 0 2% 0;}
 .pad-zero{padding:0;}
@@ -15,7 +15,7 @@
 <div class='col-md-10 col-md-offset-1 '>
 	
 	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
-		<div class="col-md-12 well " style='padding-bottom:0;'>
+		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
 			<h3 class='text-center text-uppercase'> {{ book_obj.title }} </h3>
 			<div class=' pic-container'>
 				<img src="{{ MEDIA_URL }}/{{ book_obj.cover_picture }}" class="img-responsive image-fit-frame"/>
@@ -34,7 +34,7 @@
 	</div>
 	
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
-		<div class='col-md-12 well'>
+		<div class='col-md-12 well bordrad-zero'>
 			<h4 class='text-center'> <small>Check out the Reviews and Populartiy of {{book_obj.title}}</small> </h4>
 		</div>
 		<div class='col-md-6 pad-zero' >
@@ -48,7 +48,7 @@
 	<div class='col-md-6' id="reviews_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero'>
 			{% if not reviews_book_obj %}
-				<h5 class='text-center well'> No Reviews Published</h5>
+				<h5 class='text-center well bordrad-zero'> No Reviews Published</h5>
 			{% endif %}
 
 			{% if user_type == 'Critic' %}
@@ -56,7 +56,7 @@
 				<div class="modal fade" id="addReview" tabindex="-1" role="dialog">
 				  <div class="modal-dialog" role="document">
 				  	<div class="modal-content">
-				  		<div class='well'>
+				  		<div class='well bordrad-zero'>
 				  			<div class="modal-header">
 					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				        	<h2 class="modal-title text-uppercase text-center">Add Review</h2>
@@ -118,9 +118,9 @@
 	</div>	
 
 	<div class='col-md-6' id="comments_col" style='padding:0 0 0 0.5%;'>
-		<div class='col-md-12 well pad-zero' >
+		<div class='col-md-12 well bordrad-zero pad-zero' >
 			{% if not comments_by_book_obj %}
-				<h4 class='text-center well'> Not really popular among people</h4>
+				<h4 class='text-center well bordrad-zero'> Not really popular among people</h4>
 			{% endif %}
 			{% for comment in comments_by_book_obj %}
 				<div class='panel panel-default' style='border-radius: 0; margin:0;border:0;padding:0;'>

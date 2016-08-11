@@ -8,8 +8,8 @@
 </style>
 
 <div class='col-md-10 col-md-offset-1'>
-	<div class='container well'>
-		<div class='well'>
+	<div class='container well bordrad-zero'>
+		<div class='well bordrad-zero'>
 			<h3 class='text-center'> {{ topic_obj.name }} </h3>
 		</div>
 		<div class='col-md-2' style='padding:2% 1% 0 0;'>
@@ -25,7 +25,7 @@
 		</div>
 	</div>
 		
-	<div class='container well' style='padding-top:0;	'>
+	<div class='container well bordrad-zero' style='padding-top:0;	'>
 		{% for reply in replies_by_topic_obj %}
 		<div class='col-md-2' style='padding:2% 1% 0 0;'>
 			<img src="{{ MEDIA_URL}}/{{ reply.topic_reply_user.profile_picture }}" class='img-responsive image-fit-frame' />

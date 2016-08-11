@@ -5,7 +5,7 @@
 .pad-right{ padding-right: 3%;}
 .well {	margin:0;}
 .iconspace { padding-right: 2%;} 
-.btnsize1 { height:7%;}
+.btnsize1 { height:7%; border-radius: 0;}
 .btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
 .pic-container{ background-color: #f5f5f5; height:40%;border:0;padding:4% 0 2% 0;}
 .pad-zero{padding:0;}
@@ -13,7 +13,7 @@
 
 <div class='col-md-10 col-md-offset-1 '>
 {% if review_obj.status == 'Published' %}
-	<div class='col-md-8 well' style='padding:0 0.5% 0 0;'>
+	<div class='col-md-8 well bordrad-zero' style='padding:0 0.5% 0 0;'>
 		<h3 class='text-center text-uppercase' style='padding:3%;'> {{ review_obj.heading }} </h3>
 		<div >
 			<h4 style='padding:1% 5% 0 5%;'> {{ review_obj.review }} </h4>
@@ -31,7 +31,7 @@
 			<button type="button" class="btn btn-block btn-danger btnsize2" id="review_edit_btn" data-toggle="modal" data-target="#deleteReview"> <h5> <i class="fa fa-remove iconspace"></i> Delete </h5> </button> 
 		</div>
 		{% endif %}
-		<div class='col-md-12 well'>
+		<div class='col-md-12 well bordrad-zero'>
 			<h4 class='text-center'> <small>Review Details</small> </h4>
 		</div>
 		<div class='col-md-6 pad-zero' >
@@ -68,7 +68,7 @@
 	<div class="modal fade" id="editReview" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class='well'>
+				<div class='well bordrad-zero'>
 					<div class="modal-header">
 					  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h2 class="modal-title text-uppercase text-center">Edit</h2>
@@ -125,7 +125,7 @@
 </script>
 
 {% if review_obj.status != 'Published' %}
-<div class="well">
+<div class="well bordrad-zero">
 	 <h3 style="padding: 3%;"> Review Not Published Yet! </h3>
 	 <h5 style="padding: 3%;"> Hello! <br />We're sorry that you can't read the review now. The Critic is still writing and hasn't published it yet. Please wait a bit.</h5>
 </div>
