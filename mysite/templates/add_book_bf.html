@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Add Book {% endblock %}
 {% block body %}
 <link href="{% static 'jquery/jquery-ui.css' %}" rel="stylesheet">
@@ -12,6 +13,14 @@
 .btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
 .pad-zero{padding:0;}
 </style>
+
+{% if user_type == 'Critic' %}
+	<div class='col-md-10 col-md-offset-1'>
+		<h2 style='margin-top:10%;'>Sorry! <br> <br><small> This section is for the readers only.</small></h2>		
+	</div>
+{% endif %}
+
+{% if user_type == 'Reader' %}
 <div class='col-md-10 col-md-offset-1 ' style='margin-top:3%;'>
 
 	{% if success %}
@@ -23,6 +32,58 @@
 	</div>
 	{% endif %}
 
+
+	<div class='col-md-8 well' id = "new_genre_form" >
+	<h3 class='text-center pad-bottom'> New Genre</h3>
+		<form class='form-horizontal' action="/readbooks/add_genre_bf/" method='post'>
+		{% csrf_token %}
+			<div class='form-group'>
+				<label for ="id_genre_name" class='control-label col-md-3 '> Name </label>
+				<div class='col-md-8'>
+					<input type="text" class='form-control' required="true" id="id_genre_name" placeholder=" Genre Name" name='genre_name'/>
+				</div>
+			</div>
+			<div class='form-group'	>
+				<button type='submit' id= "genre_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Genre</button>	
+			</div>
+		</form>	
+	</div>
+
+	<div class='col-md-8 well' id = "new_publisher_form" >
+	<h3 class='text-center pad-bottom'> New Publisher</h3>
+		<form class='form-horizontal' action="/readbooks/add_publisher_bf/" method='post'>
+		{% csrf_token %}
+			<div class='form-group'>
+				<label for ="id_publisher_name" class='control-label col-md-3 '>  Name </label>
+				<div class='col-md-8'>
+					<input type="text" class='form-control' required="true" id="id_publisher_name" placeholder="Name" name='publisher_name'/>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for ="id_address" class='control-label col-md-3 '> Address </label>
+				<div class='col-md-8'>
+					<input type="text" class='form-control' id="id_address" required="true" placeholder="Location" name='publisher_address'/>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for ="id_website" class='control-label col-md-3 '> Website </label>
+				<div class='col-md-8'>
+					<input type="text" class='form-control' id="id_website" required="true" placeholder="Official Website" name='publisher_website'/>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for ="id_cover_photo" class='control-label col-md-3 '>  Cover Photo </label>
+				<div class='col-md-8'>
+					<input type="file" id="id_cover_photo" placeholder="Name" name='publisher_cover_photo'/>
+				</div>
+			</div>
+			<div class='form-group'	>
+				<button type='submit' id= "publisher_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Publisher</button>	
+			</div>
+		</form>
+	</div>
+
+
 	<div class='col-md-8 well' id = "new_author_form" >
 	<h3 class='text-center pad-bottom'> New Author</h3>
 		<form class='form-horizontal' action="/readbooks/add_author_bf/" method='post'>
@@ -30,19 +91,19 @@
 			<div class='form-group'>
 				<label for ="id_first_name" class='control-label col-md-3 '> First Name </label>
 				<div class='col-md-8'>
-					<input type="text" class='form-control' id="id_first_name" placeholder="First Name" name='first_name'/>
+					<input type="text" class='form-control' id="id_first_name" required="true" placeholder="First Name" name='first_name'/>
 				</div>
 			</div>
 			<div class='form-group'>
 				<label for ="id_last_name" class='control-label col-md-3 '> Last Name </label>
 				<div class='col-md-8'>
-					<input type="text" class='form-control' id="id_last_name" placeholder="Last Name" name='last_name'/>
+					<input type="text" class='form-control' id="id_last_name" required="true" placeholder="Last Name" name='last_name'/>
 				</div>
 			</div>
 			<div class='form-group'>
 				<label for ="id_bio" class='control-label col-md-3 '> Bio </label>
 				<div class='col-md-8'>
-					<input type="text" class='form-control' id="id_bio" placeholder="Describe the author" name='bio'/>
+					<input type="text" class='form-control' id="id_bio" required="true" placeholder="Describe the author" name='bio'/>
 				</div>
 			</div>
 			<div class='form-group'>
@@ -59,7 +120,7 @@
 			<div class='form-group'>
 				<label for= 'datepicker' class='col-md-3 control-label '> Birthday </label>
 				<div class='col-md-8'>
-					<input type="text" class='form-control' name="date_of_birth" id="datepicker">			
+					<input type="text" class='form-control' name="date_of_birth" required="true" id="datepicker">			
 				</div>
 			</div>
 			<div class='form-group'>
@@ -72,22 +133,13 @@
 				<button type='submit' id= "author_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Author</button>	
 			</div>
 		</form>
-		<div class="modal fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h2 class="modal-title text-uppercase text-center">Confirm</h2>
-					</div>
-					<div class='modal-body' id="preview_author_data">
+		<div id="preview_author_data">
 
-					</div>
-					
-				</div>
-			</div>
 		</div>
 				
 	</div>
+				
+
 	
 	<div class='col-md-8 well' id = "new_book_form" >
 		<h3 class='text-center pad-bottom'> New Book</h3>
@@ -96,13 +148,13 @@
 			<div class='form-group'>
 				<label for ="new_booktitle" class='control-label col-md-3 '> Title </label>
 				<div class='col-md-8'>
-					<input type="text" class='form-control' placeholder="Enter Book Title" name='new_booktitle' id='new_booktitle'/>
+					<input type="text" class='form-control' placeholder="Enter Book Title" required="true" name='new_booktitle' id='new_booktitle'/>
 				</div>
 			</div>
 			<div class='form-group'>
 				<label for ="id_add_author" class='control-label col-md-3 '> Authors </label>
 				<div class='col-md-8'>
-					<select id="id_add_author" class="form-control" name="add_author">
+					<select id="id_add_author" required="true" class="form-control" name="add_author">
 						<option value="" selected="selected"> Who's the Writer? </option>
 						{% for author in all_authors %}
 							<option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }} </option>
@@ -113,7 +165,7 @@
 			<div class='form-group'>
 				<label for ="id_add_publisher" class='control-label col-md-3 '> Publishers </label>
 				<div class='col-md-8'>
-					<select id="id_add_publisher" class="form-control" name="add_publisher">
+					<select id="id_add_publisher" class="form-control" required="true" name="add_publisher">
 						<option value="" selected="selected"> Publisher of the book </option>
 						{% for publisher in all_publishers %}
 							<option value="{{ publisher.id }}">{{ publisher.name }}</option>
@@ -124,7 +176,7 @@
 			<div class='form-group'>
 				<label for ="id_add_genre" class='control-label col-md-3 '> Genre </label>
 				<div class='col-md-8'>
-					<select multiple="multiple" id="id_add_genre" name="add_genre" class='form-control'>
+					<select multiple="multiple" id="id_add_genre" name="add_genre" required="true" class='form-control'>
 						{% for genre in all_genres %}
 							<option value="{{ genre.id }}">{{ genre.name }}</option>
 						{% endfor %}
@@ -132,9 +184,9 @@
 				</div>
 			</div>
 			<div class='form-group'>
-				<label for ="add_pubdate" class='control-label  col-md-3 '> Publication Date </label>
+				<label for= 'datepicker_book' class='col-md-3 control-label '> Published on </label>
 				<div class='col-md-8'>
-					<input type='text' name="add_pubdate" id="date_picker" class='form-control'>
+					<input type="text" class='form-control' name="add_pubdate" required="true" id="datepicker_book">			
 				</div>
 			</div>
 			<div class='form-group'>
@@ -146,7 +198,7 @@
 			<div class='form-group'>
 				<label for ="add_booksummary" class='control-label  col-md-3 '> Synopsis</label>
 				<div class='col-md-8'>
-					<input type='textarea' name="add_booksummary" class='form-control' placeholder="What's the book about?">
+					<textarea name="add_booksummary" class='form-control' required="true" placeholder="What's the book about?"> </textarea>
 				</div>
 			</div>
 			<div class='form-group'	>
@@ -180,27 +232,47 @@
 	
 </div>
 
-
 <select id="format" hidden="true">
 	 <option id="date_format" value="yy-mm-dd">ISO 8601 - yy-mm-dd</option>
 </select>
-
+{% endif %}
 <script>
 $(document).ready(function(){
 	$("#datepicker").datepicker();
 	$("#datepicker").datepicker("option", "dateFormat", $("#date_format").val());
+	$("#datepicker_book").datepicker();
+	$("#datepicker_book").datepicker("option", "dateFormat", $("#date_format").val());
 
 	$("#new_author_form").hide();
-
+	$("#new_genre_form").hide();
+	$("#new_publisher_form").hide();
 
 	$("#book_form_btn").click(function(){
-		$("#new_book_form").show("fade");
+		$("#new_book_form").toggle("fade");
 		$("#new_author_form").hide();
+		$("#new_genre_form").hide();
+		$("#new_publisher_form").hide();
 	});
 
 	$("#author_form_btn").click(function(){
-		$("#new_author_form").show("fade");
+		$("#new_author_form").toggle("fade");
 		$("#new_book_form").hide();
+		$("#new_genre_form").hide();
+		$("#new_publisher_form").hide();
+	});
+
+	$("#publisher_form_btn").click(function(){
+		$("#new_publisher_form").toggle("fade");
+		$("#new_book_form").hide();
+		$("#new_genre_form").hide();
+		$("#new_author_form").hide();
+	});
+
+	$("#genre_form_btn").click(function(){
+		$("#new_genre_form").toggle("fade");
+		$("#new_book_form").hide();
+		$("#new_publisher_form").hide();
+		$("#new_author_form").hide();
 	});
 
 	// $("#author_submit_btn").click(function(){
