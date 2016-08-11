@@ -116,13 +116,13 @@ def isLoggedUserReviewWriter(request, review_id):
 
 
 @login_required
-def show_review_by_id(request, review_id):
+def show_review_by_id(request, review_id, message=None):
 	try:
 		review_obj= models.Review.objects.get(id=int(review_id))
 		review_owner = isLoggedUserReviewWriter(request, review_id)
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'book_review.html', {'review_obj': review_obj, 'review_owner': review_owner})
+	return render(request, 'book_review.html', {'review_obj': review_obj, 'review_owner': review_owner, 'success': message})
 
 @login_required
 def show_group_by_id(request, group_id):
@@ -230,7 +230,7 @@ def register(request):
 
 @login_required
 def add_bf(request):
-	return render (request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_authors_count': models.Author.objects.all().count(), 'all_genres': models.Genre.objects.all(), 'all_genre_count': models.Genre.objects.all().count(), 'all_publishers': models.Publisher.objects.all(),	'all_publishers_count': models.Publisher.objects.all().count(), 'all_books_count': models.Book.objects.all().count(),'user_type':readerOrCritic(request.user.id)})
+	return render (request, 'add_bf.html', {'all_authors': models.Author.objects.all(), 'all_authors_count': models.Author.objects.all().count(), 'all_genres': models.Genre.objects.all(), 'all_genre_count': models.Genre.objects.all().count(), 'all_publishers': models.Publisher.objects.all(),	'all_publishers_count': models.Publisher.objects.all().count(), 'all_books_count': models.Book.objects.all().count(),'user_type':readerOrCritic(request.user.id)})
 
 @login_required
 def add_book_bf(request):
@@ -271,11 +271,16 @@ def add_review_bf(request):
 		newreview.save()
 		return list_recent_models(request, "New Review Added!")
 
-
 @login_required
 def edit_review(request):
 	review_to_edit = models.Review.objects.get(id=request.POST['review_id'])
 	review_to_edit.heading = request.POST['review_heading']
+	review_to_edit.status = request.POST['status']
 	review_to_edit.review = request.POST['review']
 	review_to_edit.save()
-	return HttpResponseRedirect ('/readbooks/new/')
+	return show_review_by_id(request, request.POST['review_id'], "Review Updated!")
+
+@login_required
+def add_publisher(request):
+	pass
+	
