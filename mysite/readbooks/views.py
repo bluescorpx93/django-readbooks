@@ -245,8 +245,21 @@ def add_book_bf(request):
 		newbook.cover_picture = request.POST['add_bookcover']
 		newbook.book_synopsis = request.POST['add_booksummary']
 		newbook.save()
-		return render(request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_genres': models.Genre.objects.all(),	'all_publishers': models.Publisher.objects.all(), 'success': "New Book Created"})
-	return render (request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_genres': models.Genre.objects.all(),	'all_publishers': models.Publisher.objects.all(),	})
+		return render(request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_authors_count': models.Author.objects.all().count(), 'all_genres': models.Genre.objects.all(), 'all_genre_count': models.Genre.objects.all().count(),	'all_publishers': models.Publisher.objects.all(),	'all_publishers_count': models.Publisher.objects.all().count(), 'all_books_count': models.Book.objects.all().count(), 'success': "New Book Added"})
+	return render (request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_authors_count': models.Author.objects.all().count(), 'all_genres': models.Genre.objects.all(), 'all_genre_count': models.Genre.objects.all().count(),	'all_publishers': models.Publisher.objects.all(),	'all_publishers_count': models.Publisher.objects.all().count(), 'all_books_count': models.Book.objects.all().count(),})
+
+@login_required
+def add_author_bf(request):
+	if request.method =='POST':
+		newauthor = models.Author.create(first_name=request.POST['first_name'])
+		newauthor.last_name=request.POST['last_name']
+		newauthor.bio=request.POST['bio']
+		newauthor.gender=request.POST['gender']
+		newauthor.date_of_birth=request.POST['date_of_birth']
+		newauthor.profile_picture=request.POST['profile_picture']
+		newauthor.save()
+		return render(request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_authors_count': models.Author.objects.all().count(), 'all_genres': models.Genre.objects.all(), 'all_genre_count': models.Genre.objects.all().count(),	'all_publishers': models.Publisher.objects.all(),	'all_publishers_count': models.Publisher.objects.all().count(), 'all_books_count': models.Book.objects.all().count(), 'success': "New Author Added"})
+	return render (request, 'add_book_bf.html', {'all_authors': models.Author.objects.all(), 'all_authors_count': models.Author.objects.all().count(), 'all_genres': models.Genre.objects.all(), 'all_genre_count': models.Genre.objects.all().count(),	'all_publishers': models.Publisher.objects.all(),	'all_publishers_count': models.Publisher.objects.all().count(), 'all_books_count': models.Book.objects.all().count(),})
 
 @login_required
 def add_author_df(request):
@@ -268,7 +281,6 @@ def add_author_df(request):
 def add_review_bf(request):
 	loggedCritic =  models.Critic.objects.get(user_id=request.user.id)
 	if request.method=='POST':
-		# add_review_form = forms.AddReviewForm(request.POST)
 		newreview = models.Review.create(heading=request.POST['heading'])
 		book_to_assign = models.Book.objects.get(id=int(request.POST['book_id']))
 		newreview.status= request.POST['status']

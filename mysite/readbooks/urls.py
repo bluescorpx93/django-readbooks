@@ -7,6 +7,7 @@ urlpatterns	= [
 
 	url(r'^register/$', views.register, name='signup_url'),
 	url(r'^add_book_bf/$', views.add_book_bf, name='add_book_url_bf'),
+	url(r'^add_author_bf/$', views.add_author_bf, name='add_author_bf_url'),
 
 	url(r'^add_df/$', views.add_df, name='add_df_url'),
 	url(r'^add_author_df/$', views.add_author_df, name='add_author_url_df'),

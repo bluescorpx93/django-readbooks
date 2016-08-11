@@ -62,38 +62,37 @@
 				        	<h2 class="modal-title text-uppercase text-center">Add Review</h2>
 				      	</div>
 				      	<form action = "/readbooks/add_review_bf/" method="post">
-									{% csrf_token %}				      		
-									<div class="modal-body">
+								{% csrf_token %}				      		
+								<div class="modal-body">
 						      	<style> .form-group{ padding: 2% 0 2% 0; }</style>
-						        <div class="form-group" '>
-						          <label for="id_heading" class=" col-md-4 control-label">Heading</label>
-					            <div class='col-md-7'>
-					            	<input type="text" id="id_heading" name="heading" class='form-control'>
-					            </div>
-					          </div>
-					          <div class="form-group">
-					            <label for="id_book" class=" col-md-4 control-label">Book</label>
-					            <div class='col-md-7'>
-						            <input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
-					            </div>
-					          </div>
-					          <div class="form-group">
-					            <label for="id_status" class=" col-md-4 control-label">Status</label>
-					            <div class='col-md-7'>
-										{{ add_review_form.status }}
-					            </div>
-					          </div>
-					          <div class="form-group">
-					            <label for="id_review" class=" col-md-4 control-label">Review</label>
-					            <div class='col-md-7'>
-					            	<input type='text' id='id_review' class='form-control' name='review'>
-					            </div>
-					          </div>
-					          
+						      	<div class="form-group" '>
+						         	<label for="id_heading" class=" col-md-3 control-label">Heading</label>
+					            	<div class='col-md-9'>
+					            		<input type="text" id="id_heading" name="heading" class='form-control'>
+					            	</div>
+					          	</div>
+					           	<input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
+
+					          	<div class="form-group">
+					            	<label for="id_status" class=" col-md-3 control-label">Status</label>
+					            	<div class='col-md-9'>
+											<select id="id_review_status" class="form-control" name="status">
+												<option value="Draft" selected="selected"> Draft </option>
+												<option value = "Publish"> Publish</option>
+											</select>
+											<!-- {{ add_review_form.status }} -->
+					            	</div>
+					          	</div>
+					          	<div class="form-group">
+					            	<label for="id_review" class=" col-md-3 control-label">Review</label>
+					            	<div class='col-md-9'>
+					            		<textarea type='text' id='id_review' class='form-control' name='review'> </textarea>
+					            	</div>
+					          	</div>
 					      	</div>
 					      	<div class="modal-footer">
-						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					        	<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Review</button>
+						      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						        	<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Review</button>
 					      	</div>
 				      	</form>
 				      </div>

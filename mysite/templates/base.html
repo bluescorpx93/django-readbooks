@@ -4,7 +4,6 @@
 	<title> {% block title %} {% endblock %} </title>
 	<script type="text/javascript" src="{% static 'jquery/jquery-2.2.4.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'jquery/jquery-ui.min.js' %}"></script>
-	<link href="{% static 'jquery/jquery-ui.css' %}" rel="stylesheet">
 	<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 	<link href="{% static 'bootstrap/css/bootstrap.min.css' %}"	rel="stylesheet" >
 	<!-- <link href="{% static 'cosmo-bootstrap/bootstrap.min.css' %}"	rel="stylesheet" > -->
@@ -26,32 +25,21 @@
 			<div class='col-md-10 col-md-offset-1'>
 				<ul class="nav navbar-nav text-uppercase">
 				{% if user.is_authenticated %}
-				<li>
-					 <a href="{% url 'readbooks_index_url' %} ">Readbooks</a>
-				</li>
-				<li >
-					 <a href="{% url 'search_url' %}">Search</a>
-				</li>
-				<li >
-					<a href="{% url 'list_recent_models_url' %}">New</a>
-				</li>
-				<li>
-					<a href="{% url 'messages_url' %}"> Messages</a>
-				</li>
-				<li>
-					<a href="{% url 'add_book_url_bf' %}"> Add </a>
-				</li>
-				
-				<li>
-					<a href="{% url 'user_settings_url_bf' %}"> Settings</a>
-				</li>
-				<li>
-					<a href="{% url 'logout_url' %}"> Log Out</a>
-				</li>
+					<li> <a href="{% url 'readbooks_index_url' %} ">Readbooks</a>	</li>
+					<li> <a href="{% url 'search_url' %}">Search</a> </li>
+					<li> <a href="{% url 'list_recent_models_url' %}">New</a> </li>
+					<li> <a href="{% url 'messages_url' %}"> Messages</a>	</li>
+					{% if user_type=='Critic' %}
+						<li> </li>
+					{% endif %}
+					{% if user_type=='Reader' %}
+						<li> <a href="{% url 'add_book_url_bf' %}"> Add </a> </li>
+					{% endif %}
+					<li> <a href="{% url 'user_settings_url_bf' %}"> Settings</a> </li>
+					<li> <a href="{% url 'logout_url' %}"> Log Out</a>	</li>
 				{% endif %}
-			</ul>				
+				</ul>				
 			</div>
-
 		</div>
 		<div class="container-fluid" style='margin-bottom:0;'>
 			{% block body %} {% endblock %}
