@@ -12,11 +12,20 @@
 </style>
 
 <div class='col-md-10 col-md-offset-1 '>
-{% if success %}
+{% if create_new %}
 	<div class='col-md-12'>
 		<div class="alert alert-success alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-				<strong>Hey!</strong> {{ success }}
+				<strong>Hey!</strong> {{ create_new }}
+		</div>
+	</div>
+{% endif %}
+
+{% if edit_success %}
+	<div class='col-md-12'>
+		<div class="alert alert-info alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+				<strong>Hey!</strong> {{ edit_success }}
 		</div>
 	</div>
 {% endif %}

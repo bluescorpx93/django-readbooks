@@ -21,21 +21,39 @@
 {% endif %}
 
 {% if user_type == 'Reader' %}
-<div class='col-md-10 col-md-offset-1 ' style='margin-top:3%;'>
+<div class='col-md-12 ' style='margin-top:3%;'>
 
-	{% if success %}
-	<div class='col-md-12'>
-		<div class="alert alert-success alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-				<strong>Hey!</strong> {{ success }}
-		</div>
+	<div class='col-md-8 well' id = "new_group_form" >
+	<h3 class='text-center pad-bottom'> New Group</h3>
+		<form class='form-horizontal' action="/readbooks/add_group/" method='post'>
+		{% csrf_token %}
+			<div class='form-group'>
+				<label for ="id_group_name" class='control-label col-md-3 '> Name </label>
+				<div class='col-md-8'>
+					<input type="text" class='form-control' required="true" id="id_group_name" placeholder=" Group Name" name='group_name'/>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for ="id_group_description" class='control-label col-md-3 '> Description </label>
+				<div class='col-md-8'>
+					<input type="text" class='form-control' required="true" id="id_group_description" placeholder=" What's the Genre's Tagline" name='group_description'/>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for ="id_group_picture" class='control-label col-md-3 '> Cover Photo </label>
+				<div class='col-md-8'>
+					<input type="file" class='form-control' required="true" id="id_group_picture" name='group_picture'/>
+				</div>
+			</div>
+			<div class='form-group'	>
+				<button type='submit' id= "group_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Group</button>	
+			</div>
+		</form>	
 	</div>
-	{% endif %}
-
 
 	<div class='col-md-8 well' id = "new_genre_form" >
 	<h3 class='text-center pad-bottom'> New Genre</h3>
-		<form class='form-horizontal' action="/readbooks/add_genre_bf/" method='post'>
+		<form class='form-horizontal' action="/readbooks/add_genre/" method='post'>
 		{% csrf_token %}
 			<div class='form-group'>
 				<label for ="id_genre_name" class='control-label col-md-3 '> Name </label>
@@ -51,7 +69,7 @@
 
 	<div class='col-md-8 well' id = "new_publisher_form" >
 	<h3 class='text-center pad-bottom'> New Publisher</h3>
-		<form class='form-horizontal' action="/readbooks/add_publisher_bf/" method='post'>
+		<form class='form-horizontal' action="/readbooks/add_publisher/" method='post'>
 		{% csrf_token %}
 			<div class='form-group'>
 				<label for ="id_publisher_name" class='control-label col-md-3 '>  Name </label>
@@ -86,7 +104,7 @@
 
 	<div class='col-md-8 well' id = "new_author_form" >
 	<h3 class='text-center pad-bottom'> New Author</h3>
-		<form class='form-horizontal' action="/readbooks/add_author_bf/" method='post'>
+		<form class='form-horizontal' action="/readbooks/add_author/" method='post'>
 		{% csrf_token %}
 			<div class='form-group'>
 				<label for ="id_first_name" class='control-label col-md-3 '> First Name </label>
@@ -143,7 +161,7 @@
 	
 	<div class='col-md-8 well' id = "new_book_form" >
 		<h3 class='text-center pad-bottom'> New Book</h3>
-		<form class='form-horizontal' action="/readbooks/add_book_bf/" method='post'>
+		<form class='form-horizontal' action="/readbooks/add_book/" method='post'>
 		{% csrf_token %}
 			<div class='form-group'>
 				<label for ="new_booktitle" class='control-label col-md-3 '> Title </label>
@@ -208,24 +226,35 @@
 	</div>
 
 	<div class='col-md-4'>
-		<div class='col-md-12 well'>
-			<h5 class='text-capitalize text-center'>Currently existing </h5>
-			<div class='well col-md-6'> <h5> Books: {{ all_books_count }} </h5> </div>
-			<div class='well col-md-6'> <h5> Authors: {{ all_authors_count }} </h5> </div>
-			<div class='well col-md-6'> <h5> Publishers: {{ all_publishers_count }} </h5> </div> 
-			<div class='well col-md-6'> <h5>Genres: {{ all_genre_count }} </h5>  </div>
-		</div>
+
 		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="book_form_btn"> <h5> <i class="fa fa-book iconspace"></i> Add Book </h5> </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="current_stats_btn"> <h4> <i class="fa fa-area-chart iconspace"></i> Current Stats </h5> </button> 
 		</div>
-		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="author_form_btn"> <h5> <i class="fa fa-user iconspace"></i> Add Author </h5> </button> 
+
+		<div class='col-md-12 well text-center' id='currents_stats_div'>
+			<div class='well col-md-12'> <h5> Books: {{ all_books_count }} </h5> </div>
+			<div class='well col-md-12'> <h5> Authors: {{ all_authors_count }} </h5> </div>
+			<div class='well col-md-12'> <h5> Groups: {{ all_groups_count }} </h5></div>
+			<div class='well col-md-12'> <h5> Publishers: {{ all_publishers_count }} </h5> </div> 
+			<div class='well col-md-12'> <h5> Genres: {{ all_genre_count }} </h5>  </div>
 		</div>
-		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="publisher_form_btn"> <h5> <i class="fa fa-leanpub iconspace"></i> Add Publisher </h5> </button> 
-		</div>
-		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="genre_form_btn"> <h5> <i class="fa fa-filter iconspace"></i> Add Genre </h5> </button> 
+
+		<div id="all_form_btns_div">
+			<div class='col-md-12 pad-zero' >
+				<button type="button" class="btn btn-block btn-info btnsize2" id="book_form_btn"> <h5> <i class="fa fa-book iconspace"></i> Book </h5> </button> 
+			</div>
+			<div class='col-md-12 pad-zero' >
+				<button type="button" class="btn btn-block btn-info btnsize2" id="author_form_btn"> <h5> <i class="fa fa-user iconspace"></i> Author </h5> </button> 
+			</div>
+			<div class='col-md-12 pad-zero' >
+				<button type="button" class="btn btn-block btn-info btnsize2" id="group_form_btn"> <h5> <i class="fa fa-group iconspace"></i> Group </h5> </button> 
+			</div>
+			<div class='col-md-12 pad-zero' >
+				<button type="button" class="btn btn-block btn-info btnsize2" id="publisher_form_btn"> <h5> <i class="fa fa-leanpub iconspace"></i> Publisher </h5> </button> 
+			</div>
+			<div class='col-md-12 pad-zero' >
+				<button type="button" class="btn btn-block btn-info btnsize2" id="genre_form_btn"> <h5> <i class="fa fa-filter iconspace"></i> Genre </h5> </button> 
+			</div>
 		</div>
 
 	</div>
@@ -236,96 +265,8 @@
 	 <option id="date_format" value="yy-mm-dd">ISO 8601 - yy-mm-dd</option>
 </select>
 {% endif %}
-<script>
-$(document).ready(function(){
-	$("#datepicker").datepicker();
-	$("#datepicker").datepicker("option", "dateFormat", $("#date_format").val());
-	$("#datepicker_book").datepicker();
-	$("#datepicker_book").datepicker("option", "dateFormat", $("#date_format").val());
 
-	$("#new_author_form").hide();
-	$("#new_genre_form").hide();
-	$("#new_publisher_form").hide();
+<script type="text/javascript" src="{% static 'extended/add_5reader_options.js' %}"></script>
 
-	$("#book_form_btn").click(function(){
-		$("#new_book_form").toggle("fade");
-		$("#new_author_form").hide();
-		$("#new_genre_form").hide();
-		$("#new_publisher_form").hide();
-	});
-
-	$("#author_form_btn").click(function(){
-		$("#new_author_form").toggle("fade");
-		$("#new_book_form").hide();
-		$("#new_genre_form").hide();
-		$("#new_publisher_form").hide();
-	});
-
-	$("#publisher_form_btn").click(function(){
-		$("#new_publisher_form").toggle("fade");
-		$("#new_book_form").hide();
-		$("#new_genre_form").hide();
-		$("#new_author_form").hide();
-	});
-
-	$("#genre_form_btn").click(function(){
-		$("#new_genre_form").toggle("fade");
-		$("#new_book_form").hide();
-		$("#new_publisher_form").hide();
-		$("#new_author_form").hide();
-	});
-
-	// $("#author_submit_btn").click(function(){
-	// 	if (!allowSubmit)	{
-	// 	// 	e.preventDefault();
-	// 		preview_author_data();
-	// 		allowSubmit = true;
-	// 	// }
-	// 	}
-
-	// });
-
-
-	function preview_author_data(){
-		var first_name = $('input[name="first_name"]').val();
-		var label_first_name=$('label[for="id_first_name"]').text();
-		var last_name = $('input[name="last_name"]').val();
-		var label_last_name=$('label[for="id_last_name"]').text();
-		var name_data = '<h2>' + label_first_name + '<strong>' + first_name + '</strong></h3><h3>' + label_last_name + '<strong>' + last_name + '</strong></h2>';
-
-		var bio = $('input[name="bio"]').val();
-		var label_bio = $('label[for="id_bio"]').text();
-		var bio_data = '<h4>' + label_bio + '<strong>' + bio + '</strong></h4>';
-
-		var gender = $('input[type="radio"]:checked').val();
-		var label_gender =$('label[for="gender_choices"]').text();
-
-		var gender_val='Undefined';
-		if (gender=='Female'){ gender_val='Female';} else if (gender=='Male'){ gender_val='Male';}
-
-		var gender_data = '<h4>'+label_gender+'<strong>'+gender_val+'</strong></h4>';
-
-		var date_of_birth = $('input[name="date_of_birth"]').val();
-		var label_date_of_birth = $('label[for="datepicker"]').text();
-		var dob_data = '<h4>'+'label_date_of_birth'+'<strong>'+date_of_birth+'</strong></h4>';
-
-		var author_data = name_data+bio_data+gender_data+dob_data;
-
-		// $('#preview_author_data').html('');
-		$('#preview_author_data').append(author_data);
-
-		$('#preview_author_data').dialog({
-			modal:true,
-			buttons:{
-				OK: function(){
-					$(this).dialog("close");
-				} 
-			}
-		});
-	}	
-
-
- });
-</script>
 
 {% endblock %}

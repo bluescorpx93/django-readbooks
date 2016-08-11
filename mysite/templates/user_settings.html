@@ -7,26 +7,8 @@
 <style> .common_height{ height:70%;} </style>
 
 <div class='col-md-10 col-md-offset-1 '>
-{% if success %}
-<div class='col-md-12'>
-	<div class="alert alert-success alert-dismissible" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-			<strong>Hey!</strong> {{ success }}
-	</div>
-</div>
-{% endif %}
-
-{% if problem %}
-<div class='col-md-12'>
-	<div class="alert alert-danger alert-dismissible" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-			<strong>Oops!</strong> {{ problem }}
-	</div>
-</div>
-{% endif %}
-
 	<div class='col-md-6 well bordrad-zero common_height' style='margin-top:5%;'>
-		<form class='form-horizontal' role='form' name='userinfo_form' action='.' method='POST'>
+		<form class='form-horizontal' role='form' name='userinfo_form' action='/readbooks/settings/' method='POST'>
 		{% csrf_token %}
 			<div class='form-group col-md-12 '>
 				<legend class='text-uppercase' style=' padding-top:3%;'> Personal Details </legend>

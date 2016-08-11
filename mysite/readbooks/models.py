@@ -64,6 +64,10 @@ class Publisher(models.Model):
 		ordering=	['name']
 	def __str__(self):
 		return self.name
+	@classmethod
+	def create(cls, name):
+		publisher = cls(name=name)
+		return publisher
 
 class Genre(models.Model):
 	name  =	models.CharField(max_length=256)
@@ -73,6 +77,10 @@ class Genre(models.Model):
 		ordering= ['name']
 	def __str__(self):
 		return self.name
+	@classmethod
+	def create(cls, name):
+		genre = cls(name=name)
+		return genre
 
 class Book(models.Model):
 	title	=	models.CharField(max_length=256)
@@ -104,6 +112,10 @@ class Group(models.Model):
 		ordering = ['name']
 	def __str__(self):
 		return self.name
+	@classmethod
+	def create(cls, name):
+		group = cls(name=name)
+		return group
 
 class Review(models.Model):
 	critic	=	models.ForeignKey(Critic, on_delete=models.CASCADE)

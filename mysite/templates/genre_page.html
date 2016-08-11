@@ -3,28 +3,36 @@
 {% block body %}
 <style>
 .pad-right{ padding-right: 3%;}
-.well{margin:0;}
+
 .iconspace { padding-right: 2%;} 
 .btnsize1 { height:7%; border-radius: 0;}
 .btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
 .pic-container{ background-color: #f5f5f5; height:30%;border:0;padding:4% 0 2% 0;}
 .pad-zero{padding:0;}
 </style>
-	<div class= "col-md-10 col-md-offset-1 pad-zero" >
-		{% for book in books_by_genre_obj %}
-		<div class=' col-md-3'>
-			<div class="pic-container">
-				<img src="{{ MEDIA_URL }}/{{ book.cover_picture }}" class="img-responsive image-fit-frame"/>
-			</div>
-			<div class='well bordrad-zero text-center'>
-				<a href="/readbooks/book/{{ book.id }}">	<h5> <i class='fa fa-book'></i> {{ book.title }} </h5> </a>
-			</div>			
+<div class= "col-md-10 col-md-offset-1 pad-zero" >
+	{% if create_new %}
+	<div class='col-md-12'>
+		<div class="alert alert-info alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+				<strong>Hey!</strong> {{ create_new }}
 		</div>
-		{% endfor %}
-		
-		{% if not books_by_genre_obj %}
-			<h5 style='padding:2%'> Sorry, no books in this genre. Try another genre maybe?</h5>
-		{% endif %}
 	</div>
+	{% endif %}
+	{% for book in books_by_genre_obj %}
+	<div class=' col-md-3'>
+		<div class="pic-container">
+			<img src="{{ MEDIA_URL }}/{{ book.cover_picture }}" class="img-responsive image-fit-frame"/>
+		</div>
+		<div class='well bordrad-zero text-center'>
+			<a href="/readbooks/book/{{ book.id }}">	<h5> <i class='fa fa-book'></i> {{ book.title }} </h5> </a>
+		</div>			
+	</div>
+	{% endfor %}
+	
+	{% if not books_by_genre_obj %}
+		<h5 style='padding:2%'> Sorry, no books in this genre. Try another genre maybe?</h5>
+	{% endif %}
+</div>
 
 {% endblock %}
