@@ -15,6 +15,7 @@ urlpatterns	= [
 	url(r'^messages/$', views.messages, name='messages_url'),
 	url(r'^add_review/$', views.add_review, name='add_review_url'), 
 	url(r'^edit_review/$', views.edit_review, name='edit_review_url'),
+	url(r'^delete_review/$', views.delete_review, name='delete_review_url'),
 	url(r'^home/$', views.readbooks_index, name='readbooks_index_url'),
 	url(r'^search/$', views.search,	name='search_url'),
 	url(r'^new/$', views.list_recent_models, name='list_recent_models_url'),

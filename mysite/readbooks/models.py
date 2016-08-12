@@ -140,6 +140,7 @@ class Reader(models.Model):
 	user = models.ForeignKey(User)
 	user_type= models.CharField(max_length=6, default="Reader")
 	first_name	=	models.CharField(max_length=256)
+	bio = models.CharField(max_length=1000)
 	last_name	=	models.CharField(max_length=256)
 	gender_choices	= 	(('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other'))
 	gender = models.CharField(max_length=6, choices=gender_choices)

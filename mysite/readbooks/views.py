@@ -48,9 +48,9 @@ def search(request):
 	return render(request, 'search.html')
 
 @login_required
-def list_recent_models(request):
+def list_recent_models(request, delete_message=None):
 	return render(request,	'list_recent_objects.html', { 
-	'recent_books': models.Book.objects.all().order_by('-id')[:4], 'recent_authors': models.Author.objects.all().order_by('-id')[:4], 	'recent_reviews': models.Review.objects.all().order_by('-id')[:4], 	'recent_groups': models.Group.objects.all().order_by('-id')[:4],	'recent_topics': models.Topic.objects.all().order_by('-id')[:10],})
+	'recent_books': models.Book.objects.all().order_by('-id')[:4], 'recent_authors': models.Author.objects.all().order_by('-id')[:4], 	'recent_reviews': models.Review.objects.all().order_by('-id')[:4], 	'recent_groups': models.Group.objects.all().order_by('-id')[:4],	'recent_topics': models.Topic.objects.all().order_by('-id')[:10], 'delete_news':delete_message, })
 
 @login_required
 def show_book_by_id(request, book_id, create_message=None):
@@ -81,14 +81,14 @@ def show_publisher_by_id(request, publisher_id, create_message=None):
 	return render(request, 'publisher_profile.html', { 'publisher_obj': publisher_obj, 'books_by_publisher_obj': books_by_publisher_obj, 'create_new': create_message})
 
 @login_required
-def show_reader_by_id(request, reader_id, create_message=None, ):
+def show_reader_by_id(request, reader_id, update_message=None, ):
 	try:
 		reader_obj =models.Reader.objects.get(id=int(reader_id))
 		reader_obj_age = calculate_age(reader_obj.date_of_birth)
 		currentbooks_by_reader_obj = models.ReadersCurrentlyRead.objects.filter(reader=int(reader_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'reader_profile.html', { 'reader_obj': reader_obj, 'reader_obj_age': reader_obj_age, 'currentbooks_by_reader_obj': currentbooks_by_reader_obj, 'create_new': message,})
+	return render(request, 'reader_profile.html', { 'reader_obj': reader_obj, 'reader_obj_age': reader_obj_age, 'currentbooks_by_reader_obj': currentbooks_by_reader_obj, 'edit_success': update_message,})
 
 @login_required
 def show_critic_by_id(request, critic_id, update_message=None):
@@ -169,6 +169,9 @@ def sitelogout(request):
 def messages(request):
 	return render(request, 'messages.html')
 
+def reader_upload_dir(instance, filename):
+	return 'profile_pics/readers/reader_{0}/{1}'.format(instance.id, filename)
+
 @login_required
 def update_userinfo(request):
 	if reader_or_critic(request.user.id) == 'Reader':
@@ -182,8 +185,8 @@ def update_userinfo(request):
 		loggedProfile.bio = request.POST['userbio']
 		loggedProfile.gender = request.POST['usergender']
 		loggedProfile.date_of_birth = request.POST['userdob']
-		# image_location=user_upload_dir(loggeduserprofile, request.POST.get('userprofilepic'))
-		loggedProfile.profile_picture = request.POST['userprofilepic']
+		loggedProfile.profile_picture=request.FILES.get('userprofilepic')
+		# loggedProfile.profile_picture = image_location
 		loggedProfile.save()
 		if reader_or_critic(request.user.id) == 'Reader':
 			return show_reader_by_id(request, loggedProfile.id, update_message="Profile Updated!")
@@ -297,3 +300,9 @@ def add_group(request):
 	newgroup.group_description = request.POST['group_description']
 	newgroup.save()
 	return show_group_by_id(request, newgroup.id, create_message="New Group Added!")
+
+@login_required
+def delete_review(request):
+	review_to_delete = models.Review.objects.get(id=request.POST['review_id'])
+	review_to_delete.delete()
+	return list_recent_models(request, delete_message="Review Deleted!")

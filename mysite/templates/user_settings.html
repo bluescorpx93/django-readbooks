@@ -48,13 +48,13 @@
 			<div class='form-group col-md-12'>
 				<label for= 'userinfo-dob' class='col-md-4 control-label '> Birthday </label>
 				<div class='col-md-8'>
-					<input type="text" class='form-control' name="userdob" id="datepicker" value='{{ loggedProfile.date_of_birth|date:"c" }}'>			
+					<input type="text" required="true" class='form-control' name="userdob" id="datepicker" value='{{ loggedProfile.date_of_birth|date:"c" }}'>			
 				</div>
 			</div>
 			<div class='form-group col-md-12'>
 				<label for= 'userprofilepic' class='col-md-4 control-label pull-left'> Profile Picture </label>
 				<div class="col-md-8">
-					<input type='file' id='userprofilepic' enctype="multipart/form-data" name='userprofilepic' />
+					<input type='file' id='userprofilepic' enctype="multipart/form-data" name='userprofilepic' value='file.src' />
 				</div>
 			</div>
 			<div class='form-group'>
