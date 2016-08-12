@@ -3,19 +3,19 @@ from datetime import date, datetime
 from django.contrib.auth.models import User
 
 def user_upload_dir(instance, filename):
-	return 'profile_pics/users/user_{0}/{1}'.format(instance.id, filename)
+	return 'users/user_{0}/{1}'.format(instance, filename)
 def author_upload_directory(instance, filename):
-	return 'profile_pics/authors/author_{0}/{1}'.format(instance.id, filename)
+	return 'authors/author_{0}/{1}'.format(instance, filename)
 def critic_upload_directory(instance, filename):
-	return 'profile_pics/critics/critic_{0}/{1}'.format(instance.id, filename)
+	return 'critics/critic_{0}/{1}'.format(instance, filename)
 def reader_upload_directory(instance, filename):
-	return 'profile_pics/readers/reader_{0}/{1}'.format(instance.id, filename)
+	return 'readers/reader_{0}/{1}'.format(instance, filename)
 def book_upload_directory(instance, filename):
-	return 'cover_pics/books/book_{0}/{1}'.format(instance.id, filename)
+	return 'books/book_{0}/{1}'.format(instance, filename)
 def group_upload_directory(instance, filename):
-	return 'cover_pics/groups/group_{0}/{1}'.format(instance.id, filename)
+	return 'groups/group_{0}/{1}'.format(instance, filename)
 def publisher_upload_directory(instance, filename):
-	return 'cover_pics/publishers/publisher_{0}/{1}'.format(instance.id, filename)
+	return 'publishers/publisher_{0}/{1}'.format(instance, filename)
 
 class Author(models.Model):
 	first_name	=	models.CharField(max_length=256)
@@ -90,7 +90,7 @@ class Book(models.Model):
 	genre	=	models.ManyToManyField(Genre)
 	reviews	=	models.ManyToManyField(Critic, through='Review')
 	book_synopsis = models.CharField(max_length=256)
-	cover_picture	=	models.ImageField(upload_to=book_upload_directory)
+	cover_picture	=	models.ImageField(upload_to=book_upload_directory, blank=True)
 	upvotes = models.IntegerField(default=0)
 	downvotes = models.IntegerField(default=0)
 	class Meta:

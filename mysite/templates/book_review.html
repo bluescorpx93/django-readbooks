@@ -159,7 +159,7 @@
 	<div class='col-md-4' id="critic_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero'>
 			<div class='pic-container '>
-				<img src="{{ MEDIA_URL }}/{{ review_obj.critic.profile_picture }}" class='img-responsive image-fit-frame' />
+				<img src="/media/{{ review_obj.critic.profile_picture }}" class='img-responsive image-fit-frame' />
 			</div>	
 			<div class='col-md-12 pad-zero'>
 				<a href="/readbooks/critic/{{ review_obj.critic.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-user iconspace'></i> {{ review_obj.critic.first_name }} {{ review_obj.critic.last_name }}</button> </a>
@@ -170,7 +170,7 @@
 	<div class='col-md-4' id="book_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero'	>
 			<div class='pic-container '>
-				<img src="{{ MEDIA_URL }}/{{ review_obj.book.cover_picture }}" class='img-responsive image-fit-frame' />
+				<img src="/media/{{ review_obj.book.cover_picture }}" class='img-responsive image-fit-frame' />
 			</div>
 			<div class='col-md-12 pad-zero'>
 				<a href="/readbooks/book/{{ review_obj.book.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-book iconspace'></i> {{ review_obj.book.title }}</button> </a>

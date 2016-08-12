@@ -9,9 +9,6 @@ from django.db import IntegrityError
 from datetime import date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-def user_upload_dir(instance, filename):
-	return 'profile_pics/users/user_{0}/{1}'.format(instance.id, filename)
-
 def calculate_age(dob):
     today = date.today()
     return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
@@ -141,6 +138,7 @@ def show_genre_by_id(request, genre_id, create_message=None):
 	try:
 		genre_obj = models.Genre.objects.get(id=int(genre_id))
 		books_by_genre_obj = models.Book.objects.filter(genre=int(genre_id))
+		num_book_matches = books_by_genre_obj.count()
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
 	paginator = Paginator(books_by_genre_obj, 16)
@@ -151,7 +149,7 @@ def show_genre_by_id(request, genre_id, create_message=None):
 		books_by_genre_obj = paginator.page(1)
 	except EmptyPage:
 		books_by_genre_obj = paginator.page(paginator.num_pages)
-	return render(request, 'genre_page.html', {'genre_obj': genre_obj, 'books_by_genre_obj': books_by_genre_obj, 'create_new': create_message, 'books_by_genre_obj': books_by_genre_obj,})
+	return render(request, 'genre_page.html', {'genre_obj': genre_obj, 'books_by_genre_obj': books_by_genre_obj, 'create_new': create_message, 'books_by_genre_obj': books_by_genre_obj, 'num_book_matches': num_book_matches,})
 
 def sitelogin(request):
 	if (request.method == 'POST'):
@@ -178,9 +176,6 @@ def sitelogout(request):
 def messages(request):
 	return render(request, 'messages.html')
 
-def reader_upload_dir(instance, filename):
-	return 'profile_pics/readers/reader_{0}/{1}'.format(instance.id, filename)
-
 @login_required
 def account_info(request, success_message=None, error_message=None):
 	if reader_or_critic(request.user.id) == 'Reader':
@@ -196,14 +191,14 @@ def update_userinfo(request):
 		loggedProfile =models.Reader.objects.get(user_id=request.user.id)
 	else:
 		loggedProfile =  models.Critic.objects.get(user_id=request.user.id)
-	context_dict = {'loggedProfile': loggedProfile, 'user_type':reader_or_critic(request.user.id), 'success_message':success_message, 'error_message': error_message}
+	context_dict = {'loggedProfile': loggedProfile, 'user_type':reader_or_critic(request.user.id),}
 	if request.method=='POST':
 		loggedProfile.first_name=request.POST['userfirstname']
 		loggedProfile.last_name=request.POST['userlastname']
 		loggedProfile.bio = request.POST['userbio']
 		loggedProfile.gender = request.POST['usergender']
 		loggedProfile.date_of_birth = request.POST['userdob']
-		loggedProfile.profile_picture=request.FILES.get('userprofilepic')
+		loggedProfile.profile_picture=request.FILES['userprofilepic']
 		# loggedProfile.profile_picture = image_location
 		loggedProfile.save()
 		if reader_or_critic(request.user.id) == 'Reader':
@@ -244,7 +239,7 @@ def register(request):
 
 @login_required
 def add(request):
-	return render (request, 'add.html', {'all_authors': models.Author.objects.all(), 'all_authors_count': models.Author.objects.all().count(), 'all_genres': models.Genre.objects.all(), 'all_genre_count': models.Genre.objects.all().count(), 'all_publishers': models.Publisher.objects.all(),	'all_publishers_count': models.Publisher.objects.all().count(), 'all_groups_count': models.Group.objects.all().count(), 'all_books_count': models.Book.objects.all().count(),'user_type':reader_or_critic(request.user.id)})
+	return render (request, 'add.html', {'all_authors': models.Author.objects.all(), 'all_authors_count': models.Author.objects.all().count(), 'all_genres': models.Genre.objects.all(), 'all_genre_count': models.Genre.objects.all().count(), 'all_publishers': models.Publisher.objects.all(),	'all_publishers_count': models.Publisher.objects.all().count(), 'all_groups_count': models.Group.objects.all().count(), 'all_books_count': models.Book.objects.all().count(),'user_type':reader_or_critic(request.user.id), 'author_form': forms.AddAuthorForm(),})
 
 @login_required
 def add_book(request):
@@ -270,7 +265,7 @@ def add_author(request):
 		newauthor.bio=request.POST['bio']
 		newauthor.gender=request.POST['gender']
 		newauthor.date_of_birth=request.POST['date_of_birth']
-		newauthor.profile_picture=request.POST['profile_picture']
+		newauthor.profile_picture=request.FILES['profile_picture']
 		newauthor.save()
 		return show_author_by_id(request, newauthor.id, create_message="New Author Added!")
 
@@ -299,7 +294,7 @@ def add_publisher(request):
 	new_publisher = models.Publisher.create(name=request.POST['publisher_name'])
 	new_publisher.address = request.POST['publisher_address']	
 	new_publisher.website = request.POST['publisher_website']
-	new_publisher.cover_picture = request.POST['publisher_cover_photo']
+	new_publisher.cover_picture = request.FILES['publisher_cover_photo']
 	new_publisher.save()
 	return show_publisher_by_id(request, new_publisher.id, create_message="New Publisher Added!")
 
@@ -312,7 +307,7 @@ def add_genre(request):
 @login_required
 def add_group(request):
 	newgroup = models.Group.create(name=request.POST['group_name'])
-	newgroup.cover_photo = request.POST['group_picture']
+	newgroup.cover_photo = request.FILES['group_picture']
 	newgroup.group_description = request.POST['group_description']
 	newgroup.save()
 	return show_group_by_id(request, newgroup.id, create_message="New Group Added!")

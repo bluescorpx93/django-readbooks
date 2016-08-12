@@ -68,7 +68,7 @@
 	<div class='col-md-6' style="height:100%;">
 		<button id="personal_details_btn" type="button" class="btn btn-block btnsize2 btn-primary"><i class="fa fa-gear iconspace"></i> Update Profile</button>
 		<div class='col-md-12 well bordrad-zero' id="personal_details_form">
-			<form class='form-horizontal' role='form' name='userinfo_form' action='/readbooks/update_info/' method='POST'>{% csrf_token %}
+			<form class='form-horizontal' role='form' name='userinfo_form' enctype="multipart/form-data" action='/readbooks/update_info/' method='POST'>{% csrf_token %}
 				<fieldset>
 					<div class='form-group col-md-12 '>
 						<legend class='text-uppercase text-center' style=' padding-top:3%;'> Personal Details </legend>
@@ -111,7 +111,7 @@
 					<div class='form-group col-md-12'>
 						<label for= 'userprofilepic' class='col-md-4 control-label pull-left'> Avatar </label>
 						<div class="col-md-8">
-							<input type='file' id='userprofilepic' enctype="multipart/form-data" name='userprofilepic' value='file.src' />
+							<input type='file' id='userprofilepic' name='userprofilepic' />
 						</div>
 					</div>
 					<div class='form-group'>

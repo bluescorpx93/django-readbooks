@@ -23,7 +23,7 @@
 <div class='col-md-11 col-md-offset-1' style='margin-top:2%;'>
 	<div class='col-md-8 well' id = "new_group_form" >
 		<h3 class='text-center pad-bottom'> New Group</h3>
-		<form class='form-horizontal' action="/readbooks/add_group/" method='post'>{% csrf_token %}
+		<form class='form-horizontal' action="/readbooks/add_group/" enctype="multipart/form-data" method='post'>{% csrf_token %}
 			<fieldset>
 				<div class='form-group'>
 					<label for ="id_group_name" class='control-label col-md-3 '> Name </label>
@@ -69,7 +69,7 @@
 
 	<div class='col-md-8 well' id = "new_publisher_form" >
 		<h3 class='text-center pad-bottom'> New Publisher</h3>
-		<form class='form-horizontal' action="/readbooks/add_publisher/" method='post'>{% csrf_token %}
+		<form class='form-horizontal' action="/readbooks/add_publisher/" enctype="multipart/form-data" method='post'>{% csrf_token %}
 			<fieldset>
 				<div class='form-group'>
 					<label for ="id_publisher_name" class='control-label col-md-3 '>  Name </label>
@@ -104,7 +104,7 @@
 
 	<div class='col-md-8 well' id = "new_author_form" >
 		<h3 class='text-center pad-bottom'> New Author</h3>
-		<form class='form-horizontal' action="/readbooks/add_author/" method='post'>{% csrf_token %}
+		<form class='form-horizontal' action="/readbooks/add_author/" enctype="multipart/form-data" method='post'>{% csrf_token %}
 			<fieldset>
 				<div class='form-group'>
 					<label for ="id_first_name" class='control-label col-md-3 '> First Name </label>
@@ -144,7 +144,7 @@
 				<div class='form-group'>
 					<label for= 'id_profile_picture' class='col-md-3 control-label'> Profile Picture </label>
 					<div class="col-md-8">
-						<input type='file' id='id_profile_picture' enctype="multipart/form-data" name='profile_picture'/>
+						<input type='file' id='id_profile_picture' name='profile_picture'/>
 					</div>
 				</div>
 				<div class='form-group'	>
@@ -160,7 +160,7 @@
 				
 	<div class='col-md-8 well pad-zero' id = "new_book_form" >
 		<h3 class='text-center pad-bottom'> New Book</h3>
-		<form class='form-horizontal' action="/readbooks/add_book/" method='post'>	{% csrf_token %}
+		<form class='form-horizontal' action="/readbooks/add_book/" enctype="multipart/form-data" method='post'>	{% csrf_token %}
 			<fieldset>
 				<div class='form-group'>
 					<label for ="new_booktitle" class='control-label col-md-3 '> Title </label>
@@ -209,7 +209,7 @@
 				<div class='form-group'>
 					<label for ="add_bookcover" class='control-label  col-md-3 '> Cover Pic</label>
 					<div class='col-md-8'>
-						<input type='file' name="add_bookcover"  placeholder="Set a nice cover for this book">
+						<input type='file' name="add_bookcover" placeholder="Set a nice cover for this book">
 					</div>
 				</div>
 				<div class='form-group'>
@@ -219,7 +219,7 @@
 					</div>
 				</div>
 				<div class='form-group'	>
-					<button type='submit' id= "book_submit_btn"class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 2%;'> Add Book</button>	
+					<button type='submit' id= "book_submit_btn" class='btn btn-primary btn-lg bordrad-zero'  style='margin-left:40%; margin-top: 2%;'> Add Book</button>	
 				</div>
 			</fieldset>	
 		</form>	

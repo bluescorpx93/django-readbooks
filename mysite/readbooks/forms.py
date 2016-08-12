@@ -1,20 +1,12 @@
 from django import forms
-from models import *
+from readbooks import models
 
 class AddAuthorForm(forms.ModelForm):
 	class Meta:
-		model = Author
-		fields = ['first_name', 'last_name', 'bio', 'date_of_birth', 'gender', 'profile_picture' ]
+		model = models.Author
+		fields = ['profile_picture']
 
 class AddReviewForm(forms.ModelForm):
 	class Meta:
-		model = Review
+		model = models.Review
 		fields = ['heading', 'status','book', 'review',]
-
-class UserPassChangeForm(forms.Form):
-	currentPass = forms.CharField(widget=forms.PasswordInput)
-	newPass1 = forms.CharField(widget=forms.PasswordInput)
-	newPass2 = forms.CharField(widget=forms.PasswordInput)
-	# class Meta:
-	# 	model=models.User
-	# 	fields = ['password']
