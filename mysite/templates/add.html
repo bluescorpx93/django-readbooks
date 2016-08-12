@@ -5,8 +5,7 @@
 <link href="{% static 'jquery/jquery-ui.css' %}" rel="stylesheet">
 
 <style>
-.pad-right{ padding-right: 3%;}
-.pad-bottom{padding-bottom: 5%;}
+.pad-bottom{padding-bottom: 1%;}
 .well {	margin:0; }
 .iconspace { padding-right: 2%;} 
 .btnsize1 { height:7%;}
@@ -21,7 +20,7 @@
 {% endif %}
 
 {% if user_type == 'Reader' %}
-<div class='col-md-12 ' style='margin-top:3%;'>
+<div class='col-md-11 col-md-offset-1' style='margin-top:2%;'>
 
 	<div class='col-md-8 well' id = "new_group_form" >
 	<h3 class='text-center pad-bottom'> New Group</h3>
@@ -159,7 +158,7 @@
 				
 
 	
-	<div class='col-md-8 well' id = "new_book_form" >
+	<div class='col-md-8 well pad-zero' id = "new_book_form" >
 		<h3 class='text-center pad-bottom'> New Book</h3>
 		<form class='form-horizontal' action="/readbooks/add_book/" method='post'>
 		{% csrf_token %}

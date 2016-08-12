@@ -9,8 +9,10 @@ from readbooks import urls
 urlpatterns = [
 	url(r'^readbooks/admin/',  include(admin.site.urls),   name='admin_url'),
 	url(r'^readbooks/',    include(urls)),
-	url(r'^media/(?P<path>.*)$', views.static.serve, static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  ),
 
 	]  +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# if settings.DEBUG:
+# 	urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()

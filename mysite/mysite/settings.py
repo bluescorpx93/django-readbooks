@@ -8,7 +8,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -92,12 +91,14 @@ USE_L10N = False
 
 USE_TZ = True
 
-STATICFILES_DIR=    (os.path.join(
-os.path.dirname(__file__), 'static'), )
+STATICFILES_DIR=  (os.path.join(os.path.dirname(__file__), 'static'), )
 STATIC_ROOT =   os.path.join(BASE_DIR, 'static')
 STATIC_URL =    '/static/'
+
 MEDIA_ROOT =    os.path.join(BASE_DIR, 'media')
-# MEDIAFILES_DIR= MEDIA_ROOT
 MEDIA_URL  =    '/media/'
 
 LOGIN_URL = '/readbooks/'
+
+# STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
+# STATICFILES_DIR = os.path.join(BASE_DIR, 'static')

@@ -4,10 +4,10 @@
 {% block body %}
 <link href="{% static 'extended/profile.css' %}" rel="stylesheet" >
 
-<div class='col-md-10 col-md-offset-1 '>
+<div class='col-md-10 col-md-offset-1 top-marg3 '>
 
 {% if edit_success %}
-	<div class='col-md-12'>
+	<div class='col-md-12 pad-zero'>
 		<div class="alert alert-info alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
 				<strong>Hey!</strong> {{ edit_success }}

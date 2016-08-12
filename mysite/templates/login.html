@@ -4,131 +4,135 @@
 	<title> Login </title>
 	<script type="text/javascript" src="{% static 'jquery/jquery-2.2.4.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-	<link href="{% static 'bootstrap/css/bootstrap.min.css' %}"	rel="stylesheet" >
+	<link href="{% static 'cosmo-bootstrap/bootstrap.min.css' %}"	rel="stylesheet" >
+	<link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" >
+
+	<!-- <link href="{% static 'bootstrap/css/bootstrap.min.css' %}"	rel="stylesheet" > -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	<style>
-	#bg-image{position: fixed;top: 0; left: 0;	width: 100%;	height: 100%;	}
-	.login-div{ padding: 3%;	background-color:rgba(80, 48, 48, 0.3);	}
-	.signup-heading{text-align: center; color: #ffffff; padding:3%;}
-	.label-white{color:#ffffff;}
-	</style>
+<style>
+#bg-image{position: fixed;top: 0; left: 0;	width: 100%;	height: 100%;	}
+.login-div{ background-color: rgba(26, 26, 26, 0.4); }
+.signup-heading{text-align: center; color: #ffffff; padding:3%;}
+.label-white{color:#ffffff;}	
+.iconspace{padding: 0 7% 0 7%;}
+.alert-div{padding:0; margin: 5% 0 0 10%;}
+</style>
 
-	<img src="{% static 'images/login-book-stack.jpg' %}" id='bg-image' class='img-responsive'/>
-	<div class="col-md-4 col-md-offset-1" style="  margin-top: 10%;">
+<img src="{% static 'images/login-book.jpg' %}" id='bg-image' class='img-responsive'/>
+<div class="col-md-6" >
 
-		{% if problem %}
-			<div class='col-md-12'>
-				<div class="alert alert-danger alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-						<strong>Oops!</strong> {{ problem }} 
-				</div>
+	{% if problem %}
+		<div class='col-md-12 alert-div'>
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <strong>Oops!</strong> {{ problem }} 
 			</div>
-		{% endif %}
-
-		{% if warning %}
-			<div class='col-md-12'>
-				<div class="alert alert-warning alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-						<strong>Warning!</strong> {{ warning }} 
-				</div>
-			</div>
-		{% endif %}
-
-		{% if success %}
-			<div class='col-md-12'>
-				<div class="alert alert-success alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-						<strong>Yes!</strong> {{ success }} 
-				</div>
-			</div>
-		{% endif %}
-
-		<div class='col-md-12 login-div' id='signin-div'>
-			<form class='form-horizontal form-signin' id='signin-form' action="/readbooks/" role="form" method="POST">
-			{% csrf_token %}
-				<div class="form-group">
-					<h3 class='text-uppercase signup-heading'> Sign In </h3>
-					<label for='signin-input-email' class='col-sm-3 control-label label-white'> Email</label>
-					<div class='col-md-9'>
-						<input type='email' class='form-control' id='signin-input-email' placeholder='username@example.com' name="username" required="true"/>
-					</div>
-				</div>
-				<div class='form-group'>
-					<label for='signin-input-password' class='col-sm-3 control-label label-white'> Password</label>
-					<div class='col-md-9'>
-						<input type='password' class='form-control' id='signin-input-password' placeholder='' name="password" required="true"/>
-					</div>
-				</div>
-				<div class='form-group'>
-					<div class='col-md-12' style='padding-top:3%;'>
-						<button type='submit' class='btn btn-primary btn-block'> Sign In</button>
-					</div>
-				</div>
-				<div class='form-group' style='text-align: center; color: #ffffff; padding-top:4%;'>
-					<div class='col-md-6'>
-						<h4 > Not a Member? </h4>
-					</div>
-					<div class='col-md-6'>
-						<button type='button' class='btn btn-default' id="signup-from-login"> Sign Up</button>
-					</div>
-				</div>
-			</form>
 		</div>
+	{% endif %}
 
-		<div class='col-md-12 login-div' id='signup-div'>
-			<form class='form-horizontal' id='signup-form' action="/readbooks/register/" method="POST">
-			{% csrf_token %}
-				<div class='form-group'>
-					<h3 class='text-uppercase signup-heading'> Sign Up </h3>
-					<label for='signup_email' class='col-sm-3 control-label label-white'> Email</label>
-					<div class='col-md-9'>
-						<input type='email' class='form-control' id='signup_email' placeholder='username@example.com' name='signup_email' required="true" />
-					</div>
-				</div>
-				<div class='form-group'>
-					<label for="gender_choices" class="col-md-3 label-white control-label"> Gender</label>
-					<div class='col-md-9' id="gender_choices"> 
-						<div class='col-md-6'> 
-							<label for="gender_male" class='label-white' > <input id="gender_male" type='radio' name="gender" value="Male"> Male</label>							
-						</div>  
-						<div class='col-md-6'>
-							<label for="gender_female" class='label-white' > <input id="gender_female" type='radio' name="gender" value="Female"> Female</label>
-						</div>
-					</div>
-				</div>
-					<div class='form-group'>
-					<label for="account_choices" class="col-md-3 label-white control-label"> Account Type</label>
-					<div class='col-md-9' id="account_choices"> 
-						<div class='col-md-6'> 
-							<label for="account_critic" class='label-white' > <input id="account_critic" type='radio' name="account_type" value="Critic"> Critic</label>							
-						</div>  
-						<div class='col-md-6'>
-							<label for="account_reader" class='label-white' > <input id="account_reader" type='radio' name="account_type" value="Reader"> Reader</label>
-						</div>
-					</div>
-				</div>
-				<div class='form-group'>
-					<label for='signup_password1' class='col-sm-3 control-label' style='color:#ffffff;'> Password</label>
-					<div class='col-md-9'>
-						<input type='password' class='form-control' id='signup_password1' placeholder='' name='signup_password1' required="true"/>
-					</div>
-				</div>
-				<div class='form-group'>
-					<label for='signup_password2' class='col-sm-3 control-label' style='color:#ffffff;'> Confirm Password </label>
-					<div class='col-md-9'>
-						<input type='password' class='form-control' id='signup_password2' placeholder='' name='signup_password2' required="true"/>
-					</div>
-				</div>
-				<div class='form-group'>
-					<div class='col-md-12' style='padding-top:3%;'>
-						<button type='submit' class='btn btn-primary btn-block'> Register</button>
-					</div>
-				</div>
-			</form>
+	{% if warning %}
+		<div class='col-md-12 alert-div'>
+			<div class="alert alert-warning alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <strong>Warning!</strong> {{ warning }} 
+			</div>
 		</div>
+	{% endif %}
+
+	{% if success %}
+		<div class='col-md-12 alert-div'>
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <strong>Yes!</strong> {{ success }} 
+			</div>
+		</div>
+	{% endif %}
+
+	<div class='col-md-12 login-div' id='signin-div' style="margin:20% 0 0 10%; padding-bottom:5%;" >
+		<form class='form-horizontal form-signin' id='signin-form' action="/readbooks/" role="form" method="POST">
+		{% csrf_token %}
+			<div class="form-group">
+				<h3 class='text-uppercase signup-heading'> Sign In </h3>
+				<label for='signin-input-email' class='col-sm-3 control-label label-white'> Email</label>
+				<div class='col-md-8'>
+					<input type='email' class='form-control' id='signin-input-email' placeholder='username@example.com' name="username" required="true"/>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for='signin-input-password' class='col-sm-3 control-label label-white'> Password</label>
+				<div class='col-md-8'>
+					<input type='password' class='form-control' id='signin-input-password' placeholder='' name="password" required="true"/>
+				</div>
+			</div>
+			<div class='form-group'>
+				<div class='col-md-8 col-md-offset-3' style='padding-top:3%;'>
+					<button type='submit' class='btn btn-primary btn-block'> <i class='fa fa-chevron-right' style='padding-right:3%;'> </i>Sign In</button>
+					<div class='col-md-6' style='padding:10% 0 0 0;'>
+						<h4 style='color: #ffffff; '> Not a Member? </h4>				
+					</div>
+					<div class='col-md-6' style='padding:10% 0 0 0;'>
+						<button type='button' class='btn btn-default btn-block' id="signup-from-login"> <i class='fa fa-user-plus iconspace'> </i>Sign Up</button>
+					</div>
+				</div>
+			</div>
+		</form>
 	</div>
+
+	<div class='col-md-12 login-div' id='signup-div' style="margin: 10% 0 0 15%;">
+		<form class='form-horizontal' id='signup-form' action="/readbooks/register/" method="POST">
+		{% csrf_token %}
+			<div class='form-group'>
+				<h3 class='text-uppercase signup-heading'> Sign Up </h3>
+				<label for='signup_email' class='col-sm-3 control-label label-white'> Email</label>
+				<div class='col-md-8'>
+					<input type='email' class='form-control' id='signup_email' placeholder='username@example.com' name='signup_email' required="true" />
+				</div>
+			</div>
+			<div class='form-group' '>
+				<label for="gender_choices" class="col-md-3 label-white control-label"> Gender</label>
+				<div class='col-md-8' id="gender_choices" style='margin-top:3%;'> 
+					<div class='col-md-4 col-md-offset-2'> 
+						<label for="gender_male" class='label-white' > <input id="gender_male" type='radio' name="gender" value="Male">  Male </label>							
+					</div>  
+					<div class='col-md-4 col-md-offset-2'>
+						<label for="gender_female" class='label-white' > <input id="gender_female" type='radio' name="gender" value="Female"> Female</label>
+					</div>
+				</div>
+			</div>
+				<div class='form-group'>
+				<label for="account_choices" class="col-md-3 label-white control-label"> Account </label>
+				<div class='col-md-8' id="account_choices" style='margin-top:3%;'> 
+					<div class='col-md-4 col-md-offset-2'> 
+						<label for="account_critic" class='label-white' > <input id="account_critic" type='radio' name="account_type" value="Critic"> Critic</label>							
+					</div>  
+					<div class='col-md-4 col-md-offset-2'>
+						<label for="account_reader" class='label-white' > <input id="account_reader" type='radio' name="account_type" value="Reader"> Reader</label>
+					</div>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for='signup_password1' class='col-sm-3 control-label' style='color:#ffffff;'> Password</label>
+				<div class='col-md-8'>
+					<input type='password' class='form-control' id='signup_password1' placeholder='' name='signup_password1' required="true"/>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label for='signup_password2' class='col-sm-3 control-label' style='color:#ffffff;'> Confirm </label>
+				<div class='col-md-8'>
+					<input type='password' class='form-control' id='signup_password2' placeholder='' name='signup_password2' required="true"/>
+				</div>
+			</div>
+			<div class='form-group'>
+				<div class='col-md-8 col-md-offset-3' style='padding-top:3%;'>
+					<button type='button' id="sign_in_from_sign_up" class='btn btn-primary col-md-5 pull-left'> <i class='fa fa-chevron-left iconspace'></i> Sign In</button>
+					<button type='submit' class='btn btn-danger col-md-5 pull-right' > <i class='fa fa-user-plus iconspace'> </i>Register</button>
+				</div>
+				<div class='col-md-6' style='padding-top:3%;'>
+					
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
 
 </body>
 
@@ -138,6 +142,11 @@ $(document).ready(function(){
 	$("#signup-from-login").click(function(){
 		$("#signin-div").hide();
 		$("#signup-div").fadeIn();
+	});
+
+	$("#sign_in_from_sign_up").click(function(){
+		$("#signup-div").hide();
+		$("#signin-div").fadeIn();
 	});
 });
 </script>

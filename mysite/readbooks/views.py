@@ -50,7 +50,7 @@ def search(request):
 @login_required
 def list_recent_models(request, delete_message=None):
 	return render(request,	'list_recent_objects.html', { 
-	'recent_books': models.Book.objects.all().order_by('-id')[:4], 'recent_authors': models.Author.objects.all().order_by('-id')[:4], 	'recent_reviews': models.Review.objects.all().order_by('-id')[:4], 	'recent_groups': models.Group.objects.all().order_by('-id')[:4],	'recent_topics': models.Topic.objects.all().order_by('-id')[:10], 'delete_news':delete_message, })
+	'recent_books': models.Book.objects.all().order_by('-id')[:3], 'recent_authors': models.Author.objects.all().order_by('-id')[:3], 	'recent_reviews': models.Review.objects.all().order_by('-id')[:3], 	'recent_groups': models.Group.objects.all().order_by('-id')[:3],	'recent_topics': models.Topic.objects.all().order_by('-id')[:15], 'delete_news':delete_message, })
 
 @login_required
 def show_book_by_id(request, book_id, create_message=None):
@@ -173,12 +173,21 @@ def reader_upload_dir(instance, filename):
 	return 'profile_pics/readers/reader_{0}/{1}'.format(instance.id, filename)
 
 @login_required
+def account_info(request, success_message=None, error_message=None):
+	if reader_or_critic(request.user.id) == 'Reader':
+		loggedProfile =models.Reader.objects.get(user_id=request.user.id)
+	else:
+		loggedProfile =  models.Critic.objects.get(user_id=request.user.id)
+	context_dict = {'loggedProfile': loggedProfile, 'user_type':reader_or_critic(request.user.id), 'success_message':success_message, 'error_message': error_message}
+	return render(request, 'user_settings.html', context_dict)
+
+@login_required
 def update_userinfo(request):
 	if reader_or_critic(request.user.id) == 'Reader':
 		loggedProfile =models.Reader.objects.get(user_id=request.user.id)
 	else:
 		loggedProfile =  models.Critic.objects.get(user_id=request.user.id)
-	context_dict = {'loggedProfile': loggedProfile, 'user_type':reader_or_critic(request.user.id),}
+	context_dict = {'loggedProfile': loggedProfile, 'user_type':reader_or_critic(request.user.id), 'success_message':success_message, 'error_message': error_message}
 	if request.method=='POST':
 		loggedProfile.first_name=request.POST['userfirstname']
 		loggedProfile.last_name=request.POST['userlastname']
@@ -192,8 +201,6 @@ def update_userinfo(request):
 			return show_reader_by_id(request, loggedProfile.id, update_message="Profile Updated!")
 		if reader_or_critic(request.user.id) == 'Critic':
 			return show_critic_by_id(request, loggedProfile.id, update_message="Profile Updated!")
-	else:
-		return render(request, 'user_settings.html', context_dict)
 
 def register(request):
 	if request.method == 'POST':
@@ -306,3 +313,15 @@ def delete_review(request):
 	review_to_delete = models.Review.objects.get(id=request.POST['review_id'])
 	review_to_delete.delete()
 	return list_recent_models(request, delete_message="Review Deleted!")
+
+@login_required
+def change_password(request):
+	if request.method=='POST':
+		if (request.POST['password_new1'] != request.POST['password_new2']):
+			return account_info(request, error_message="Passwords don't match")
+		if (request.POST['password_new1'] == request.POST['password_new2']):
+			logged_user = models.User.objects.get(id=request.user.id)
+			logged_user.set_password(request.POST['password_new1'])
+			logged_user.save()
+			return account_info(request, success_message="Password changed Successfully")
+		
