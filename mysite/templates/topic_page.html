@@ -11,19 +11,18 @@
 	{% if create_new %}
 	<div class='col-md-12 pad-zero'>
 		<div class="alert alert-info alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-				<strong>Hey!</strong> {{ create_new }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <strong>Hey!</strong> {{ create_new }}
 		</div>
 	</div>
 	{% endif %}
+
 	<div class='container well bordrad-zero'>
 		<div class='well bordrad-zero'>
 			<h3 class='text-center'> {{ topic_obj.name }} </h3>
 		</div>
 		<div class='col-md-2' style='padding:2% 1% 0 0;'>
 			<img src="{{ MEDIA_URL}}/{{ topic_obj.creator.profile_picture }}" class='img-responsive ' />
-
-			<a href="/readbooks/reader/{{ topic_obj.creator.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-success btn-block btnsize3 text-center'> <i class='fa fa-user iconspace'></i>	{{ topic_obj.creator.first_name }} {{ topic_obj.creator.last_name }} </button>	</a>
+			<a href="/readbooks/reader/{{ topic_obj.creator.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-success btn-block btnsize3 text-center'> <i class='fa fa-user iconspace'></i>	{{ topic_obj.creator.first_name }} {{ topic_obj.creator.last_name }} </button> </a>
 			<h5 style='padding-top:10%;'>
 				- {{ topic_obj.creation_date }}
 			</h5>
@@ -37,7 +36,7 @@
 		{% for reply in replies_by_topic_obj %}
 		<div class='col-md-2' style='padding:2% 1% 0 0;'>
 			<img src="{{ MEDIA_URL}}/{{ reply.topic_reply_user.profile_picture }}" class='img-responsive image-fit-frame' />
-			<a href="/readbooks/reader/{{ reply.topic_reply_user.id }}"> <button type="button" class='btn btn-success btn-block text-center'> <i class='fa fa-user iconspace'></i>	{{ reply.topic_reply_user.first_name }} {{ reply.topic_reply_user.last_name }} </button>	</a>
+			<a href="/readbooks/reader/{{ reply.topic_reply_user.id }}"> <button type="button" class='btn btn-success btn-block text-center'> <i class='fa fa-user iconspace'></i>	{{ reply.topic_reply_user.first_name }} {{ reply.topic_reply_user.last_name }} </button> </a>
 			<h5 style='padding-top:10%;'>
 				- {{ reply.message_time }}
 			</h5>

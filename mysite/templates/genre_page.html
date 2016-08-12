@@ -3,22 +3,21 @@
 {% block body %}
 <style>
 .pad-right{ padding-right: 3%;}
-
-.iconspace { padding-right: 2%;} 
+.iconspace { padding-right: 5%;} 
 .btnsize1 { height:7%; border-radius: 0;}
 .btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
-.pic-container{ background-color: #f5f5f5; height:40%;border:0;padding:4% 0 2% 0;}
+.pic-container{ background-color: #f5f5f5; height:30%;border:0;padding:4% 0 2% 0;}
 .pad-zero{padding:0;}
 </style>
 <div class= "col-md-10 col-md-offset-1 pad-zero top-marg3" >
 	{% if create_new %}
 	<div class='col-md-12 pad-zero'>
 		<div class="alert alert-info alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-				<strong>Hey!</strong> {{ create_new }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <strong>Hey!</strong> {{ create_new }}
 		</div>
 	</div>
 	{% endif %}
+
 	{% for book in books_by_genre_obj %}
 	<div class=' col-md-3'>
 		<div class="pic-container">
@@ -29,6 +28,22 @@
 		</div>			
 	</div>
 	{% endfor %}
+
+	<div class='col-md-12 '>
+		<ul class="pagination">
+		{% if books_by_genre_obj.has_previous %}
+		<li> <a href="?page={{ books_by_genre_obj.previous_page_number }}"> &laquo; </a> </li>
+		{% endif %}
+
+		<li class="active"> <a href="?page={{ books_by_genre_obj.number }}">{{ books_by_genre_obj.number }}</a></li>
+
+  	<!-- Page {{ books_by_genre_obj.number }} of {{ books_by_genre_obj.paginator.num_pages }} 
+ -->
+	  	{% if books_by_genre_obj.has_next %}
+	  	<li> <a href="?page={{books_by_genre_obj.next_page_number}}"> &raquo; </a> </li>
+	  	{% endif %}
+		</ul>
+	</div>
 	
 	{% if not books_by_genre_obj %}
 		<h5 style='padding:2%'> Sorry, no books in this genre. Try another genre maybe?</h5>

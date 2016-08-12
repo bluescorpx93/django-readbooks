@@ -10,28 +10,25 @@
 .iconspace { padding-right: 2%;} 
 .pad-zero{padding:0;}
 </style>
-{% if delete_news %}
+	{% if delete_news %}
 	<div class='col-md-12 pad-zero'>
 		<div class="alert alert-warning alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-				<strong>Hey!</strong> {{ delete_news }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <strong>Hey!</strong> {{ delete_news }}
 		</div>
 	</div>
-{% endif %}
+	{% endif %}
 	
-<!-- <div id="recent_tabs"> -->
 	<div class="col-md-10 col-md-offset-1">
 		<ul class="nav nav-tabs nav-justified">
-			<li role="presentation"> <a href="#books" data-toggle="tab" id="book_a_tag" data-target="#books_div"><i class="fa fa-book"></i> Books  <span class="badge"></span></a>	</li>
-			<li >	<a href="#authors" data-toggle="tab" id="author_a_tag" data-target="#authors_div"><i class="fa fa-user"></i> Authors <span class="badge"></span></a> </li>
-			<li >	<a href="#reviews" data-toggle="tab" id="reviews_a_tag" data-target="#reviews_div"><i class="fa fa-bullhorn"></i> Reviews <span class="badge"></span></a>	</li>
-			<li> <a href="#groups" data-toggle="tab" id="groups_a_tag" data-target="#groups_div"><i class="fa fa-group"></i> Groups <span class="badge"></span></a>	</li>
-			<li> <a href="#topics" data-toggle="tab" id="topics_a_tag" data-target="#topics_div"><i class="fa fa-comments"></i> Topics <span class="badge"></span>	</a> </li>
+			<li > <a href="#books" data-toggle="tab" id="book_a_tag" data-target="#books_div"><i class="fa fa-book"></i> Books </a> </li>
+			<li >	<a href="#authors" data-toggle="tab" id="author_a_tag" data-target="#authors_div"><i class="fa fa-user"></i> Authors </a> </li>
+			<li >	<a href="#reviews" data-toggle="tab" id="reviews_a_tag" data-target="#reviews_div"><i class="fa fa-bullhorn"></i> Reviews </a> </li>
+			<li> <a href="#groups" data-toggle="tab" id="groups_a_tag" data-target="#groups_div"><i class="fa fa-group"></i> Groups </a>	</li>
+			<li> <a href="#topics" data-toggle="tab" id="topics_a_tag" data-target="#topics_div"><i class="fa fa-comments"></i> Topics </a> </li>
 		</ul>
 	</div>
 	<div class="col-md-10 col-md-offset-1">
 		<div class="tab-content ">
-
 			<div role="tabpanel" class="tab-pane fade in active" id="books_div">
 				{% for book in recent_books %}
 				<div class='well bordrad-zero col-md-4 text-center'>
@@ -80,17 +77,17 @@
 
 			<div role="tabpanel" class="tab-pane fade" id="groups_div">
 				{% for group in recent_groups %}
-						<div class='well bordrad-zero col-md-4'>
-							<a href="/readbooks/group/{{ group.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-success btnsize2" > <h5> {{ group.name }} </h5></button>  </a>
-							<div class='pic-container'>
-								<img src="{{ MEDIA_URL }}/{{ group.cover_picture }}" class="img-responsive image-fit-frame" />
-							</div>
-							<div class="well bordrad-zero">
-								<h5 > {{ group.group_description|truncatechars:30 }}  </h5>
-								{{ group.topic_count }} Topics
-								{{ group.member_count }} Members
-							</div>
+					<div class='well bordrad-zero col-md-4'>
+						<a href="/readbooks/group/{{ group.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-success btnsize2" > <h5> {{ group.name }} </h5></button>  </a>
+						<div class='pic-container'>
+							<img src="{{ MEDIA_URL }}/{{ group.cover_picture }}" class="img-responsive image-fit-frame" />
 						</div>
+						<div class="well bordrad-zero">
+							<h5 > {{ group.group_description|truncatechars:30 }}  </h5>
+							{{ group.topic_count }} Topics
+							{{ group.member_count }} Members
+						</div>
+					</div>
 				{% endfor %}
 			</div>
 
@@ -113,5 +110,4 @@
 		</div>
 	</div>
 
-<!-- </div> -->
 {% endblock %}

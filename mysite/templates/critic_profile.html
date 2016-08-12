@@ -6,18 +6,16 @@
 
 <div class='col-md-10 col-md-offset-1 top-marg3 '>
 
-{% if edit_success %}
+	{% if edit_success %}
 	<div class='col-md-12 pad-zero'>
 		<div class="alert alert-info alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-				<strong>Hey!</strong> {{ edit_success }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <strong>Hey!</strong> {{ edit_success }}
 		</div>
 	</div>
-{% endif %}
+	{% endif %}
 	<div class='col-md-6' style='padding:0% 0.5% 0 0;'>
 		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
 			<h3 class='text-center text-uppercase'> {{ critic_obj.first_name }} {{ critic_obj.last_name }} </h3>
-
 			<div class='pic-container'>
 				<img src="{{ MEDIA_URL }}/{{ critic_obj.profile_picture }}" class="img-responsive image-fit-frame"/>
 			</div>

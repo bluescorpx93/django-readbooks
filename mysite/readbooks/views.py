@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from datetime import date
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def user_upload_dir(instance, filename):
 	return 'profile_pics/users/user_{0}/{1}'.format(instance.id, filename)
@@ -142,7 +143,15 @@ def show_genre_by_id(request, genre_id, create_message=None):
 		books_by_genre_obj = models.Book.objects.filter(genre=int(genre_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'genre_page.html', {'genre_obj': genre_obj, 'books_by_genre_obj': books_by_genre_obj, 'create_new': create_message,})
+	paginator = Paginator(books_by_genre_obj, 16)
+	page = request.GET.get('page')
+	try:
+		books_by_genre_obj = paginator.page(page)
+	except PageNotAnInteger:
+		books_by_genre_obj = paginator.page(1)
+	except EmptyPage:
+		books_by_genre_obj = paginator.page(paginator.num_pages)
+	return render(request, 'genre_page.html', {'genre_obj': genre_obj, 'books_by_genre_obj': books_by_genre_obj, 'create_new': create_message, 'books_by_genre_obj': books_by_genre_obj,})
 
 def sitelogin(request):
 	if (request.method == 'POST'):

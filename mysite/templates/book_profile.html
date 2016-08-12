@@ -13,14 +13,13 @@
 </style>
 
 <div class='col-md-10 col-md-offset-1 top-marg3'>
-{% if create_new %}
+	{% if create_new %}
 	<div class='col-md-12 pad-zero'>
 		<div class="alert alert-success alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-				<strong>Hey!</strong> {{ create_new }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <strong>Hey!</strong> {{ create_new }}
 		</div>
 	</div>
-{% endif %}
+	{% endif %}
 	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
 		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
 			<h3 class='text-center text-uppercase'> {{ book_obj.title }} </h3>
@@ -65,52 +64,52 @@
 				  	<div class="modal-content">
 				  		<div class='well bordrad-zero'>
 				  			<div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        	<h2 class="modal-title text-uppercase text-center">Add Review</h2>
+						      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        	<h2 class="modal-title text-uppercase text-center">Add Review</h2>
 				      	</div>
-				      	<form action = "/readbooks/add_review/" method="post">
-								{% csrf_token %}				      		
-								<div class="modal-body">
-						      	<style> .form-group{ padding: 2% 0 2% 0; }</style>
-						      	<div class="form-group" '>
-						         	<label for="id_heading" class=" col-md-3 control-label" required="true">Heading</label>
-					            	<div class='col-md-9'>
-					            		<input type="text" id="id_heading" name="heading" class='form-control'>
-					            	</div>
-					          	</div>
-					           	<input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
+				      	<form action = "/readbooks/add_review/" method="post">{% csrf_token %}
+				      		<fieldset>			      		
+									<div class="modal-body">
+							      	<style> .form-group{ padding: 2% 0 2% 0; }</style>
+							      	<div class="form-group" '>
+							         	<label for="id_heading" class=" col-md-3 control-label" required="true">Heading</label>
+						            	<div class='col-md-9'>
+						            		<input type="text" id="id_heading" name="heading" class='form-control'>
+						            	</div>
+						          	</div>
+						           	<input type='text' hidden="true" name='book_id' value="{{book_obj.id}}">
 
-					          	<div class="form-group">
-					            	<label for="id_status" class=" col-md-3 control-label">Status</label>
-					            	<div class='col-md-9'>
-											<select id="id_review_status" required="true" class="form-control" name="status">
-												<option value="Draft" selected="selected"> Draft </option>
-												<option value = "Published"> Publish</option>
-											</select>
-					            	</div>
-					          	</div>
-					          	<div class="form-group">
-					            	<label for="id_review" class=" col-md-3 control-label">Review</label>
-					            	<div class='col-md-9'>
-					            		<textarea type='text' required="true" id='id_review' class='form-control' name='review'> </textarea>
-					            	</div>
-					          	</div>
-					      	</div>
-					      	<div class="modal-footer" style='margin-top:4%;'>
-									<div class='col-md-6 col-md-offset-4'>
-							      	<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Review</button>
-							      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							      </div>
-					      	</div>
+						          	<div class="form-group">
+						            	<label for="id_status" class=" col-md-3 control-label">Status</label>
+						            	<div class='col-md-9'>
+												<select id="id_review_status" required="true" class="form-control" name="status">
+													<option value="Draft" selected="selected"> Draft </option>
+													<option value = "Published"> Publish</option>
+												</select>
+						            	</div>
+						          	</div>
+						          	<div class="form-group">
+						            	<label for="id_review" class=" col-md-3 control-label">Review</label>
+						            	<div class='col-md-9'>
+						            		<textarea type='text' required="true" id='id_review' class='form-control' name='review'> </textarea>
+						            	</div>
+						          	</div>
+						      	</div>
+						      	<div class="modal-footer" style='margin-top:4%;'>
+										<div class='col-md-6 col-md-offset-4'>
+								      	<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Add Review</button>
+								      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								      </div>
+						      	</div>
+						      </fieldset>
 				      	</form>
 				      </div>
-				     </div>
-				    </div>
-				  </div>
+					</div>
+			   </div>
+			</div>
 
 			{% endif %}
 
-			
 			<div class='col-md-12' style='padding:0;'>
 				{% for review in reviews_book_obj %}
 					<div class='col-md-6 pad-zero' >

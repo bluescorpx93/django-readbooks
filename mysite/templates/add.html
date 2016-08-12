@@ -21,134 +21,136 @@
 
 {% if user_type == 'Reader' %}
 <div class='col-md-11 col-md-offset-1' style='margin-top:2%;'>
-
 	<div class='col-md-8 well' id = "new_group_form" >
-	<h3 class='text-center pad-bottom'> New Group</h3>
-		<form class='form-horizontal' action="/readbooks/add_group/" method='post'>
-		{% csrf_token %}
-			<div class='form-group'>
-				<label for ="id_group_name" class='control-label col-md-3 '> Name </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' required="true" id="id_group_name" placeholder=" Group Name" name='group_name'/>
+		<h3 class='text-center pad-bottom'> New Group</h3>
+		<form class='form-horizontal' action="/readbooks/add_group/" method='post'>{% csrf_token %}
+			<fieldset>
+				<div class='form-group'>
+					<label for ="id_group_name" class='control-label col-md-3 '> Name </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' required="true" id="id_group_name" placeholder=" Group Name" name='group_name'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_group_description" class='control-label col-md-3 '> Description </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' required="true" id="id_group_description" placeholder=" What's the Genre's Tagline" name='group_description'/>
+				<div class='form-group'>
+					<label for ="id_group_description" class='control-label col-md-3 '> Description </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' required="true" id="id_group_description" placeholder=" What's the Genre's Tagline" name='group_description'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_group_picture" class='control-label col-md-3 '> Cover Photo </label>
-				<div class='col-md-8'>
-					<input type="file" class='form-control' required="true" id="id_group_picture" name='group_picture'/>
+				<div class='form-group'>
+					<label for ="id_group_picture" class='control-label col-md-3 '> Cover Photo </label>
+					<div class='col-md-8'>
+						<input type="file" class='form-control' required="true" id="id_group_picture" name='group_picture'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'	>
-				<button type='submit' id= "group_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Group</button>	
-			</div>
+				<div class='form-group'	>
+					<button type='submit' id= "group_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Group</button>	
+				</div>
+			</fieldset>
 		</form>	
 	</div>
 
 	<div class='col-md-8 well' id = "new_genre_form" >
-	<h3 class='text-center pad-bottom'> New Genre</h3>
-		<form class='form-horizontal' action="/readbooks/add_genre/" method='post'>
-		{% csrf_token %}
-			<div class='form-group'>
-				<label for ="id_genre_name" class='control-label col-md-3 '> Name </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' required="true" id="id_genre_name" placeholder=" Genre Name" name='genre_name'/>
+		<h3 class='text-center pad-bottom'> New Genre</h3>
+		<form class='form-horizontal' action="/readbooks/add_genre/" method='post'> {% csrf_token %}
+			<fieldset>
+				<div class='form-group'>
+					<label for ="id_genre_name" class='control-label col-md-3 '> Name </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' required="true" id="id_genre_name" placeholder=" Genre Name" name='genre_name'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'	>
-				<button type='submit' id= "genre_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Genre</button>	
-			</div>
+				<div class='form-group'	>
+					<button type='submit' id= "genre_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Genre</button>	
+				</div>
+			</fieldset>
 		</form>	
 	</div>
 
 	<div class='col-md-8 well' id = "new_publisher_form" >
-	<h3 class='text-center pad-bottom'> New Publisher</h3>
-		<form class='form-horizontal' action="/readbooks/add_publisher/" method='post'>
-		{% csrf_token %}
-			<div class='form-group'>
-				<label for ="id_publisher_name" class='control-label col-md-3 '>  Name </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' required="true" id="id_publisher_name" placeholder="Name" name='publisher_name'/>
+		<h3 class='text-center pad-bottom'> New Publisher</h3>
+		<form class='form-horizontal' action="/readbooks/add_publisher/" method='post'>{% csrf_token %}
+			<fieldset>
+				<div class='form-group'>
+					<label for ="id_publisher_name" class='control-label col-md-3 '>  Name </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' required="true" id="id_publisher_name" placeholder="Name" name='publisher_name'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_address" class='control-label col-md-3 '> Address </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' id="id_address" required="true" placeholder="Location" name='publisher_address'/>
+				<div class='form-group'>
+					<label for ="id_address" class='control-label col-md-3 '> Address </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' id="id_address" required="true" placeholder="Location" name='publisher_address'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_website" class='control-label col-md-3 '> Website </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' id="id_website" required="true" placeholder="Official Website" name='publisher_website'/>
+				<div class='form-group'>
+					<label for ="id_website" class='control-label col-md-3 '> Website </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' id="id_website" required="true" placeholder="Official Website" name='publisher_website'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_cover_photo" class='control-label col-md-3 '>  Cover Photo </label>
-				<div class='col-md-8'>
-					<input type="file" id="id_cover_photo" placeholder="Name" name='publisher_cover_photo'/>
+				<div class='form-group'>
+					<label for ="id_cover_photo" class='control-label col-md-3 '>  Cover Photo </label>
+					<div class='col-md-8'>
+						<input type="file" id="id_cover_photo" placeholder="Name" name='publisher_cover_photo'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'	>
-				<button type='submit' id= "publisher_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Publisher</button>	
-			</div>
+				<div class='form-group'	>
+					<button type='submit' id= "publisher_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Publisher</button>	
+				</div>
+			</fieldset>
 		</form>
 	</div>
 
-
 	<div class='col-md-8 well' id = "new_author_form" >
-	<h3 class='text-center pad-bottom'> New Author</h3>
-		<form class='form-horizontal' action="/readbooks/add_author/" method='post'>
-		{% csrf_token %}
-			<div class='form-group'>
-				<label for ="id_first_name" class='control-label col-md-3 '> First Name </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' id="id_first_name" required="true" placeholder="First Name" name='first_name'/>
-				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_last_name" class='control-label col-md-3 '> Last Name </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' id="id_last_name" required="true" placeholder="Last Name" name='last_name'/>
-				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_bio" class='control-label col-md-3 '> Bio </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' id="id_bio" required="true" placeholder="Describe the author" name='bio'/>
-				</div>
-			</div>
-			<div class='form-group'>
-				<label for="gender_choices" class="col-md-3 control-label"> Gender</label>
-				<div class='col-md-6 col-md-offset-1' id="gender_choices"> 
-					<div class='col-md-6'> 
-						<label for="gender_male"> <input id="gender_male" type='radio' name="gender" value="Male"> Male</label>							
-					</div>  
-					<div class='col-md-6'>
-						<label for="gender_female" > <input id="gender_female" type='radio' name="gender" value="Female"> Female</label>
+		<h3 class='text-center pad-bottom'> New Author</h3>
+		<form class='form-horizontal' action="/readbooks/add_author/" method='post'>{% csrf_token %}
+			<fieldset>
+				<div class='form-group'>
+					<label for ="id_first_name" class='control-label col-md-3 '> First Name </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' id="id_first_name" required="true" placeholder="First Name" name='first_name'/>
 					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for= 'datepicker' class='col-md-3 control-label '> Birthday </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' name="date_of_birth" required="true" id="datepicker">			
+				<div class='form-group'>
+					<label for ="id_last_name" class='control-label col-md-3 '> Last Name </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' id="id_last_name" required="true" placeholder="Last Name" name='last_name'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for= 'id_profile_picture' class='col-md-3 control-label'> Profile Picture </label>
-				<div class="col-md-8">
-					<input type='file' id='id_profile_picture' enctype="multipart/form-data" name='profile_picture'/>
+				<div class='form-group'>
+					<label for ="id_bio" class='control-label col-md-3 '> Bio </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' id="id_bio" required="true" placeholder="Describe the author" name='bio'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'	>
-				<button type='submit' id= "author_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Author</button>	
-			</div>
+				<div class='form-group'>
+					<label for="gender_choices" class="col-md-3 control-label"> Gender</label>
+					<div class='col-md-6 col-md-offset-1' id="gender_choices"> 
+						<div class='col-md-6'> 
+							<label for="gender_male"> <input id="gender_male" type='radio' name="gender" value="Male"> Male</label>							
+						</div>  
+						<div class='col-md-6'>
+							<label for="gender_female" > <input id="gender_female" type='radio' name="gender" value="Female"> Female</label>
+						</div>
+					</div>
+				</div>
+				<div class='form-group'>
+					<label for= 'datepicker' class='col-md-3 control-label '> Birthday </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' name="date_of_birth" required="true" id="datepicker">			
+					</div>
+				</div>
+				<div class='form-group'>
+					<label for= 'id_profile_picture' class='col-md-3 control-label'> Profile Picture </label>
+					<div class="col-md-8">
+						<input type='file' id='id_profile_picture' enctype="multipart/form-data" name='profile_picture'/>
+					</div>
+				</div>
+				<div class='form-group'	>
+					<button type='submit' id= "author_submit_btn" class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 3%;'> Add Author</button>	
+				</div>
+			</fieldset>	
 		</form>
 		<div id="preview_author_data">
 
@@ -156,71 +158,70 @@
 				
 	</div>
 				
-
-	
 	<div class='col-md-8 well pad-zero' id = "new_book_form" >
 		<h3 class='text-center pad-bottom'> New Book</h3>
-		<form class='form-horizontal' action="/readbooks/add_book/" method='post'>
-		{% csrf_token %}
-			<div class='form-group'>
-				<label for ="new_booktitle" class='control-label col-md-3 '> Title </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' placeholder="Enter Book Title" required="true" name='new_booktitle' id='new_booktitle'/>
+		<form class='form-horizontal' action="/readbooks/add_book/" method='post'>	{% csrf_token %}
+			<fieldset>
+				<div class='form-group'>
+					<label for ="new_booktitle" class='control-label col-md-3 '> Title </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' placeholder="Enter Book Title" required="true" name='new_booktitle' id='new_booktitle'/>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_add_author" class='control-label col-md-3 '> Authors </label>
-				<div class='col-md-8'>
-					<select id="id_add_author" required="true" class="form-control" name="add_author">
-						<option value="" selected="selected"> Who's the Writer? </option>
-						{% for author in all_authors %}
-							<option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }} </option>
-						{% endfor %}
-					</select>
+				<div class='form-group'>
+					<label for ="id_add_author" class='control-label col-md-3 '> Authors </label>
+					<div class='col-md-8'>
+						<select id="id_add_author" required="true" class="form-control" name="add_author">
+							<option value="" selected="selected"> Who's the Writer? </option>
+							{% for author in all_authors %}
+								<option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }} </option>
+							{% endfor %}
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_add_publisher" class='control-label col-md-3 '> Publishers </label>
-				<div class='col-md-8'>
-					<select id="id_add_publisher" class="form-control" required="true" name="add_publisher">
-						<option value="" selected="selected"> Publisher of the book </option>
-						{% for publisher in all_publishers %}
-							<option value="{{ publisher.id }}">{{ publisher.name }}</option>
-						{% endfor %}
-					</select>
+				<div class='form-group'>
+					<label for ="id_add_publisher" class='control-label col-md-3 '> Publishers </label>
+					<div class='col-md-8'>
+						<select id="id_add_publisher" class="form-control" required="true" name="add_publisher">
+							<option value="" selected="selected"> Publisher of the book </option>
+							{% for publisher in all_publishers %}
+								<option value="{{ publisher.id }}">{{ publisher.name }}</option>
+							{% endfor %}
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="id_add_genre" class='control-label col-md-3 '> Genre </label>
-				<div class='col-md-8'>
-					<select multiple="multiple" id="id_add_genre" name="add_genre" required="true" class='form-control'>
-						{% for genre in all_genres %}
-							<option value="{{ genre.id }}">{{ genre.name }}</option>
-						{% endfor %}
-					</select>
+				<div class='form-group'>
+					<label for ="id_add_genre" class='control-label col-md-3 '> Genre </label>
+					<div class='col-md-8'>
+						<select multiple="multiple" id="id_add_genre" name="add_genre" required="true" class='form-control'>
+							{% for genre in all_genres %}
+								<option value="{{ genre.id }}">{{ genre.name }}</option>
+							{% endfor %}
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for= 'datepicker_book' class='col-md-3 control-label '> Published on </label>
-				<div class='col-md-8'>
-					<input type="text" class='form-control' name="add_pubdate" required="true" id="datepicker_book">			
+				<div class='form-group'>
+					<label for= 'datepicker_book' class='col-md-3 control-label '> Published on </label>
+					<div class='col-md-8'>
+						<input type="text" class='form-control' name="add_pubdate" required="true" id="datepicker_book">			
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="add_bookcover" class='control-label  col-md-3 '> Cover Pic</label>
-				<div class='col-md-8'>
-					<input type='file' name="add_bookcover"  placeholder="Set a nice cover for this book">
+				<div class='form-group'>
+					<label for ="add_bookcover" class='control-label  col-md-3 '> Cover Pic</label>
+					<div class='col-md-8'>
+						<input type='file' name="add_bookcover"  placeholder="Set a nice cover for this book">
+					</div>
 				</div>
-			</div>
-			<div class='form-group'>
-				<label for ="add_booksummary" class='control-label  col-md-3 '> Synopsis</label>
-				<div class='col-md-8'>
-					<textarea name="add_booksummary" class='form-control' required="true" placeholder="What's the book about?"> </textarea>
+				<div class='form-group'>
+					<label for ="add_booksummary" class='control-label  col-md-3 '> Synopsis</label>
+					<div class='col-md-8'>
+						<textarea name="add_booksummary" class='form-control' required="true" placeholder="What's the book about?"> </textarea>
+					</div>
 				</div>
-			</div>
-			<div class='form-group'	>
-				<button type='submit' id= "book_submit_btn"class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 2%;'> Add Book</button>	
-			</div>
+				<div class='form-group'	>
+					<button type='submit' id= "book_submit_btn"class='btn btn-primary btn-lg bordrad-zero' style='margin-left:40%; margin-top: 2%;'> Add Book</button>	
+				</div>
+			</fieldset>	
 		</form>	
 	</div>
 
