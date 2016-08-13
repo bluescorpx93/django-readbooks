@@ -17,6 +17,7 @@
 .image-fit-frame{	max-width: 100%;min-width:100%;max-height: 100%;min-height:100%;border: 0px;object-fit: contain;}
 .bordrad-zero{border-radius: 0;}
 .top-marg3{margin-top: 1%;}
+.bord-zero{border:0; margin:0;}
 </style>
 
 <body>
@@ -29,7 +30,8 @@
 					<li> <a href="{% url 'search_url' %}">Search</a> </li>
 					<li> <a href="{% url 'list_recent_models_url' %}">New</a> </li>
 					<li> <a href="{% url 'messages_url' %}"> Messages</a>	</li>
-					<li> <a href="{% url 'add_url' %}"> Add </a> </li>					
+					<li> <a href="{% url 'add_url' %}"> Add </a> </li>	
+					<li> <a href="{% url 'all_reviews_by_critic_url'%}"> Reviews </a> </li>				
 					<li> <a href="{% url 'account_info_url' %}"> Profile</a> </li>
 					<li> <a href="{% url 'logout_url' %}"> Log Out</a>	</li>
 				{% endif %}

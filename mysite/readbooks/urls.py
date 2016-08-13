@@ -21,6 +21,7 @@ urlpatterns	= [
 	url(r'^home/$', views.readbooks_index, name='readbooks_index_url'),
 	url(r'^search/$', views.search,	name='search_url'),
 	url(r'^new/$', views.list_recent_models, name='list_recent_models_url'),
+	url(r'^my_reviews/$', views.show_all_reviews_critic, name='all_reviews_by_critic_url'),
 	url(r'^book/(?P<book_id>[0-9]+)/$', views.show_book_by_id, name='book_byID_url'),
 	url(r'^author/(?P<author_id>[0-9]+)/$', views.show_author_by_id, name='author_byID_url'),
 	url(r'^publisher/(?P<publisher_id>[0-9]+)/$', views.show_publisher_by_id, name='publisher_byID_url'),

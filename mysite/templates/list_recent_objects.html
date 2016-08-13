@@ -22,7 +22,7 @@
 		<ul class="nav nav-tabs nav-justified">
 			<li > <a href="#books" data-toggle="tab" id="book_a_tag" data-target="#books_div"><i class="fa fa-book iconspace"></i> Books </a> </li>
 			<li >	<a href="#authors" data-toggle="tab" id="author_a_tag" data-target="#authors_div"><i class="fa fa-user iconspace"></i> Authors </a> </li>
-			<li >	<a href="#reviews" data-toggle="tab" id="reviews_a_tag" data-target="#reviews_div"><i class="fa fa-bullhorn iconspace"></i> Reviews </a> </li>
+			<li >	<a href="#reviews" data-toggle="tab" id="reviews_a_tag" data-target="#reviews_div"><i class="fa fa-star-o iconspace"></i> Reviews </a> </li>
 			<li> <a href="#groups" data-toggle="tab" id="groups_a_tag" data-target="#groups_div"><i class="fa fa-group iconspace"></i> Groups </a>	</li>
 			<li> <a href="#topics" data-toggle="tab" id="topics_a_tag" data-target="#topics_div"><i class="fa fa-comments iconspace"></i> Topics </a> </li>
 		</ul>
@@ -32,9 +32,9 @@
 			<div role="tabpanel" class="tab-pane fade in active" id="books_div">
 				{% for book in recent_books %}
 				<div class='well bordrad-zero col-md-4 text-center'>
-					<a href="{% url 'book_byID_url' book.id %}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-info btnsize2" > <h5> {{ book.title }} </h5></button>  </a>
+					<a href="{% url 'book_byID_url' book.id %}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-info btnsize2" > {{ book.title }} </button>  </a>
 					<div class='pic-container'>
-						<img src="/media/{{ book.cover_picture }}" class="img-responsive image-fit-frame" />
+						<img src="{{ book.cover_picture.url }}" class="img-responsive image-fit-frame" />
 					</div>
 					<div class="well bordrad-zero">
 						<a href="/readbooks/author/{{ book.author.id }}" > {{ book.author.first_name }} {{book.author.last_name}} </a> <br>
@@ -48,9 +48,9 @@
 			<div role="tabpanel" class="tab-pane fade" id="authors_div">
 				{% for author in recent_authors %}
 				<div class=' well bordrad-zero col-md-4'>
-					<a href="/readbooks/author/{{ author.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-primary btnsize2" > <h5> {{ author.first_name }} {{ author.last_name }} </h5></button>  </a>
+					<a href="/readbooks/author/{{ author.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-primary btnsize2" > {{ author.first_name }} {{ author.last_name }} </button>  </a>
 					<div class='pic-container'>
-						<img src="/media/{{ author.profile_picture }}" class="img-responsive image-fit-frame" />
+						<img src="{{ author.profile_picture.url }}" class="img-responsive image-fit-frame" />
 					</div>
 					<div class="well bordrad-zero">
 						{{ author.bio|truncatechars:30 }}
@@ -63,9 +63,9 @@
 				{% for review in recent_reviews %}
 					{% if review.status == 'Published' %}
 						<div class='well bordrad-zero col-md-4'>
-							<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-warning btnsize2" > <h5> {{ review.heading }} </h5> </button>  </a>
+							<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-warning btnsize2" > {{ review.heading }} </button>  </a>
 							<div class='pic-container'>
-								<img src="/media/{{ review.critic.profile_picture }}" class="img-responsive image-fit-frame"/>
+								<img src="{{ review.critic.profile_picture.url }}" class="img-responsive image-fit-frame"/>
 							</div>
 							<div class='well bordrad-zero'>
 								<a href="/readbooks/critic/{{ review.critic.id }}" >{{ review.critic }} </a> reviews <br> <a href="/readbooks/book/{{ review.book.id }}" ><strong >{{ review.book }} </strong> </a>
@@ -78,14 +78,13 @@
 			<div role="tabpanel" class="tab-pane fade" id="groups_div">
 				{% for group in recent_groups %}
 					<div class='well bordrad-zero col-md-4'>
-						<a href="/readbooks/group/{{ group.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-success btnsize2" > <h5> {{ group.name }} </h5></button>  </a>
+						<a href="/readbooks/group/{{ group.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-success btnsize2" > {{ group.name }} </button>  </a>
 						<div class='pic-container'>
-							<img src="/media/{{ group.cover_picture }}" class="img-responsive image-fit-frame" />
+							<img src="{{ group.cover_picture.url }}" class="img-responsive image-fit-frame" />
 						</div>
 						<div class="well bordrad-zero">
-							<h5 > {{ group.group_description|truncatechars:30 }}  </h5>
-							{{ group.topic_count }} Topics
-							{{ group.member_count }} Members
+							{{ group.group_description|truncatechars:30 }} <br>
+							{{ group.topic_count }} Topics, {{ group.member_count }} Members
 						</div>
 					</div>
 				{% endfor %}
@@ -95,7 +94,7 @@
 				<div class='col-md-12' style='padding-top: 3%;' >
 					<div class='panel panel-success'  >
 						<div class='panel-heading'>
-							<h3 class='text-center text-uppercase'> <i class='fa fa-fire iconspace'></i> Topics </h>
+							<h3 class='text-center text-uppercase'> <i class='fa fa-fire iconspace'></i> Topics </h3>
 						</div>
 						<div class='panel-body'>
 							<div class='list-group'>

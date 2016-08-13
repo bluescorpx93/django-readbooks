@@ -11,6 +11,7 @@
 .btnsize1 { height:7%;}
 .btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
 .pad-zero{padding:0;}
+.bord-zero{border:0; margin:0;}
 </style>
 
 {% if user_type == 'Critic' %}
@@ -20,7 +21,7 @@
 {% endif %}
 
 {% if user_type == 'Reader' %}
-<div class='col-md-11 col-md-offset-1' style='margin-top:2%;'>
+<div class='col-md-10 col-md-offset-1' style='margin-top:2%;'>
 	<div class='col-md-8 well' id = "new_group_form" >
 		<h3 class='text-center pad-bottom'> New Group</h3>
 		<form class='form-horizontal' action="/readbooks/add_group/" enctype="multipart/form-data" method='post'>{% csrf_token %}
@@ -228,32 +229,32 @@
 	<div class='col-md-4'>
 
 		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="current_stats_btn"> <h4> <i class="fa fa-area-chart iconspace"></i> Current Stats </h5> </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2 " id="current_stats_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-area-chart"></i> </h3> </div> <div class='col-md-4 text-center'> Current Stats </div> </button> 
 		</div>
 
 		<div class='col-md-12 well text-center' id='currents_stats_div'>
-			<div class='well col-md-12'> <h5> Books: {{ all_books_count }} </h5> </div>
-			<div class='well col-md-12'> <h5> Authors: {{ all_authors_count }} </h5> </div>
-			<div class='well col-md-12'> <h5> Groups: {{ all_groups_count }} </h5></div>
-			<div class='well col-md-12'> <h5> Publishers: {{ all_publishers_count }} </h5> </div> 
-			<div class='well col-md-12'> <h5> Genres: {{ all_genre_count }} </h5>  </div>
+			<div class='well col-md-12'> <p> Books: {{ all_books_count }} </p> </div>
+			<div class='well col-md-12'> <p> Authors: {{ all_authors_count }} </p> </div>
+			<div class='well col-md-12'> <p> Groups: {{ all_groups_count }} </p></div>
+			<div class='well col-md-12'> <p> Publishers: {{ all_publishers_count }} </p> </div> 
+			<div class='well col-md-12'> <p> Genres: {{ all_genre_count }} </p>  </div>
 		</div>
 
 		<div id="all_form_btns_div">
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="book_form_btn"> <h5> <i class="fa fa-book iconspace"></i> Book </h5> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="book_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-book"></i> </h3> </div> <div class='col-md-4 text-center'> New Book </div> </button> 
 			</div>
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="author_form_btn"> <h5> <i class="fa fa-user iconspace"></i> Author </h5> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="author_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-user"></i> </h3> </div> <div class='col-md-4 text-center'> New Author </div> </button> 
 			</div>
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="group_form_btn"> <h5> <i class="fa fa-group iconspace"></i> Group </h5> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="group_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-group"></i> </h3> </div> <div class='col-md-4 text-center' > New Group </div> </button> 
 			</div>
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="publisher_form_btn"> <h5> <i class="fa fa-leanpub iconspace"></i> Publisher </h5> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="publisher_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-leanpub"></i> </h3> </div> <div class='col-md-4 text-center'> New Publisher </div> </button> 
 			</div>
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="genre_form_btn"> <h5> <i class="fa fa-filter iconspace"></i> Genre </h5> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="genre_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-flag-o"></i> </h3> </div> <div class='col-md-4 text-center' > New Genre </div> </button> 
 			</div>
 		</div>
 

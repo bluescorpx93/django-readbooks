@@ -22,18 +22,18 @@
 	{% endif %}
 	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
 		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
-			<h3 class='text-center text-uppercase'> {{ book_obj.title }} </h3>
+			<p class='text-center text-uppercase' style='font-size: 240%;'> {{ book_obj.title }} </p>
 			<div class=' pic-container'>
-				<img src="/media/{{ book_obj.cover_picture }}" class="img-responsive image-fit-frame"/>
+				<img src="{{ book_obj.cover_picture.url }}" class="img-responsive image-fit-frame"/>
 			</div>
 			<div class='panel panel-default' style='border-radius: 0;'>
 				<div class='panel-heading' >
-					<h5> <small > Written By </small> <a href="/readbooks/author/{{ book_obj.author.id }}">  {{ book_obj.author.first_name }} {{ book_obj.author.last_name }} </a> <small> and Published by </small> <a href="/readbooks/publisher/{{ book_obj.publisher.id }}">  {{ book_obj.publisher.name }}  </a> </h5>
-					<h5> <small > Published on </small>	{{ book_obj.publication_date }} </h5>
-					<h5> <small > Genre </small> {% for genre in book_obj.genre.all %}
+					Written By <a href="/readbooks/author/{{ book_obj.author.id }}">  {{ book_obj.author.first_name }} {{ book_obj.author.last_name }} </a> and Published by <a href="/readbooks/publisher/{{ book_obj.publisher.id }}">  {{ book_obj.publisher.name }}  </a> <br>
+					Published on {{ book_obj.publication_date }} <br>
+					Genre {% for genre in book_obj.genre.all %}
 						<a href="/readbooks/genre/{{ genre.id }}"> {{ genre.name }}</a>
-					{% endfor %} </h5>
-					<h5> <small class='pad-right'> The story is about: </small> {{ book_obj.book_synopsis|truncatechars:200 }}</h5>
+					{% endfor %} <br>
+					<small class='pad-right'> The story is about: </small> {{ book_obj.book_synopsis|truncatechars:200 }}
 				</div>
 			</div>						
 		</div>
@@ -41,20 +41,20 @@
 	
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
 		<div class='col-md-12 well bordrad-zero'>
-			<h4 class='text-center'> <small>Check out the Reviews and Populartiy of {{book_obj.title}}</small> </h4>
+			<div class='text-center'> Check out the Reviews and Populartiy of {{book_obj.title}} </div>
 		</div>
 		<div class='col-md-6 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"> <h4> <i class="fa fa-bullhorn iconspace"></i> Reviews </h4> </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"> <i class="fa fa-star-o iconspace"></i> Reviews </button> 
 		</div>
 		<div class='col-md-6 pad-zero'> 
-			<button type="button" class="btn btn-block btn-info btnsize2" id="comments_btn"> <h4> <i class="a fa-comment iconspace"></i> Popularity </h4> </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="comments_btn"> <i class="a fa-comment iconspace"></i> Popularity </button> 
 		</div>
 	</div>
 
 	<div class='col-md-6' id="reviews_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero'>
 			{% if not reviews_book_obj %}
-				<h5 class='text-center well bordrad-zero'> No Reviews Published</h5>
+				<div class='text-center well bordrad-zero'> No Reviews Published</div>
 			{% endif %}
 
 			{% if user_type == 'Critic' %}
@@ -113,7 +113,7 @@
 			<div class='col-md-12' style='padding:0;'>
 				{% for review in reviews_book_obj %}
 					<div class='col-md-6 pad-zero' >
-						<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-bullhorn iconspace'> </i> {{ review.heading }} </button> </a>
+						<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-star-o iconspace'> </i> {{ review.heading }} </button> </a>
 					</div>
 				{% endfor %}
 			</div>
@@ -126,12 +126,12 @@
 	<div class='col-md-6' id="comments_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 well bordrad-zero pad-zero' >
 			{% if not comments_by_book_obj %}
-				<h4 class='text-center well bordrad-zero'> Not really popular among people</h4>
+				<div class='text-center well bordrad-zero'> Not really popular among people</div>
 			{% endif %}
 			{% for comment in comments_by_book_obj %}
 				<div class='panel panel-default' style='border-radius: 0; margin:0;border:0;padding:0;'>
 					<div class='panel-heading' >
-						<h5> <small style="padding-right:3%;"> <i class='fa fa-user'></i> <a href="/readbooks/reader/{{ comment.reader.id }}"> {{ comment.reader }} </a> </small> {{ comment.reader_comment }}  <small class='pull-right'> {{ comment.message_time }}</small></h5>
+						<i class='fa fa-user'></i> <a href="/readbooks/reader/{{ comment.reader.id }}"> {{ comment.reader }} </a>:  {{ comment.reader_comment }} <small class='pull-right'> {{ comment.message_time|timesince }} ago</small>
 					</div>
 				</div>
 			{% endfor %}

@@ -23,14 +23,15 @@
 	
 	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
 		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
-			<h3 class='text-center text-uppercase'> {{ reader_obj.first_name }} {{ reader_obj.last_name }} </h3>
+			<p class='text-center text-uppercase' style='font-size: 240%;'> {{ reader_obj.first_name }} {{ reader_obj.last_name }} </p>
 			<div class=' pic-container'>
-				<img src="/media/{{reader_obj.profile_picture}}" class="img-responsive image-fit-frame"/>
+				<img src="{{reader_obj.profile_picture.url}}" class="img-responsive image-fit-frame"/>
 			</div>
 			<div class='panel panel-default' style='border-radius: 0;'>
 				<div class='panel-heading' >
-					<h5> <small> {{ reader_obj.gender }} </small> {{ reader_obj_age }} Years Old </h5>
-					<h5> <small> {{ reader_obj.bio }}</small></h5>
+					<div class='col-md-6 pad-zero'> {{ reader_obj.gender }} </div> 
+					<div class='col-md-6 pad-zero'> {{ reader_obj_age }} Years Old </div>
+					{{ reader_obj.bio }}
 				</div>
 			</div>						
 		</div>
@@ -38,17 +39,17 @@
 	
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
 		<div class='col-md-12 well bordrad-zero'>
-			<h4 class='text-center'> <small>{{ reader_obj.first_name }} {{ reader_obj.last_name }}'s Collection </small> </h4>
+			<div class='text-center'> {{ reader_obj.first_name }} {{ reader_obj.last_name }}'s Collection  </div>
 		</div>
 		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="current_books_btn"> <h4> <i class="fa fa-book iconspace"></i> Library </h4> </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="current_books_btn"> <i class="fa fa-book iconspace"></i> Library </button> 
 		</div>
 	</div>
 
 	<div class='col-md-6' id="current_books_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero' >
 			{% if not currentbooks_by_reader_obj %}
-				<h5 class='text-center well bordrad-zero'> Currently Reading nothing </h5>
+				<div class='text-center well bordrad-zero'> Currently Reading nothing </div>
 			{% endif %}
 			<div class='col-md-12 pad-zero' >
 				{% for book in currentbooks_by_reader_obj %}

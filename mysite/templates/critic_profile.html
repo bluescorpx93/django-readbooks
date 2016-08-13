@@ -15,14 +15,15 @@
 	{% endif %}
 	<div class='col-md-6' style='padding:0% 0.5% 0 0;'>
 		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
-			<h3 class='text-center text-uppercase'> {{ critic_obj.first_name }} {{ critic_obj.last_name }} </h3>
+			<p class='text-center text-uppercase' style='font-size: 240%;'> {{ critic_obj.first_name }} {{ critic_obj.last_name }} </p>
 			<div class='pic-container'>
-				<img src="/media/{{ critic_obj.profile_picture }}" class="img-responsive image-fit-frame"/>
+				<img src="{{ critic_obj.profile_picture.url }}" class="img-responsive image-fit-frame"/>
 			</div>
 			<div class='panel panel-default' style='border-radius: 0;'>
 				<div class='panel-heading' >
-					<h5>  {{ critic_obj.gender }} ,<small style='padding-left: 3%;'> Birthday </small> {{ critic_obj.date_of_birth }}</h5>
-					<h5> <small class='pad-right'> Favorite Quote</small>	<em> {{ critic_obj.bio }} </em>  </h5>
+					<div class='col-md-6 pad-zero'>{{ critic_obj.gender }}</div> 
+					<div class='col-md-6 pad-zero'><small class='pad-right'> Birthday: </small> {{ critic_obj.date_of_birth }}</div>
+					{{ critic_obj.bio }}
 				</div>
 			</div>
 		</div>
@@ -30,23 +31,23 @@
 
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
 		<div class='col-md-12 well bordrad-zero'>
-			<h4 class='text-center'> <small>Check out the Reviews of {{ critic_obj.first_name }} {{ critic_obj.last_name }} </small> </h4>
+			<div class='text-center'> Check out the Reviews of {{ critic_obj.first_name }} {{ critic_obj.last_name }} </div>
 		</div>
 		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"> <h4> <i class="fa fa-bullhorn iconspace"></i> Reviews </h4> </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"> <i class="fa fa-star-o iconspace"></i> Reviews </button> 
 		</div>
 	</div>
 
 	<div class='col-md-6' id="reviews_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero'>
 			{% if not reviews_by_critic_obj %}
-				<h5 class='text-center well bordrad-zero'> No Reviews Published</h5>
+				<div class='text-center well bordrad-zero'> No Reviews Published</div>
 			{% endif %}
 			<div class='col-md-12 pad-zero' >
 				{% for review in reviews_by_critic_obj %}
 					{% if review.status == 'Published' %}
 						<div class='col-md-6 pad-zero'>
-							<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-bullhorn iconspace'></i>  {{ review.heading }} </button>	</a>
+							<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-star-o iconspace'></i>  {{ review.heading }} </button>	</a>
 						</div>
 					{% endif %}
 				{% endfor %}

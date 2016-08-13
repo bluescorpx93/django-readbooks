@@ -15,14 +15,15 @@
 {% endif %}
 	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
 		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
-			<h3 class='text-center text-uppercase'> {{ author_obj.first_name }} {{ author_obj.last_name }} </h3>
+			<p class='text-center text-uppercase' style='font-size: 240%;'> {{ author_obj.first_name }} {{ author_obj.last_name }} </p>
 			<div class='pic-container'>
-				<img src="/media/{{ author_obj.profile_picture }}" class="img-responsive image-fit-frame"/>
+				<img src="{{ author_obj.profile_picture.url }}" class="img-responsive image-fit-frame"/>
 			</div>
 			<div class='panel panel-default' style='border-radius: 0;'>
 				<div class='panel-heading' >
-					<h5> {{ author_obj.gender }} ,<small class='pad-left'> Birthday </small> {{ author_obj.date_of_birth }} </h5>
-					<h5> 	{{ author_obj.bio }} </h5>
+					<div class='col-md-6 pad-zero'>{{ author_obj.gender }}</div> 
+					<div class='col-md-6 pad-zero'><small class='pad-right'> Birthday: </small> {{ author_obj.date_of_birth }}</div>
+					{{ author_obj.bio }} 
 				</div>
 			</div>
 		</div>
@@ -30,17 +31,17 @@
 
 	<div class='col-md-6' style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 well bordrad-zero'>
-			<h4 class='text-center'> <small>Check out the Books written by {{ author_obj.first_name }} {{ author_obj.last_name }}</small>  </h4>
+			<div class='text-center'> Check out the Books written by {{ author_obj.first_name }} {{ author_obj.last_name }}  </div>
 		</div>
 		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="books_btn"> <h4> <i class="fa fa-book iconspace"></i> Books </h4> </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="books_btn"> <div class='col-md-1 col-md-offset-4'> <h3 class='bord-zero'> <i class="fa fa-book"></i> </h3> </div> <div class='col-md-3 text-center'> Books </div> </button> 
 		</div>
 	</div>
 
 	<div class='col-md-6' id="books_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero' >
 			{% if not books_by_author_obj %}
-				<h5 class='text-center well bordrad-zero'> No Books Written</h5>
+				<div class='text-center well bordrad-zero'> No Books Written</div>
 			{% endif %}
 			<div class='col-md-12 pad-zero' >
 				{% for book in books_by_author_obj %}

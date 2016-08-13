@@ -2,8 +2,6 @@ from django.db import models
 from datetime import date, datetime
 from django.contrib.auth.models import User
 
-def user_upload_dir(instance, filename):
-	return 'users/user_{0}/{1}'.format(instance, filename)
 def author_upload_directory(instance, filename):
 	return 'authors/author_{0}/{1}'.format(instance, filename)
 def critic_upload_directory(instance, filename):

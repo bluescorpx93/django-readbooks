@@ -22,15 +22,15 @@
 	
 	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
 		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
-			<h3 class='text-center text-uppercase'> {{ group_obj.name }} </h3>
+			<p class='text-center text-uppercase' style='font-size: 240%'> {{ group_obj.name }} </p>
 			<div class=' pic-container'>
-				<img src="/media/{{ group_obj.cover_picture }}" class="img-responsive image-fit-frame"/>
+				<img src="{{ group_obj.cover_picture.url }}" class="img-responsive image-fit-frame"/>
 			</div>
 			<div class='panel panel-default' style='border-radius: 0;'>
 				<div class='panel-heading' >
-					<h5> <small > {{ group_obj.group_description }} </small> </h5>
-					<h5> {{ group_obj.member_count }} Members</h5>
-					<h5> {{ group_obj.topic_count }} Topics </h5>
+					<div class='col-md-6 pad-zero'>{{ group_obj.member_count }} Members</div> 
+					<div class='col-md-6 pad-zero'>{{ group_obj.topic_count }} Topics </div>
+					{{ group_obj.group_description }}
 				</div>
 			</div>
 		</div>
@@ -38,17 +38,17 @@
 	
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
 		<div class='col-md-12 well bordrad-zero'>
-			<h4 class='text-center'> <small>Topics in {{ group_obj.name }}</small> </h4>
+			<div class='text-center'> Topics in {{ group_obj.name }} </div>
 		</div>
 		<div class='col-md-12 pad-zero'> 
-			<button type="button" class="btn btn-block btn-info btnsize2" id="topics_btn"> <h4> <i class="a fa-comments iconspace"></i> Topics </h4> </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="topics_btn"> <i class="a fa-comments iconspace"></i> Topics </button> 
 		</div>
 	</div>
 
 	<div class='col-md-6' id = "topics_col" style='padding:0 0 0 0.5%'>
 		<div class='col-md-12 pad-zero'>
 			{% if not topics_by_group_obj %}
-				<h5 class='text-center well bordrad-zero '> No Topics in this Gruop </h5>
+				<div class='text-center well bordrad-zero '> No Topics in this Gruop </div>
 			{% endif %}
 			<div class='col-md-12 pad-zero' >
 				{% for topic in topics_by_group_obj %}

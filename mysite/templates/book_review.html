@@ -28,19 +28,157 @@
 	</div>
 	{% endif %}
 
+
+	{% if review_obj.status == 'Published' %}
+	<div class='col-md-8 well bordrad-zero' style='padding:0 0.5% 0 0;'>
+		<p class='text-center text-uppercase' style='padding:3%; font-size: 240%;'> {{ review_obj.heading }} </h3>
+		<p style='padding:1% 5% 0 5%; font-size: 125%;'> {{ review_obj.review }} </p>
+		<h5 class = 'pull-left' style="padding:4%;"> - {{ review_obj.pubdate }} </h5>
+	</div>
+	
+	<div class='col-md-4' style='padding:0 0 0 0.5%;'>
+		{% if review_owner %}
+		<div class='col-md-6 pad-zero' >
+			<button type="button" class="btn btn-block btn-primary btnsize2" id="review_edit_btn" data-toggle="modal" data-target="#editReview"> <i class="fa fa-pencil-square-o iconspace"></i> Edit </button> 
+		</div>
+		<div class='col-md-6 pad-zero' >
+			<button type="button" class="btn btn-block btn-danger btnsize2" id="review_delete_btn" data-toggle="modal" data-target="#deleteReview"> <i class="fa fa-remove iconspace"></i> Delete </button> 
+		</div>
+		<div class='col-md-12 well'>
+			<div class='col-md-4 pad-zero'>
+				<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'> <h2 class='bord-zero text-center'> <i class="fa fa-google-plus iconspace"> </i> </h2> </a> 
+			</div>
+			<div class='col-md-4 pad-zero'>
+				<a href="https://twitter.com/home?status={{share_string}}%20{{ request.build_absolute_uri}}"> <h2 class='bord-zero text-center'> <i class="fa-twitter iconspace"> </i> </h2> </a> 
+			</div>
+			<div class='col-md-4 pad-zero'>
+				<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri}}"> <h2 class='bord-zero text-center'> <i class="fa fa-facebook iconspace"> </i> </h2> </a>
+			</div>
+		</div>
+		{% endif %}
+		<div class='col-md-12 pad-zero'> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="book_btn"> <i class="a fa-book iconspace"></i> book reviewed </button> 
+		</div>
+	</div>
+
+	<div class='col-md-4' id="critic_col" style='padding:0 0 0 0.5%;'>
+		<div class='col-md-12 pad-zero'>
+			<div class='pic-container '>
+				<img src="{{ review_obj.critic.profile_picture.url }}" class='img-responsive image-fit-frame' />
+			</div>	
+			<div class='col-md-12 pad-zero'>
+				<a href="/readbooks/critic/{{ review_obj.critic.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-user iconspace'></i> {{ review_obj.critic.first_name }} {{ review_obj.critic.last_name }}</button> </a>
+			</div>
+		</div>		
+	</div>	
+
+	<div class='col-md-4' id="book_col" style='padding:0 0 0 0.5%;'>
+		<div class='col-md-12 pad-zero'	>
+			<div class='pic-container '>
+				<img src="{{ review_obj.book.cover_picture.url }}" class='img-responsive image-fit-frame' />
+			</div>
+			<div class='col-md-12 pad-zero'>
+				<a href="/readbooks/book/{{ review_obj.book.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-book iconspace'></i> {{ review_obj.book.title }}</button> </a>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="editReview" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class='well bordrad-zero'>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h2 class="modal-title text-capitalize text-center">Edit <small> {{review_obj.heading}} </small></h2>
+						<h4 class='text-center'> <small> Set as: </small> {{ review_obj.status }}</h4>
+					</div>
+					<form action = "/readbooks/edit_review/" method="post">{% csrf_token %}
+						<fieldset>
+							<div class="modal-body">
+								<style> .form-group{ padding: 2% 0 2% 0; }</style>
+								<div class='form-group'>
+									<label for="rev_heading" class="col-md-3 control-label">Heading</label>
+									<div class='col-md-9'>
+										<input type="text" name='review_heading' class='form-control' id='rev_heading' value="{{review_obj.heading}}">
+									</div>
+								</div>
+								<div class="form-group">
+				            	<label for="id_status" class=" col-md-3 control-label">Change Status </label>
+				            	<div class='col-md-9'>
+			            			<select id="id_review_status" required="true" class="form-control" name="status">
+											<option value = "Published"> Publish</option>
+											<option value= "Draft"> Draft </option>
+										</select>								
+				            	</div>
+				          	</div>
+								<div class="form-group">
+									<label for="id_review" class=" col-md-3 control-label">Review</label>
+									<div class='col-md-9'>
+										<textarea name='review' id='id_review' rows='3' class='form-control'>{{review_obj.review}}</textarea>
+									</div>
+								</div>
+								<div class="form-group" '>
+									<input type='text' hidden="true" name='review_id' value="{{review_obj.id}}">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div class='col-md-6 col-md-offset-2'>
+									<button type="submit" class="btn btn-primary"> <i class='fa fa-pencil-square-o iconspace'> </i> Update </button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="deleteReview" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class='well bordrad-zero'>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h2 class="modal-title text-uppercase text-center">Delete</h2>
+					</div>
+					<form action = "/readbooks/delete_review/" method="post"> {% csrf_token %}				      	<fieldset>
+							<div class="modal-body">
+								<h3> Are you sure you want to delete your review </h3>
+								<h2 class= 'text-center'> {{ review_obj.heading }}</h2>
+								<div class="form-group" '>
+									<input type='text' hidden="true" name='review_id' value="{{review_obj.id}}">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div class='col-md-6 col-md-offset-2'>
+									<button type="submit" class="btn btn-danger"> <i class='fa fa-trash iconspace'> </i> Delete </button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+								</div>
+								
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% endif %}
+
 	{% if review_obj.status != 'Published' %}
 	<div class="col-md-10 col-md-offset-1 well bordrad-zero">
-		<div class='col-md-6'>
-			<h3 style="padding: 3%;"> Review Not Published Yet! </h3>
-			<h5 style="padding: 3%;"> Hello! <br />We're sorry that you can't read the review now. </h5>
+		<div class='col-md-6' style='padding:3%;'>
+			<p style="font-size: 200%;"> Review Not Published Yet! </p>
+			Hello! <br />We're sorry that you can't read the review now. 
 		</div>
-		<div class='col-md-6' style='padding-top:5%;'>
+		<div class='col-md-6' style='padding:5%;'>
 			{% if review_owner %}
 				<div class='col-md-6 pad-zero' >
-					<button type="button" class="btn btn-block btn-primary btnsize2" id="review_edit_btn" data-toggle="modal" data-target="#editReview"> <h5> <i class="fa fa-pencil-square-o iconspace"></i> Edit </h5> </button> 
+					<button type="button" class="btn btn-block btn-primary btnsize2" id="review_edit_btn" data-toggle="modal" data-target="#editReview"> <i class="fa fa-pencil-square-o iconspace"></i> Edit </button> 
 				</div>
 				<div class='col-md-6 pad-zero' >
-					<button type="button" class="btn btn-block btn-danger btnsize2" id="review_edit_btn" data-toggle="modal" data-target="#deleteReview"> <h5> <i class="fa fa-remove iconspace"></i> Delete </h5> </button> 
+					<button type="button" class="btn btn-block btn-danger btnsize2" id="review_delete_btn" data-toggle="modal" data-target="#deleteReview"> <i class="fa fa-remove iconspace"></i> Delete </button> 
 				</div>
 
 				<div class="modal fade" id="editReview" tabindex="-1" role="dialog">
@@ -49,7 +187,8 @@
 							<div class='well bordrad-zero'>
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<h2 class="modal-title text-uppercase text-center">Edit</h2>
+			  						<h2 class="modal-title text-capitalize text-center">Edit <small> {{review_obj.heading}} </small></h2>
+									<h4 class='text-center'> <small> Set as: </small> {{ review_obj.status }}</h4>
 								</div>
 								<form action = "/readbooks/edit_review/" method="post">{% csrf_token %}
 									<fieldset>
@@ -62,12 +201,11 @@
 												</div>
 											</div>
 											<div class="form-group">
-							            	<label for="id_status" class=" col-md-3 control-label"> Change Status</label>
+							            	<label for="id_status" class=" col-md-3 control-label"> Change Status TO</label>
 							            	<div class='col-md-9'>
 													<select id="id_review_status" required="true" class="form-control" name="status">
-														<option > --- </option>
-														<option value="Draft"> Draft </option>
 														<option value = "Published"> Publish</option>
+														<option value="Draft"> Draft </option>
 													</select>
 							            	</div>
 							          	</div>
@@ -127,137 +265,6 @@
 		</div>	 
 	 
 	</div>
-	{% endif %}
-
-	{% if review_obj.status == 'Published' %}
-	<div class='col-md-8 well bordrad-zero' style='padding:0 0.5% 0 0;'>
-		<h3 class='text-center text-uppercase' style='padding:3%;'> {{ review_obj.heading }} </h3>
-		<h4 style='padding:1% 5% 0 5%;'> {{ review_obj.review }} </h4>
-		<h5 class = 'pull-left' style="padding:4%;"> - {{ review_obj.pubdate }} </h5>
-	</div>
-	
-	<div class='col-md-4' style='padding:0 0 0 0.5%;'>
-		{% if review_owner %}
-		<div class='col-md-6 pad-zero' >
-			<button type="button" class="btn btn-block btn-primary btnsize2" id="review_edit_btn" data-toggle="modal" data-target="#editReview"> <h5> <i class="fa fa-pencil-square-o iconspace"></i> Edit </h5> </button> 
-		</div>
-		<div class='col-md-6 pad-zero' >
-			<button type="button" class="btn btn-block btn-danger btnsize2" id="review_edit_btn" data-toggle="modal" data-target="#deleteReview"> <h5> <i class="fa fa-remove iconspace"></i> Delete </h5> </button> 
-		</div>
-		{% endif %}
-		<div class='col-md-12 well bordrad-zero'>
-			<h4 class='text-center'> <small>Review Details</small> </h4>
-		</div>
-		<div class='col-md-6 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="critic_btn"> <h5> <i class="fa fa-user iconspace"></i> Critic </h5> </button> 
-		</div>
-		<div class='col-md-6 pad-zero'> 
-			<button type="button" class="btn btn-block btn-info btnsize2" id="book_btn"> <h5> <i class="a fa-book iconspace"></i> book reviewed </h5> </button> 
-		</div>
-	</div>
-
-	<div class='col-md-4' id="critic_col" style='padding:0 0 0 0.5%;'>
-		<div class='col-md-12 pad-zero'>
-			<div class='pic-container '>
-				<img src="/media/{{ review_obj.critic.profile_picture }}" class='img-responsive image-fit-frame' />
-			</div>	
-			<div class='col-md-12 pad-zero'>
-				<a href="/readbooks/critic/{{ review_obj.critic.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-user iconspace'></i> {{ review_obj.critic.first_name }} {{ review_obj.critic.last_name }}</button> </a>
-			</div>
-		</div>		
-	</div>	
-
-	<div class='col-md-4' id="book_col" style='padding:0 0 0 0.5%;'>
-		<div class='col-md-12 pad-zero'	>
-			<div class='pic-container '>
-				<img src="/media/{{ review_obj.book.cover_picture }}" class='img-responsive image-fit-frame' />
-			</div>
-			<div class='col-md-12 pad-zero'>
-				<a href="/readbooks/book/{{ review_obj.book.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-book iconspace'></i> {{ review_obj.book.title }}</button> </a>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="editReview" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class='well bordrad-zero'>
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h2 class="modal-title text-capitalize text-center">Edit <small> {{review_obj.heading}} </small></h2>
-						<h4 class='text-center'> <small> Set as: </small> {{ review_obj.status }}</h4>
-					</div>
-					<form action = "/readbooks/edit_review/" method="post">{% csrf_token %}				      		<fieldset>
-							<div class="modal-body">
-								<style> .form-group{ padding: 2% 0 2% 0; }</style>
-								<div class='form-group'>
-									<label for="rev_heading" class="col-md-3 control-label">Heading</label>
-									<div class='col-md-9'>
-										<input type="text" name='review_heading' class='form-control' id='rev_heading' value="{{review_obj.heading}}">
-									</div>
-								</div>
-								<div class="form-group">
-				            	<label for="id_status" class=" col-md-3 control-label">Change Status</label>
-				            	<div class='col-md-9'>
-			            			<select id="id_review_status" required="true" class="form-control" name="status">
-											<option value="Draft"> Draft </option>
-											<option value = "Published"> Publish</option>
-										</select>								
-				            	</div>
-				          	</div>
-								<div class="form-group">
-									<label for="id_review" class=" col-md-3 control-label">Review</label>
-									<div class='col-md-9'>
-										<textarea name='review' id='id_review' rows='3' class='form-control'>{{review_obj.review}}</textarea>
-									</div>
-								</div>
-								<div class="form-group" '>
-									<input type='text' hidden="true" name='review_id' value="{{review_obj.id}}">
-								</div>
-							</div>
-							<div class="modal-footer">
-								<div class='col-md-6 col-md-offset-2'>
-									<button type="submit" class="btn btn-primary"> <i class='fa fa-pencil-square-o iconspace'> </i> Update </button>
-									<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-								</div>
-							</div>
-						</fieldset>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="deleteReview" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class='well bordrad-zero'>
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h2 class="modal-title text-uppercase text-center">Delete</h2>
-					</div>
-					<form action = "/readbooks/delete_review/" method="post"> {% csrf_token %}				      	<fieldset>
-							<div class="modal-body">
-								<h3> Are you sure you want to delete your review </h3>
-								<h2 class= 'text-center'> {{ review_obj.heading }}</h2>
-								<div class="form-group" '>
-									<input type='text' hidden="true" name='review_id' value="{{review_obj.id}}">
-								</div>
-							</div>
-							<div class="modal-footer">
-								<div class='col-md-6 col-md-offset-2'>
-									<button type="submit" class="btn btn-danger"> <i class='fa fa-trash iconspace'> </i> Delete </button>
-									<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-								</div>
-								
-							</div>
-						</fieldset>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	{% endif %}
 
 </div>

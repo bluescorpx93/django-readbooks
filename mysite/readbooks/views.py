@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from datetime import date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from urllib import quote_plus
 
 def calculate_age(dob):
     today = date.today()
@@ -114,7 +115,7 @@ def show_review_by_id(request, review_id, create_message=None, update_message=No
 		review_owner = isLoggedUserReviewWriter(request, review_id)
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'book_review.html', {'review_obj': review_obj, 'review_owner': review_owner, 'create_new': create_message, 'edit_success': update_message,})
+	return render(request, 'book_review.html', {'review_obj': review_obj, 'review_owner': review_owner, 'create_new': create_message, 'edit_success': update_message, 'share_string': quote_plus(review_obj.review), })
 
 @login_required
 def show_group_by_id(request, group_id, create_message=None):
@@ -134,6 +135,15 @@ def show_topic_by_id(request, topic_id, create_message=None):
 		return render(request, 'default404.html')
 	return render(request, 'topic_page.html', {'topic_obj': topic_obj, 'replies_by_topic_obj': replies_by_topic_obj,'create_new': create_message})
 
+@login_required
+def show_all_reviews_critic(request):
+	if reader_or_critic(request.user.id) == 'Reader':
+		return render(request, 'review_list.html', {'user_type': reader_or_critic(request.user.id)} )
+	logged_critic = models.Critic.objects.get(user_id=request.user.id)
+	reviews_to_display = models.Review.objects.filter(critic=logged_critic.id)
+	return render(request, "review_list.html", {'reviews_to_display': reviews_to_display, 'logged_critic': logged_critic, 'user_type':reader_or_critic(request.user.id),})
+
+@login_required
 def show_genre_by_id(request, genre_id, create_message=None):
 	try:
 		genre_obj = models.Genre.objects.get(id=int(genre_id))

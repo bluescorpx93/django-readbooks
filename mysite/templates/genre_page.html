@@ -19,13 +19,13 @@
 	</div>
 	{% endif %}
 
-	<div class='col-md-12 well bordrad-zero pad-zero' style='margin-bottom:2%; '> <h2 class='text-center'> {{genre_obj.name}} <small> - {{num_book_matches}} Books</small></h2></div>
+	<div class='col-md-12 well bordrad-zero '> <p class='text-center' style='font-size:240%'> {{genre_obj.name}} <small> - {{num_book_matches}} Books</small></p></div>
 	{% for book in books_by_genre_obj %}
 	<div class='col-md-4 well pad-zero' >
 		<div class="pic-container">
-			<img src="/media/{{ book.cover_picture }}" class="img-responsive image-fit-frame"/>
+			<img src="{{ book.cover_picture.url }}" class="img-responsive image-fit-frame"/>
 		</div>
-		<a href="/readbooks/book/{{ book.id }}"><div class='well bordrad-zero text-center'>	<h4> <i class='fa fa-book'></i> {{ book.title }} </h4> </div></a>			
+		<a href="/readbooks/book/{{ book.id }}"><div class='well bordrad-zero text-center'>	{{ book.title }} </div></a>			
 	</div>
 	{% endfor %}
 
@@ -46,7 +46,7 @@
 	</div>
 	
 	{% if not books_by_genre_obj %}
-		<h5 style='padding:2%'> Sorry, no books in this genre. Try another genre maybe?</h5>
+		<p style='padding:2%; font-size: 125%;'> Sorry, no books in this genre. Try another genre maybe?</p>
 	{% endif %}
 </div>
 
