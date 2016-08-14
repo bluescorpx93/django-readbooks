@@ -37,12 +37,7 @@
 	</div>	
 	
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
-		<div class='col-md-12 well bordrad-zero'>
-			<div class='text-center'> Topics in {{ group_obj.name }} </div>
-		</div>
-		<div class='col-md-12 pad-zero'> 
-			<button type="button" class="btn btn-block btn-info btnsize2" id="topics_btn"> <i class="a fa-comments iconspace"></i> Topics </button> 
-		</div>
+		<button type="button" class="btn btn-block btn-info btnsize2" id="topics_btn" data-placement="bottom" title="Topics in {{ group_obj.name }}"> <i class="a fa-comments iconspace"></i> Topics </button> 
 	</div>
 
 	<div class='col-md-6' id = "topics_col" style='padding:0 0 0 0.5%'>
@@ -65,6 +60,12 @@
 <script>
 $(document).ready(function(){
 	$("#topics_col").hide();
+	$("#topics_btn").tooltip({
+		show: {
+			effect: "slideDown",
+			delay: 250
+		}
+	});
 	$("#topics_btn").click(function(){
 		$("#topics_col").toggle("fade");
 	});

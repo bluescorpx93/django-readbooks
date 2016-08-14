@@ -29,12 +29,7 @@
 	</div>
 
 	<div class='col-md-6' style='padding:0 0 0 0.5%;'>
-		<div class='col-md-12 well bordrad-zero'>
-			<div class='text-center'> Check out the Books published by {{ publisher_obj.name }} </div>
-		</div>
-		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="books_btn"> <i class="fa fa-book iconspace"></i> Books  </button>
-		</div>
+		<button type="button" class="btn btn-block btn-info btnsize2" id="books_btn" data-placement="bottom" title="Books by {{ publisher_obj.name }}"> <i class="fa fa-book iconspace"></i> Books  </button>
 	</div>
 
 	<div class='col-md-6' id="books_col" style='padding:0% 0 0 0.5%;'>
@@ -59,6 +54,12 @@
 <script>
 $(document).ready(function(){
 	$("#books_col").hide();
+	$("#books_btn").tooltip({
+		show: {
+			effect: "slideDown",
+			delay: 250
+		}
+	});
 	$("#books_btn").click(function(){
 		$("#books_col").toggle("fade");
 	});

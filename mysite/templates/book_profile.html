@@ -40,14 +40,11 @@
 	</div>
 	
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
-		<div class='col-md-12 well bordrad-zero'>
-			<div class='text-center'> Check out the Reviews and Populartiy of {{book_obj.title}} </div>
-		</div>
 		<div class='col-md-6 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"> <i class="fa fa-star-o iconspace"></i> Reviews </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn" data-placement="bottom" title="Reviews of {{book_obj.title}}"> <i class="fa fa-star-o iconspace"></i> Reviews </button> 
 		</div>
 		<div class='col-md-6 pad-zero'> 
-			<button type="button" class="btn btn-block btn-info btnsize2" id="comments_btn"> <i class="a fa-comment iconspace"></i> Popularity </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="comments_btn" data-placement="bottom" title="Popularity of {{book_obj.title}}"> <i class="a fa-comment iconspace"></i> Popularity </button> 
 		</div>
 	</div>
 
@@ -143,6 +140,18 @@
 $(document).ready(function(){
 	$("#reviews_col").hide();
 	$("#comments_col").hide();
+	$("#review_btn").tooltip({
+		show: {
+			effect: "slideDown",
+			delay: 250
+		}
+	});
+	$("#comments_btn").tooltip({
+		show: {
+			effect: "slideDown",
+			delay: 250
+		}
+	});
 	$("#reviews_btn").click(function(){
 		$("#comments_col").hide();
 		$("#reviews_col").toggle("fade");

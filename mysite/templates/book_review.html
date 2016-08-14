@@ -46,13 +46,13 @@
 		</div>
 		<div class='col-md-12 well'>
 			<div class='col-md-4 pad-zero'>
-				<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'> <h2 class='bord-zero text-center'> <i class="fa fa-google-plus iconspace"> </i> </h2> </a> 
+				<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}' id="gplus_anchor" title='Share on Google Plus'> <h2 class='bord-zero text-center'> <i class="fa fa-google-plus iconspace"> </i> </h2> </a> 
 			</div>
 			<div class='col-md-4 pad-zero'>
-				<a href="https://twitter.com/home?status={{share_string}}%20{{ request.build_absolute_uri}}"> <h2 class='bord-zero text-center'> <i class="fa-twitter iconspace"> </i> </h2> </a> 
+				<a href="https://twitter.com/home?status={{share_string}}%20{{ request.build_absolute_uri}}" id="twitter_anchor" title="Share on Twitter"> <h2 class='bord-zero text-center'> <i class="fa-twitter iconspace"> </i> </h2> </a> 
 			</div>
 			<div class='col-md-4 pad-zero'>
-				<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri}}"> <h2 class='bord-zero text-center'> <i class="fa fa-facebook iconspace"> </i> </h2> </a>
+				<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri}}" id="fb_anchor" title="Share on Facebook"> <h2 class='bord-zero text-center'> <i class="fa fa-facebook iconspace"> </i> </h2> </a>
 			</div>
 		</div>
 		{% endif %}
@@ -270,18 +270,37 @@
 </div>
 
 <script>
-	$(document).ready(function(){
-		$("#critic_col").hide();
-		$("#book_col").hide();
-		$("#critic_btn").click(function(){
-			$("#book_col").hide();
-			$("#critic_col").toggle("fade");
-		});
-		$("#book_btn").click(function(){
-			$("#critic_col").hide();
-			$("#book_col").toggle("fade");
-		});
+$(document).ready(function(){
+	$("#critic_col").hide();
+	$("#book_col").hide();
+	$("#gplus_anchor").tooltip({
+		show: {
+			effect: "slideDown",
+			delay: 250
+		}
 	});
+	$("#twitter_anchor").tooltip({
+		show: {
+			effect: "slideDown",
+			delay: 250
+		}
+	});
+	$("#fb_anchor").tooltip({
+		show: {
+			effect: "slideDown",
+			delay: 250
+		}
+	});
+	
+	$("#critic_btn").click(function(){
+		$("#book_col").hide();
+		$("#critic_col").toggle("fade");
+	});
+	$("#book_btn").click(function(){
+		$("#critic_col").hide();
+		$("#book_col").toggle("fade");
+	});
+});
 </script>
 
 

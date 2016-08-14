@@ -38,12 +38,7 @@
 	</div>
 	
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
-		<div class='col-md-12 well bordrad-zero'>
-			<div class='text-center'> {{ reader_obj.first_name }} {{ reader_obj.last_name }}'s Collection  </div>
-		</div>
-		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="current_books_btn"> <i class="fa fa-book iconspace"></i> Library </button> 
-		</div>
+		<button type="button" class="btn btn-block btn-info btnsize2" id="current_books_btn" data-placement="bottom" title="{{ reader_obj.first_name }} {{ reader_obj.last_name }}'s Collection"> <i class="fa fa-book iconspace"></i> Library </button> 
 	</div>
 
 	<div class='col-md-6' id="current_books_col" style='padding:0 0 0 0.5%;'>
@@ -67,16 +62,18 @@
 </div>
 
 <script>
-	$(document).ready(function(){
-		$("#current_books_col").hide();
-		$("#current_books_btn").click(function(){
-			$("#current_books_col").toggle("fade");
-		});
+$(document).ready(function(){
+	$("#current_books_col").hide();
+	$("#current_books_btn").tooltip({
+		show: {
+			effect: "slideDown",
+			delay: 250
+		}
 	});
+	$("#current_books_btn").click(function(){
+		$("#current_books_col").toggle("fade");
+	});
+});
 </script>
-
-
-
-
 
 {% endblock %}

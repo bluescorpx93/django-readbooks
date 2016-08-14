@@ -30,12 +30,7 @@
 	</div>
 
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
-		<div class='col-md-12 well bordrad-zero'>
-			<div class='text-center'> Check out the Reviews of {{ critic_obj.first_name }} {{ critic_obj.last_name }} </div>
-		</div>
-		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"> <i class="fa fa-star-o iconspace"></i> Reviews </button> 
-		</div>
+		<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"  data-placement="bottom" title="Reviews by {{critic_obj.first_name}} {{critic_obj.last_name}}"> <i class="fa fa-star-o iconspace"></i> Reviews </button> 
 	</div>
 
 	<div class='col-md-6' id="reviews_col" style='padding:0 0 0 0.5%;'>
@@ -61,6 +56,12 @@
 <script>
 $(document).ready(function(){
 	$("#reviews_col").hide();
+	$("#reviews_btn").tooltip({
+		show: {
+			effect: "slideDown",
+			delay: 250
+		}
+	});
 	$("#reviews_btn").click(function(){
 		$("#reviews_col").toggle("fade");
 	});
