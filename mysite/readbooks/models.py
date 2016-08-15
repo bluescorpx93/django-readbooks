@@ -100,21 +100,6 @@ class Book(models.Model):
 		book = cls(title=title)
 		return book
 
-class Group(models.Model):
-	name	=	models.CharField(max_length=256)
-	member_count	=	models.IntegerField(default=0)
-	group_description	=	models.CharField(max_length=256)
-	topic_count	=	models.IntegerField(default=0)
-	cover_picture	=	models.ImageField(upload_to=group_upload_directory, blank=True)
-	class Meta:
-		ordering = ['name']
-	def __str__(self):
-		return self.name
-	@classmethod
-	def create(cls, name):
-		group = cls(name=name)
-		return group
-
 class Review(models.Model):
 	critic	=	models.ForeignKey(Critic, on_delete=models.CASCADE)
 	book	=	models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -143,15 +128,30 @@ class Reader(models.Model):
 	gender_choices	= 	(('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other'))
 	gender = models.CharField(max_length=6, choices=gender_choices)
 	date_of_birth	=	models.DateField(default=date.today)
-	group_joined	=	models.ManyToManyField(Group, through='Membership')
 	profile_picture	=	models.ImageField(upload_to=reader_upload_directory, blank=True)
 	class Meta:
 		ordering=	['last_name']
 	def __str__(self):
 		return '%s %s' %(self.first_name, self.last_name)
 
-class Topic(models.Model):
+class Group(models.Model):
 	name	=	models.CharField(max_length=256)
+	member_count	=	models.IntegerField(default=0)
+	group_description	=	models.CharField(max_length=256)
+	topic_count	=	models.IntegerField(default=0)
+	cover_picture	=	models.ImageField(upload_to=group_upload_directory, blank=True)
+	group_admin = models.ForeignKey(Reader)
+	class Meta:
+		ordering = ['name']
+	def __str__(self):
+		return self.name
+	@classmethod
+	def create(cls, name):
+		group = cls(name=name)
+		return group
+
+class Topic(models.Model):
+	topic_heading	=	models.CharField(max_length=256)
 	topic_discussion	=	models.CharField(max_length=2000)
 	creation_date	= 	models.DateField(default=date.today)
 	group	=	models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -162,7 +162,11 @@ class Topic(models.Model):
 	class Meta:
 		ordering= ['creation_date']
 	def __str__(self):
-		return self.name
+		return self.topic_heading
+	@classmethod
+	def create(cls, topic_heading):
+		topic = cls(topic_heading=topic_heading)
+		return topic
 
 class TopicReply(models.Model):
 	topic	=	models.ForeignKey(Topic, on_delete=models.CASCADE)
@@ -176,6 +180,10 @@ class TopicReply(models.Model):
 		ordering = ['message_time']
 	def __str__(self):
 		return self.topic_reply
+	def create(cls, topic_reply):
+		new_reply = cls(topic_reply=topic_reply)
+		return new_reply
+
 
 class Comment(models.Model):
 	reader	=	models.ForeignKey(Reader, on_delete=models.CASCADE)
@@ -188,6 +196,10 @@ class Comment(models.Model):
 		ordering=	['message_time']
 	def __str__(self):
 		return '%s - %s' %(self.reader, self.reader_comment)
+	@classmethod
+	def create(cls, reader_comment):
+		comment = cls(reader_comment=reader_comment)
+		return comment
 
 class ReadersCurrentlyRead(models.Model):
 	book	=	models.ForeignKey(Book, on_delete=models.CASCADE)

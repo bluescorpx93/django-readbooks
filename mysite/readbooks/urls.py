@@ -5,8 +5,10 @@ urlpatterns	= [
 	url(r'^$', views.sitelogin, name='login_url'),
 	url(r'^$', views.sitelogout, name='logout_url'),
 	url(r'^register/$', views.register, name='signup_url'),
+	url(r'^create_pdf/$', views.create_pdf, name="create_pdf_url"),
 	url(r'^add/$', views.add, name='add_url'),
 	url(r'^add_book/$', views.add_book, name='add_book_url'),
+	url(r'^add_book_comment/$', views.add_book_comment, name='add_book_comment_url'),
 	url(r'^add_publisher/$', views.add_publisher, name='add_publisher_url'),
 	url(r'^add_genre/$', views.add_genre, name='add_genre_url'),
 	url(r'^add_group/$', views.add_group, name='add_group_url'),
@@ -18,7 +20,7 @@ urlpatterns	= [
 	url(r'^add_review/$', views.add_review, name='add_review_url'), 
 	url(r'^edit_review/$', views.edit_review, name='edit_review_url'),
 	url(r'^delete_review/$', views.delete_review, name='delete_review_url'),
-	url(r'^home/$', views.readbooks_index, name='readbooks_index_url'),
+	url(r'^delete_topic/$', views.delete_topic, name='delete_topic_url'),
 	url(r'^search/$', views.search,	name='search_url'),
 	url(r'^new/$', views.list_recent_models, name='list_recent_models_url'),
 	url(r'^my_reviews/$', views.show_all_reviews_critic, name='all_reviews_by_critic_url'),
@@ -31,5 +33,6 @@ urlpatterns	= [
 	url(r'^topic/(?P<topic_id>[0-9]+)/$', views.show_topic_by_id, name='topic_byID_url'),
 	url(r'^review/(?P<review_id>[0-9]+)/$', views.show_review_by_id, name='review_byID_url'),
 	url(r'^genre/(?P<genre_id>[0-9]+)/$', views.show_genre_by_id, name='genre_byID_url'),
+	url(r'^home/$', views.readbooks_index, name='readbooks_index_url'),
 
 ]

@@ -30,6 +30,8 @@
 				<div class='panel-heading' >
 					<div class='col-md-6 pad-zero'>{{ group_obj.member_count }} Members</div> 
 					<div class='col-md-6 pad-zero'>{{ group_obj.topic_count }} Topics </div>
+					<div class='col-md-12 pad-zero'>Group Admin: <a href="/readbooks/reader/{{ group_obj.group_admin.id }} "> {{ group_obj.group_admin}} </a> </div>
+
 					{{ group_obj.group_description }}
 				</div>
 			</div>
@@ -48,7 +50,7 @@
 			<div class='col-md-12 pad-zero' >
 				{% for topic in topics_by_group_obj %}
 					<div class='col-md-12 pad-zero'>
-						<a href="/readbooks/topic/{{ topic.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-comments iconspace'> </i> {{ topic.name }} </button> </a>
+						<a href="/readbooks/topic/{{ topic.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-comments iconspace'> </i> {{ topic.topic_heading }} </button> </a>
 					</div>
 				{% endfor %}
 			</div>
@@ -60,12 +62,12 @@
 <script>
 $(document).ready(function(){
 	$("#topics_col").hide();
-	$("#topics_btn").tooltip({
-		show: {
-			effect: "slideDown",
-			delay: 250
-		}
-	});
+	// $("#topics_btn").tooltip({
+	// 	show: {
+	// 		effect: "slideDown",
+	// 		delay: 250
+	// 	}
+	// });
 	$("#topics_btn").click(function(){
 		$("#topics_col").toggle("fade");
 	});

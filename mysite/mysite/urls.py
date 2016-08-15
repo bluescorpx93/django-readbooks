@@ -8,8 +8,8 @@ from readbooks import urls
 
 urlpatterns = [
 	url(r'^readbooks/admin/',  include(admin.site.urls),   name='admin_url'),
-	url(r'^readbooks/',    include(urls)),
-
+	# url(r'^readbooks/',    include(urls, namespace='readbooks') ),
+	url(r'^readbooks/',    include(urls) ),
 	]  +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # if settings.DEBUG:

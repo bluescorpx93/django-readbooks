@@ -21,10 +21,10 @@
 </style>
 
 <body>
-	<div class="jumbotron" style='padding:0; min-height:100%; margin:0;'>
-		<div class="navbar navbar-default" style='margin-bottom:0;'>
-			<div class='col-md-10 col-md-offset-1'>
-				<ul class="nav navbar-nav text-uppercase">
+	<div class="jumbotron" style='padding:0; margin:0;'>
+		<nav class="navbar navbar-fixed-top navbar-default " >
+			<div class='col-md-10 col-md-offset-1 '>
+				<ul class="nav navbar-nav text-uppercase pull-right">
 				{% if user.is_authenticated %}
 					<li> <a href="{% url 'readbooks_index_url' %} ">Readbooks</a>	</li>
 					<li> <a href="{% url 'search_url' %}">Search</a> </li>
@@ -37,8 +37,8 @@
 				{% endif %}
 				</ul>				
 			</div>
-		</div>
-		<div class="container-fluid" style='margin-bottom:0;'>
+		</nav>
+		<div class="container-fluid" style='min-height: 100%; padding-top: 5%;'>
 			{% block body %} {% endblock %}
 		</div>
 	</div>

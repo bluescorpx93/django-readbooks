@@ -3,7 +3,7 @@
 {% block body %}
 <style>
 .btnsize2 {height:10%; text-transform:uppercase;border-radius:0;}
-.btnsize1 {height:7%; border-radius:0; margin:20% 0 0 0;}
+.btnsize1 {height:7%; padding:0; border-radius:0; margin:20% 0 0 0;}
 .black-text{color: #000000;}
 .iconspace{ padding-right: 5%; }
 .well {margin:0;}
@@ -32,20 +32,20 @@
 		{% for review in reviews_to_display %}
 			{% if review.status == 'Published' %}
 			<div class='col-md-12 well' style='padding:1%;'>
-				<div class="col-md-10 pad-zero">
-					<div class='col-md-3'> 
+				<div class="col-md-9 pad-zero">
+					<div class='col-md-4'> 
 						<a href="/readbooks/review/{{review.id}}"> <h3 class='text-uppercase text-center'> {{review.heading}}</h3> </a>
 					</div>
-					<div class='col-md-9'>
-						<div class='col-md-2 pad-zero pull-right'>
+					<div class='col-md-8'>
+						<div class='col-md-2 pad-zero pull-right' style='margin-top:6%;'>
 							<div class='col-md-4 pad-zero'>
-								<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'> <h3><i class="fa fa-google-plus-official iconspace"> </i> </h3> </a> 
+								<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'> <h4><i class="fa fa-google-plus-official iconspace"> </i> </h4> </a> 
 							</div>
 							<div class='col-md-4 pad-zero'>
-								<a href="https://twitter.com/home?status={{share_string}}%20{{ request.build_absolute_uri}}"> <h3> <i class="fa-twitter iconspace"> </i> </h3> </a> 
+								<a href="https://twitter.com/home?status={{share_string}}%20{{ request.build_absolute_uri}}"> <h4> <i class="fa-twitter iconspace"> </i> </h4> </a> 
 							</div>
 							<div class='col-md-4 pad-zero'>
-								<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri}}"> <h3> <i class="fa fa-facebook-official iconspace"> </i> </h3> </a>
+								<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri}}"> <h4> <i class="fa fa-facebook-official iconspace"> </i> </h4> </a>
 							</div>
 						</div>
 						<div class='text-capitalize'> {{review.review|truncatechars:100}} </div>
@@ -54,11 +54,17 @@
 					</div>
 				</div>
 				
-				<div class='col-md-2 pad-zero'>
-					<div class='col-md-6'> 
+				<div class='col-md-3 pad-zero'>
+					<div class='col-md-4 ' style='padding:2%;'> 
 						<button type="button" class="btn btn-block btn-primary btnsize1" id="review_edit_btn" data-toggle="modal" data-target="#editReview{{review.id}}"> <h4 class='bord-zero'> <i class="fa fa-pencil-square-o iconspace"></i> </h4> </button> 
 					</div>
-					<div class='col-md-6'>
+					<div class='col-md-4 ' style='padding:2%;'>
+						<form action='/readbooks/create_pdf/' method='POST'> {% csrf_token %}
+						<input name="review_id" hidden="true" value="{{review.id}}">
+						<button type="submit" class="btn btn-block btn-success btnsize1"> <h3 class="bord-zero"><i class='fa fa-save iconspace'></i> </h3></button>
+						</form>
+					</div>
+					<div class='col-md-4 ' style='padding:2%;'>
 						<button type="button" class="btn btn-block btn-danger btnsize1" id="review_edit_btn" data-toggle="modal" data-target="#deleteReview{{review.id}}"> <h3 class='bord-zero'> <i class="fa fa-remove iconspace"></i> </h3> </button> 
 					</div>
 				</div>
@@ -150,39 +156,39 @@
 	</div>
 		
 	<div id="draft_reviews_div">
-		{% for review in reviews_to_display %}
+		{% for review in reviews_to_display %} 
 			{% if review.status == 'Draft' %}
 				<div class='col-md-12 well' style='padding:1%;'>
-				<div class="col-md-10 pad-zero">
+				<div class="col-md-9 pad-zero">
 					<div class='col-md-4'> 
 						<a href="/readbooks/review/{{review.id}}"> <h3 class='text-uppercase text-center'> {{review.heading}}</h3> </a>
 					</div>
 					<div class='col-md-8'>
-						<div class='text-capitalize' style='margin-top:2%'> {{review.review|truncatechars:100}} </div>
-						<div class='col-md-12 pad-zero'>
-							<div class='col-md-3 pad-zero pull-right'>
-								<div class='col-md-4 pad-zero'>
-									<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'> <i class="fa fa-google-plus-official iconspace"> </i> </a> 
-								</div>
-								<div class='col-md-4 pad-zero'>
-									<a href="https://twitter.com/home?status={{share_string}}%20{{ request.build_absolute_uri}}"> <i class="fa-twitter iconspace"> </i> </a> 
-								</div>
-								<div class='col-md-4 pad-zero'>
-									<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri}}"> <i class="fa fa-facebook-official iconspace"> </i> </a>
-								</div>
+					<div class='col-md-2 pad-zero pull-right' style='margin-top:6%;'>
+							<div class='col-md-4 pad-zero'>
+								<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'> <h4><i class="fa fa-google-plus-official iconspace"> </i> </h4> </a> 
 							</div>
-							<div class='col-md-9 pad-zero'>
-								Book: <a href="/readbooks/book/{{review.book.id}}"> {{review.book}} </a>
+							<div class='col-md-4 pad-zero'>
+								<a href="https://twitter.com/home?status={{share_string}}%20{{ request.build_absolute_uri}}"> <h4> <i class="fa-twitter iconspace"> </i> </h4> </a> 
 							</div>
-							
-						</div>						
+							<div class='col-md-4 pad-zero'>
+								<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri}}"> <h4> <i class="fa fa-facebook-official iconspace"> </i> </h4> </a>
+							</div>
+						</div>
+						<div class='text-capitalize' style='margin-top:2%'> {{review.review|truncatechars:100}} </div>					
 					</div>
 				</div>
-				<div class='col-md-2 pad-zero'>
-					<div class='col-md-6'> 
-						<button type="button" class="btn btn-block btn-primary btnsize1" id="review_edit_btn" data-toggle="modal" data-target="#editReview{{review.id}}"> <h3 class='bord-zero'> <i class="fa fa-pencil-square-o iconspace"></i> </h3> </button> 
+				<div class='col-md-3 pad-zero'>
+					<div class='col-md-4 ' style='padding:2%;'> 
+						<button type="button" class="btn btn-block btn-primary btnsize1" id="review_edit_btn" data-toggle="modal" data-target="#editReview{{review.id}}"> <h4 class='bord-zero'> <i class="fa fa-pencil-square-o iconspace"></i> </h4> </button> 
 					</div>
-					<div class='col-md-6'>
+					<div class='col-md-4 ' style='padding:2%;'>
+						<form action='/readbooks/create_pdf/' method='POST'> {% csrf_token %}
+						<input name="review_id" hidden="true" value="{{review.id}}">
+						<button type="submit" class="btn btn-block btn-success btnsize1"> <h3 class="bord-zero"><i class='fa fa-save iconspace'></i> </h3></button>
+						</form>
+					</div>
+					<div class='col-md-4 ' style='padding:2%;'>
 						<button type="button" class="btn btn-block btn-danger btnsize1" id="review_edit_btn" data-toggle="modal" data-target="#deleteReview{{review.id}}"> <h3 class='bord-zero'> <i class="fa fa-remove iconspace"></i> </h3> </button> 
 					</div>
 				</div>

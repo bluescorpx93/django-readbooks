@@ -2,7 +2,7 @@
 {% block title %} Readbooks {% endblock %}
 {% block body %}
 
-<div class="col-md-12 top-marg3" id= "index_div">
+<div class="col-md-10 col-md-offset-1 top-marg3" id= "index_div">
 
 <h2> Hey {{ user_type }} </h2>
   <p>
@@ -11,18 +11,17 @@
   <h2> Checklist </h2>
   <ul> 
 		<li> JQUERY hover effect </li>
-		<li> Export REVIEWS AS PDF </li>
-		<li> form preview and submit using OnClick, form.submit </li>
-	  	<li> COMMENT -> BOOK [FOR READERS ONLY]</li>
-	  	<li> JOIN GROUP </li>
-		<li> create topic </li>
-		<li> reply topic</li>
+	  	<!-- <li> JOIN GROUP </li> -->
+		<li> create topic <ol> <li> button in group page </li><li> create form </li> <li>LIMIT 10 RECENT topics + MODAL -> SHOW ALL </li> </ol> </li>
+		<li> reply topic <ol> form </ol></li>
+
+		<li> ALL MODELS <ol> <li> RECENT 5 objects</li> <li> show all in MODAL</li></ol></li>
 	  	<li> CURRENTLY READ/SUBSCRIBE BOOK -> [FOR READERS ONLY]</li>
-		<li> GROUP -> CREATE TOPIC</li>
 		<li> MESSAGES </li>
-		in the end 
+
 		<br>
-		<li> --current book + author + publisher NEWS</li>
+		<li> HOMEPAGE <OL> <li>--current book + author + publisher NEWS </li> <li> reader-> created-topics-REPLIES CHECK FROM LAST-LOGIN (USE TIME DELTA)</li></OL></li>
+                  
   </ul>
 
 

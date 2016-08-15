@@ -9,6 +9,24 @@ from django.db import IntegrityError
 from datetime import date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from urllib import quote_plus
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from django.urls import reverse
+
+@login_required
+def create_pdf(request):
+	review_to_pdf = models.Review.objects.get(id=request.POST['review_id'])
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="Review.pdf"'
+	c = canvas.Canvas(response, pagesize=A4)
+	textobject = c.beginText()
+	textobject.setTextOrigin(50,800)
+	textobject.setFont("Helvetica", 10)
+	textobject.textOut(review_to_pdf.review)
+	c.drawText(textobject)
+	c.showPage()
+	c.save()
+	return response
 
 def calculate_age(dob):
     today = date.today()
@@ -37,7 +55,7 @@ def search(request):
 			'books':	models.Book.objects.filter(title__icontains=query_string),
 			'authors': models.Author.objects.filter(Q(first_name__icontains=query_string) | Q(last_name__icontains=query_string)), 
 			'critics':  models.Critic.objects.filter(Q(first_name__icontains=query_string)|  Q(last_name__icontains=query_string)), 
-			'topics': models.Topic.objects.filter(Q(name__icontains=query_string)), 
+			'topics': models.Topic.objects.filter(Q(topic_heading__icontains=query_string)), 
 			'genres': models.Genre.objects.filter(name__icontains=query_string), 
 			'groups': models.Group.objects.filter(name__icontains=query_string), 
 			'publishers': models.Publisher.objects.filter(name__icontains=query_string),
@@ -103,10 +121,8 @@ def isLoggedUserReviewWriter(request, review_id):
 	review_obj= models.Review.objects.get(id=int(review_id))
 	if review_obj.critic.user_id==logged_user.id:
 		return True
-		# print ("YES %s %s") %(review_obj.critic.user_id, logged_user.id)
 	else:
 		return False
-		# print ("NO %s %s") %(review_obj.critic.user_id, logged_user.id)
 
 @login_required
 def show_review_by_id(request, review_id, create_message=None, update_message=None):
@@ -118,6 +134,16 @@ def show_review_by_id(request, review_id, create_message=None, update_message=No
 	return render(request, 'book_review.html', {'review_obj': review_obj, 'review_owner': review_owner, 'create_new': create_message, 'edit_success': update_message, 'share_string': quote_plus(review_obj.review), })
 
 @login_required
+def add_book_comment(request):
+	new_comment = models.Comment.create(reader_comment=request.POST['new_comment'])
+	new_comment.book = models.Book.objects.get(id=request.POST['book_id'])
+	new_comment.reader = models.Reader.objects.get(user_id=request.user.id)
+	new_comment.save()
+	redirect_url = "/readbooks/book/%s" %(new_comment.book.id)
+	return show_book_by_id(request, request.POST['book_id'], create_message="Comment Added")
+	# return HttpResponseRedirect(redirect_url)
+
+@login_required
 def show_group_by_id(request, group_id, create_message=None):
 	try:
 		group_obj = models.Group.objects.get(id=int(group_id))
@@ -126,6 +152,16 @@ def show_group_by_id(request, group_id, create_message=None):
 		return render(request, 'default404.html')
 	return render(request, 'group_page.html', {'group_obj': group_obj, 'topics_by_group_obj': topics_by_group_obj, 'user_type': reader_or_critic(request.user.id), 'create_new': create_message,})
 
+def is_user_topic_author(request,topic_id):
+	topic = models.Topic.objects.get(id=topic_id)
+	if (request.user.id == topic.creator.user_id):
+		return True
+	
+def is_user_group_admin(request, topic_id):
+	topic = models.Topic.objects.get(id=topic_id)
+	if (request.user.id == topic.group.group_admin.user_id):
+		return True
+
 @login_required
 def show_topic_by_id(request, topic_id, create_message=None):
 	try:
@@ -133,7 +169,7 @@ def show_topic_by_id(request, topic_id, create_message=None):
 		replies_by_topic_obj= models.TopicReply.objects.filter(topic=int(topic_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'topic_page.html', {'topic_obj': topic_obj, 'replies_by_topic_obj': replies_by_topic_obj,'create_new': create_message})
+	return render(request, 'topic_page.html', {'topic_obj': topic_obj, 'replies_by_topic_obj': replies_by_topic_obj,'create_new': create_message, 'topic_author': is_user_topic_author(request, topic_id), 'group_admin': is_user_group_admin(request, topic_id), })
 
 @login_required
 def show_all_reviews_critic(request):
@@ -319,6 +355,7 @@ def add_group(request):
 	newgroup = models.Group.create(name=request.POST['group_name'])
 	newgroup.cover_photo = request.FILES['group_picture']
 	newgroup.group_description = request.POST['group_description']
+	newgroup.group_admin = models.Reader.objects.get(user_id=request.user.id)
 	newgroup.save()
 	return show_group_by_id(request, newgroup.id, create_message="New Group Added!")
 
@@ -339,3 +376,15 @@ def change_password(request):
 			logged_user.save()
 			return account_info(request, success_message="Password changed Successfully")
 		
+@login_required
+def delete_topic(request):
+	topic_to_delete = models.Review.objects.get(id=request.POST['topic_id'])
+	topic_to_delete.delete()
+	return list_recent_models(request, delete_message="Topic Deleted!")
+
+@login_required
+def create_topic(request):
+	pass
+# @login_required
+# def add_topic_teply(request):
+# 	topic_to_reply = models.Topic.objects.get(id=request.POST['topic_id'])

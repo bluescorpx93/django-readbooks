@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} {{ topic_obj.name }} {% endblock %}
+{% block title %} {{ topic_obj.topic_heading }} {% endblock %}
 {% block body %}
 <style>
 .well {	margin:0;}
@@ -18,8 +18,81 @@
 
 	<div class='container well bordrad-zero'>
 		<div class='well bordrad-zero' style='padding:1%;'>
-			
-		<p class='text-center' style="font-size: 240%;"> {{ topic_obj.name }}</p>
+		<div class='row'>
+			<div class='col-md-11'>
+				<div class='col-md-12 pull-left' style="font-size: 200%;"> {{ topic_obj.topic_heading }}
+				</div>
+				<div class='col-md-12 pull-left'> <a href="/readbooks/group/{{topic_obj.group.id}}" title="{{topic_obj.group.group_description}}"> {{topic_obj.group}} </a>
+				</div>
+		 </div>
+			<div class='col-md-1'> 
+				{% if topic_author %}
+					<button type="button" class="btn btn-block btn-default btnsize1" id="review_edit_btn" data-toggle="modal" data-target="#deleteTopic"> <h3 class='bord-zero'> <i class="fa fa-remove iconspace"></i> </h3> </button>
+					<div class="modal fade" id="deleteTopic" tabindex="-1" role="dialog">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class='well bordrad-zero'>
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<h2 class="modal-title text-uppercase text-center">Delete</h2>
+									</div>
+									<form action = "/readbooks/delete_topic/" method="post"> {% csrf_token %}
+									  	<fieldset>
+											<div class="modal-body">
+												<h3 class='text-center'> Are you sure you want to delete your topic?</h3>
+												<h2 class= 'text-center'> {{ topic_obj.topic_heading }}</h2>
+												<div class="form-group" '>
+													<input type='text' hidden="true" name='topic_id' value="{{topic_obj.id}}">
+												</div>
+											</div>
+											<div class="modal-footer">
+												<div class='col-md-6 col-md-offset-2'>
+													<button type="submit" class="btn btn-danger"> <i class='fa fa-trash iconspace'> </i> Delete </button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+												</div>											
+											</div>
+										</fieldset>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+				{% if group_admin %}
+					<button type="button" class="btn btn-block btn-default btnsize1" id="review_edit_btn" data-toggle="modal" data-target="#deleteTopic"> <h3 class='bord-zero'> <i class="fa fa-remove iconspace"></i> </h3> </button>
+					<div class="modal fade" id="deleteTopic" tabindex="-1" role="dialog">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class='well bordrad-zero'>
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<h2 class="modal-title text-uppercase text-center">Delete</h2>
+									</div>
+									<form action = "/readbooks/delete_topic/" method="post"> {% csrf_token %}
+									  	<fieldset>
+											<div class="modal-body">
+												<h3 class='text-center'> Delete {{ topic_obj.creator.first_name }} {{ topic_obj.creator.last_name }}'s topic?</h3>
+												<h2 class= 'text-center'> {{ topic_obj.topic_heading }}</h2>
+												<div class="form-group" '>
+													<input type='text' hidden="true" name='topic_id' value="{{topic_obj.id}}">
+												</div>
+											</div>
+											<div class="modal-footer">
+												<div class='col-md-6 col-md-offset-2'>
+													<button type="submit" class="btn btn-danger"> <i class='fa fa-trash iconspace'> </i> Delete </button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+												</div>											
+											</div>
+										</fieldset>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div> 
+				{% endif %}
+			</div>
+		</div>
 		</div>
 		<div class='col-md-2' style='padding:2% 1% 0 0;'>
 			<img src="{{ topic_obj.creator.profile_picture.url }}" class='img-responsive ' />

@@ -47,8 +47,8 @@ class GroupAdmin(admin.ModelAdmin):
 	search_fields = ('name', )
 
 class TopicAdmin(admin.ModelAdmin):
-	list_display   = ('name', 'creation_date', 'reply_count', )
-	search_fields  = ('name', )
+	list_display   = ('topic_heading', 'creation_date', 'reply_count', )
+	search_fields  = ('topic_heading', )
 	list_filter    = ('creation_date', )
 	date_hierarchy = 'creation_date'
 

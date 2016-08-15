@@ -44,7 +44,7 @@
 			<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn" data-placement="bottom" title="Reviews of {{book_obj.title}}"> <i class="fa fa-star-o iconspace"></i> Reviews </button> 
 		</div>
 		<div class='col-md-6 pad-zero'> 
-			<button type="button" class="btn btn-block btn-info btnsize2" id="comments_btn" data-placement="bottom" title="Popularity of {{book_obj.title}}"> <i class="a fa-comment iconspace"></i> Popularity </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2" id="comments_btn" data-toggle="tooltip" data-placement="bottom" title="Popularity of {{book_obj.title}}"> <i class="a fa-comment iconspace"></i> Popularity </button> 
 		</div>
 	</div>
 
@@ -121,15 +121,29 @@
 	</div>	
 
 	<div class='col-md-6' id="comments_col" style='padding:0 0 0 0.5%;'>
-		<div class='col-md-12 well bordrad-zero pad-zero' >
+		<div class='col-md-12 well bordrad-zero' >
+			{% if user_type == 'Reader' %}
+			<form action="/readbooks/add_book_comment/" method='POST'>{% csrf_token %}
+			<fieldset>
+				<div class="col-md-12">
+					<div class="input-group pad-zero">
+					<input hidden="true" name='book_id' value="{{book_obj.id}}">
+						<input type="text" name="new_comment" class="form-control" placeholder="Add Your Comment">
+						<span class="input-group-btn"> <button type="button submit" class="btn btn-default"> <i class="fa fa-comment"></i> Comment </button> </span>
+					</div>
+				</div>
+			</div>
+			</fieldset>
+			</form>
+			{% endif %}
 			{% if not comments_by_book_obj %}
 				<div class='text-center well bordrad-zero'> Not really popular among people</div>
 			{% endif %}
 			{% for comment in comments_by_book_obj %}
-				<div class='panel panel-default' style='border-radius: 0; margin:0;border:0;padding:0;'>
-					<div class='panel-heading' >
+				<div class='well' style='border-radius: 0;'>
+					<!-- <div class='panel-heading' > -->
 						<i class='fa fa-user'></i> <a href="/readbooks/reader/{{ comment.reader.id }}"> {{ comment.reader }} </a>:  {{ comment.reader_comment }} <small class='pull-right'> {{ comment.message_time|timesince }} ago</small>
-					</div>
+					<!-- </div> -->
 				</div>
 			{% endfor %}
 		</div>
@@ -140,18 +154,18 @@
 $(document).ready(function(){
 	$("#reviews_col").hide();
 	$("#comments_col").hide();
-	$("#review_btn").tooltip({
-		show: {
-			effect: "slideDown",
-			delay: 250
-		}
-	});
-	$("#comments_btn").tooltip({
-		show: {
-			effect: "slideDown",
-			delay: 250
-		}
-	});
+	// $("#review_btn").tooltip({
+	// 	show: {
+	// 		effect: "slideDown",
+	// 		delay: 250
+	// 	}
+	// });
+	// $("#comments_btn").tooltip({
+	// 	show: {
+	// 		effect: "slideDown",
+	// 		delay: 250
+	// 	}
+	// });
 	$("#reviews_btn").click(function(){
 		$("#comments_col").hide();
 		$("#reviews_col").toggle("fade");
