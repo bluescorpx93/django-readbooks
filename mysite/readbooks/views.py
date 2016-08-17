@@ -224,33 +224,33 @@ def messages(request):
 @login_required
 def account_info(request, success_message=None, error_message=None):
 	if reader_or_critic(request.user.id) == 'Reader':
-		loggedProfile =models.Reader.objects.get(user_id=request.user.id)
+		logged_profile =models.Reader.objects.get(user_id=request.user.id)
 	else:
-		loggedProfile =  models.Critic.objects.get(user_id=request.user.id)
-	context_dict = {'loggedProfile': loggedProfile, 'user_type':reader_or_critic(request.user.id), 'success_message':success_message, 'error_message': error_message}
+		logged_profile =  models.Critic.objects.get(user_id=request.user.id)
+	context_dict = {'logged_profile': logged_profile, 'user_type':reader_or_critic(request.user.id), 'success_message':success_message, 'error_message': error_message}
 	return render(request, 'user_settings.html', context_dict)
 
 @login_required
 def update_userinfo(request):
 	if reader_or_critic(request.user.id) == 'Reader':
-		loggedProfile =models.Reader.objects.get(user_id=request.user.id)
+		logged_profile =models.Reader.objects.get(user_id=request.user.id)
 	else:
-		loggedProfile =  models.Critic.objects.get(user_id=request.user.id)
-	context_dict = {'loggedProfile': loggedProfile, 'user_type':reader_or_critic(request.user.id),}
+		logged_profile =  models.Critic.objects.get(user_id=request.user.id)
+	context_dict = {'logged_profile': logged_profile, 'user_type':reader_or_critic(request.user.id),}
 	if request.method=='POST':
-		loggedProfile.first_name=request.POST['userfirstname']
-		loggedProfile.last_name=request.POST['userlastname']
-		loggedProfile.bio = request.POST['userbio']
-		loggedProfile.gender = request.POST['usergender']
-		loggedProfile.date_of_birth = request.POST['userdob']
-		loggedProfile.profile_picture=request.FILES['userprofilepic']
-		# loggedProfile.profile_picture = image_location
-		loggedProfile.save()
+		logged_profile.first_name=request.POST['userfirstname']
+		logged_profile.last_name=request.POST['userlastname']
+		logged_profile.bio = request.POST['userbio']
+		logged_profile.gender = request.POST['usergender']
+		logged_profile.date_of_birth = request.POST['userdob']
+		logged_profile.profile_picture=request.FILES['userprofilepic']
+		# logged_profile.profile_picture = image_location
+		logged_profile.save()
 		return HttpResponseRedirect('/readbooks/profile_info/')
 		# if reader_or_critic(request.user.id) == 'Reader':
-		# 	return show_reader_by_id(request, loggedProfile.id, update_message="Profile Updated!")
+		# 	return show_reader_by_id(request, logged_profile.id, update_message="Profile Updated!")
 		# if reader_or_critic(request.user.id) == 'Critic':
-		# 	return show_critic_by_id(request, loggedProfile.id, update_message="Profile Updated!")
+		# 	return show_critic_by_id(request, logged_profile.id, update_message="Profile Updated!")
 
 def register(request):
 	if request.method == 'POST':
@@ -266,19 +266,19 @@ def register(request):
 			problem = "Your passwords don't match"
 			return render(request, 'login.html', {'problem': problem,})
 		try:
-			newuser = User.objects.create_user(username=email, email=email, password=password1)
+			new_user = User.objects.create_user(username=email, email=email, password=password1)
 		except IntegrityError:
 			problem = "Email Address already taken"
 			return render(request, 'login.html', {'problem': problem,})	
-		newuser.save()
+		new_user.save()
 		if account_type== 'Critic':
-			newCritic = Critic(user_id=newuser.id)
-			newCritic.save()
+			new_Critic = Critic(user_id=new_user.id)
+			new_Critic.save()
 		if account_type== 'Reader':
-			newReader = Reader(user_id=newuser.id)
-			newReader.save()
-		newuserprofile = UserProfile(user_id=newuser.id, gender=gender)
-		newuserprofile.save()
+			new_Reader = Reader(user_id=new_user.id)
+			new_Reader.save()
+		new_userprofile = UserProfile(user_id=new_user.id, gender=gender)
+		new_userprofile.save()
 		return render(request, 'login.html', {'success': "Registration Successful! Login with your newly created account details.",})
 	else:
 		return render(request, 'login.html', )
@@ -290,43 +290,43 @@ def add(request):
 @login_required
 def add_book(request):
 	# if request.method == 'POST':
-		newbook = models.Book.create(title=request.POST['new_booktitle'])
-		newbook.author = models.Author.objects.get(id=request.POST['add_author'])
-		newbook.publisher = models.Publisher.objects.get(id=request.POST['add_publisher'])
-		newbook.save()
+		new_book = models.Book.create(title=request.POST['new_booktitle'])
+		new_book.author = models.Author.objects.get(id=request.POST['add_author'])
+		new_book.publisher = models.Publisher.objects.get(id=request.POST['add_publisher'])
+		new_book.save()
 		selected_genre = request.POST.getlist('add_genre')
 		for genre_id in selected_genre:
-			newbook.genre.add(models.Genre.objects.get(id=genre_id))
-		newbook.publication_date = request.POST['add_pubdate']
-		newbook.cover_picture = request.POST['add_bookcover']
-		newbook.book_synopsis = request.POST['add_booksummary']
-		newbook.save()
-		redirect_url = "/readbooks/book/%s" %(newbook.id)	
+			new_book.genre.add(models.Genre.objects.get(id=genre_id))
+		new_book.publication_date = request.POST['add_pubdate']
+		new_book.cover_picture = request.POST['add_bookcover']
+		new_book.book_synopsis = request.POST['add_booksummary']
+		new_book.save()
+		redirect_url = "/readbooks/book/%s" %(new_book.id)	
 		return redirect(redirect_url)
 
 @login_required
 def add_author(request):
 	# if request.method =='POST':
-		newauthor = models.Author.create(first_name=request.POST['first_name'])
-		newauthor.last_name=request.POST['last_name']
-		newauthor.bio=request.POST['bio']
-		newauthor.gender=request.POST['gender']
-		newauthor.date_of_birth=request.POST['date_of_birth']
-		newauthor.profile_picture=request.FILES['profile_picture']
-		newauthor.save()
-		redirect_url = "/readbooks/author/%s" %(newauthor.id)	
+		new_author = models.Author.create(first_name=request.POST['first_name'])
+		new_author.last_name=request.POST['last_name']
+		new_author.bio=request.POST['bio']
+		new_author.gender=request.POST['gender']
+		new_author.date_of_birth=request.POST['date_of_birth']
+		new_author.profile_picture=request.FILES['profile_picture']
+		new_author.save()
+		redirect_url = "/readbooks/author/%s" %(new_author.id)	
 		return redirect(redirect_url)
 
 def add_review(request):
 # if request.method=='POST':
-	newreview = models.Review.create(heading=request.POST['heading'])
+	new_review = models.Review.create(heading=request.POST['heading'])
 	book_to_assign = models.Book.objects.get(id=int(request.POST['book_id']))
-	newreview.status= request.POST['status']
-	newreview.critic = models.Critic.objects.get(user_id=request.user.id)
-	newreview.book = book_to_assign
-	newreview.review = request.POST['review']
-	newreview.save()
-	redirect_url = "/readbooks/review/%s" %(newreview.id)	
+	new_review.status= request.POST['status']
+	new_review.critic = models.Critic.objects.get(user_id=request.user.id)
+	new_review.book = book_to_assign
+	new_review.review = request.POST['review']
+	new_review.save()
+	redirect_url = "/readbooks/review/%s" %(new_review.id)	
 	return redirect(redirect_url)
 	
 @login_required
@@ -360,12 +360,12 @@ def add_genre(request):
 
 @login_required
 def add_group(request):
-	newgroup = models.Group.create(name=request.POST['group_name'])
-	newgroup.cover_photo = request.FILES['group_picture']
-	newgroup.group_description = request.POST['group_description']
-	newgroup.group_admin = models.Reader.objects.get(user_id=request.user.id)
-	newgroup.save()
-	redirect_url = "/readbooks/group/%s" %(newgroup.id)	
+	new_group = models.Group.create(name=request.POST['group_name'])
+	new_group.cover_photo = request.FILES['group_picture']
+	new_group.group_description = request.POST['group_description']
+	new_group.group_admin = models.Reader.objects.get(user_id=request.user.id)
+	new_group.save()
+	redirect_url = "/readbooks/group/%s" %(new_group.id)	
 	return redirect(redirect_url)
 
 @login_required
@@ -393,7 +393,26 @@ def delete_topic(request):
 
 @login_required
 def create_topic(request):
-	pass
-# @login_required
-# def add_topic_teply(request):
-# 	topic_to_reply = models.Topic.objects.get(id=request.POST['topic_id'])
+	new_topic = models.Topic.create(topic_heading=request.POST['topic_heading'])
+	new_topic.topic_discussion = request.POST['topic_description']
+	new_topic.group = models.Group.objects.get(id=request.POST['group_id'])
+	new_topic.group.topic_count +=1
+	new_topic.group.save()
+	new_topic.creator=models.Reader.objects.get(user_id=request.user.id)
+	new_topic.save()
+	redirect_url = "/readbooks/topic/%s" %(new_topic.id)	
+	return redirect(redirect_url)
+
+@login_required
+def add_topic_reply(request):
+	new_topic_reply = models.TopicReply.create(topic_reply=request.POST['topic_discussion'])
+	new_topic_reply.topic = models.Topic.objects.get(id=request.POST['topic_id'])
+	new_topic_reply.topic.reply_count+=1
+	new_topic_reply.topic.save()
+	if reader_or_critic(request.user.id) == 'Reader':
+		new_topic_reply.topic_reply_user = models.Reader.objects.get(user_id=request.user.id)
+	elif reader_or_critic(request.user.id) == 'Critic':
+		new_topic_reply.topic_reply_user = models.Critic.objects.get(user_id=request.user.id)
+	new_topic_reply.save()
+	redirect_url = "/readbooks/topic/%s" %(new_topic_reply.topic.id)
+	return redirect(redirect_url)

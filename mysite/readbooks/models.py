@@ -169,17 +169,17 @@ class Topic(models.Model):
 		return topic
 
 class TopicReply(models.Model):
-	topic	=	models.ForeignKey(Topic, on_delete=models.CASCADE)
 	topic_reply	=	models.CharField(max_length=2000)
+	topic	=	models.ForeignKey(Topic, on_delete=models.CASCADE)
 	message_time	= 	models.DateTimeField(auto_now=True)
 	topic_reply_user	=	models.ForeignKey(Reader, on_delete=models.CASCADE)
-	message_time	=	models.DateTimeField(auto_now=True)
 	upvotes = models.IntegerField(default=0)
 	downvotes = models.IntegerField(default=0)
 	class Meta:
 		ordering = ['message_time']
 	def __str__(self):
 		return self.topic_reply
+	@classmethod
 	def create(cls, topic_reply):
 		new_reply = cls(topic_reply=topic_reply)
 		return new_reply

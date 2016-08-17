@@ -9,6 +9,8 @@
 .btnsize2 {height:10%; text-transform: uppercase;border-radius:0;}
 .pic-container{ background-color: #f5f5f5; height:45%;border:0;padding:4% 0 2% 0;}
 .pad-zero{padding:0;}
+.btnround{ height:15%; width: 20%; border-radius: 100%; margin:5% 25% 5% 40%; }
+.bord-zero{padding: 0; border: 0; margin: 0;}
 </style>
 
 <div class='col-md-10 col-md-offset-1 top-marg3 '>
@@ -31,8 +33,7 @@
 					<div class='col-md-6 pad-zero'>{{ group_obj.member_count }} Members</div> 
 					<div class='col-md-6 pad-zero'>{{ group_obj.topic_count }} Topics </div>
 					<div class='col-md-12 pad-zero'>Group Admin: <a href="/readbooks/reader/{{ group_obj.group_admin.id }} "> {{ group_obj.group_admin}} </a> </div>
-
-					{{ group_obj.group_description }}
+					{{ group_obj.group_description|truncatechars:200 }}
 				</div>
 			</div>
 		</div>
@@ -47,7 +48,48 @@
 			{% if not topics_by_group_obj %}
 				<div class='text-center well bordrad-zero '> No Topics in this Gruop </div>
 			{% endif %}
-			<div class='col-md-12 pad-zero pre-scrollable' style='max-height: 80%;'>
+			{% if user_type == 'Reader' %}
+				<button type="button" class="btn btn-block btn-info btnround" id="topic_create_btn" data-placement="bottom" data-toggle="modal" data-target="#addTopic" title="Start a discussion in {{ group_obj.name }}"> <h2 class='bord-zero'> <i class="fa fa-plus iconspace"></i> </h2> </button>
+				<div class="modal fade" id="addTopic" tabindex="-1" role="dialog">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class='well bordrad-zero'>
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<h2 class="modal-title text-uppercase text-center">Add New Discussion</h2>
+									</div>
+									<form action = "/readbooks/add_topic/" method="post">{% csrf_token %}
+										<fieldset>			      		
+											<div class="modal-body">
+												<style> .form-group{ padding: 2% 0 2% 0; }</style>
+												<div class="form-group" '>
+													<label for="id_topic_heading" class=" col-md-3 control-label" required="true">Title</label>
+															<div class='col-md-9'>
+																<input type="text" id="id_topic_heading" name="topic_heading" class='form-control'>
+															</div>
+													</div>
+													<div class="form-group" '>
+													<label for="id_topic_description" class=" col-md-3 control-label">The Hot Discussion</label>
+															<div class='col-md-9'>
+																<textarea id="id_topic_description" required="true" name="topic_description" class='form-control' placeholder="What's all the fuss about?" type='text'> </textarea>
+															</div>
+													</div>
+														<input type='text' hidden="true" name='group_id' value="{{group_obj.id}}">
+											</div>
+											<div class="modal-footer" style='margin-top:4%;'>
+												<div class='col-md-6 col-md-offset-4'>
+													<button type="submit" class="btn btn-primary"> <i class='fa fa-plus iconspace'> </i> Start New</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</fieldset>
+									</form>
+								</div>
+							</div>
+						</div>
+				</div>
+			{% endif %}
+			<div class='col-md-12 pad-zero pre-scrollable' style='max-height: 40%;'>
 				{% for topic in topics_by_group_obj %}
 					<div class='col-md-12 pad-zero'>
 						<a href="/readbooks/topic/{{ topic.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-comments iconspace'> </i> {{ topic.topic_heading }} </button> </a>

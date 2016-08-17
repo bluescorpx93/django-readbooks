@@ -22,7 +22,8 @@
 			<div class='col-md-11'>
 				<div class='col-md-12 pull-left' style="font-size: 200%;"> {{ topic_obj.topic_heading }}
 				</div>
-				<div class='col-md-12 pull-left'> <a href="/readbooks/group/{{topic_obj.group.id}}" title="{{topic_obj.group.group_description}}"> {{topic_obj.group}} </a>
+				<div class='col-md-12 '> 
+					<div class='pull-left'>	Started on {{ topic_obj.creation_date }}	in <a href="/readbooks/group/{{topic_obj.group.id}}" title="{{topic_obj.group.group_description}}"> {{topic_obj.group}} </a> </div>
 				</div>
 		 </div>
 			<div class='col-md-1'> 
@@ -94,31 +95,40 @@
 			</div>
 		</div>
 		</div>
-		<div class='col-md-2' style='padding:2% 1% 0 0;'>
+		<div class='col-md-2' style='padding:1% 0 0 0;'>
 			<img src="{{ topic_obj.creator.profile_picture.url }}" class='img-responsive ' />
 			<a href="/readbooks/reader/{{ topic_obj.creator.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-success btn-block btnsize3 text-center'> <i class='fa fa-user iconspace'></i>	{{ topic_obj.creator.first_name }} {{ topic_obj.creator.last_name }} </button> </a>
-			<h5 style='padding-top:10%;'>
-				- {{ topic_obj.creation_date }}
-			</h5>
 		</div>
-		<div class='col-md-10' style='padding: 2% 0 0 1%;'>
-			{{ topic_obj.topic_discussion }}
+		<div class='col-md-10' style='padding: 1%;'>
+						{{ topic_obj.topic_discussion }}
 		</div>
 	</div>
 		
+	{% if replies_by_topic_obj %}	
 	<div class='container well bordrad-zero' style='padding-top:0;	'>
 		{% for reply in replies_by_topic_obj %}
-		<div class='col-md-2' style='padding:2% 1% 0 0;'>
-			<img src="{{ reply.topic_reply_user.profile_picture.url }}" class='img-responsive image-fit-frame' />
+		<div class='col-md-2' style='padding:1% 0 0 0;'>
+			<img src="{{ reply.topic_reply_user.profile_picture.url }}" class='img-responsive' />
 			<a href="/readbooks/reader/{{ reply.topic_reply_user.id }}"> <button type="button" class='btn btn-success btn-block text-center'> <i class='fa fa-user iconspace'></i>	{{ reply.topic_reply_user.first_name }} {{ reply.topic_reply_user.last_name }} </button> </a>
-			<h5 style='padding-top:10%;'>
-				- {{ reply.message_time }}
-			</h5>
 		</div>
-		<div class='col-md-10' style='padding: 2% 0 0 1%;'>
+		<div class='col-md-10' style='padding: 1%;'>
+		<div class='pull-right' style='padding-top:2%; font-size:90%;''>	{{ reply.message_time }}	</div>
 			{{ reply.topic_reply }}
 		</div>
 		{% endfor %}
+	</div>
+	{% endif %}
+
+	<div class='col-md-12 well'>
+		<form action="/readbooks/add_topic_reply/" method="POST">{% csrf_token %}
+			<fieldset>
+				<div class='form-group pad-zero'>
+					<textarea class='form-control' rows='5' required='true' name="topic_discussion">  </textarea>
+				</div>
+				<input type='text' hidden='true' name='topic_id' value="{{topic_obj.id}}">
+				<div class='col-md-6 col-md-offset-3'> <button type="submit" class="btn btn-block btn-primary"> <h2 class='bord-zero'> <i class='fa fa-plus'> </i> </h2> </button> </div>
+			</fieldset> 
+		</form>
 	</div>
 </div>
 
