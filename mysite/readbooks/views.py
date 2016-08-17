@@ -29,8 +29,8 @@ def create_pdf(request):
 	return response
 
 def calculate_age(dob):
-    today = date.today()
-    return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+	today = date.today()
+	return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
 
 def reader_or_critic(logged_id):
 	try:
@@ -246,10 +246,11 @@ def update_userinfo(request):
 		loggedProfile.profile_picture=request.FILES['userprofilepic']
 		# loggedProfile.profile_picture = image_location
 		loggedProfile.save()
-		if reader_or_critic(request.user.id) == 'Reader':
-			return show_reader_by_id(request, loggedProfile.id, update_message="Profile Updated!")
-		if reader_or_critic(request.user.id) == 'Critic':
-			return show_critic_by_id(request, loggedProfile.id, update_message="Profile Updated!")
+		return HttpResponseRedirect('/readbooks/profile_info/')
+		# if reader_or_critic(request.user.id) == 'Reader':
+		# 	return show_reader_by_id(request, loggedProfile.id, update_message="Profile Updated!")
+		# if reader_or_critic(request.user.id) == 'Critic':
+		# 	return show_critic_by_id(request, loggedProfile.id, update_message="Profile Updated!")
 
 def register(request):
 	if request.method == 'POST':
@@ -300,7 +301,8 @@ def add_book(request):
 		newbook.cover_picture = request.POST['add_bookcover']
 		newbook.book_synopsis = request.POST['add_booksummary']
 		newbook.save()
-		return show_book_by_id(request, newbook.id, create_message="New Book Added!")
+		redirect_url = "/readbooks/book/%s" %(newbook.id)	
+		return redirect(redirect_url)
 
 @login_required
 def add_author(request):
@@ -312,19 +314,21 @@ def add_author(request):
 		newauthor.date_of_birth=request.POST['date_of_birth']
 		newauthor.profile_picture=request.FILES['profile_picture']
 		newauthor.save()
-		return show_author_by_id(request, newauthor.id, create_message="New Author Added!")
+		redirect_url = "/readbooks/author/%s" %(newauthor.id)	
+		return redirect(redirect_url)
 
 def add_review(request):
-	# if request.method=='POST':
-		newreview = models.Review.create(heading=request.POST['heading'])
-		book_to_assign = models.Book.objects.get(id=int(request.POST['book_id']))
-		newreview.status= request.POST['status']
-		newreview.critic = models.Critic.objects.get(user_id=request.user.id)
-		newreview.book = book_to_assign
-		newreview.review = request.POST['review']
-		newreview.save()
-		return show_review_by_id(request, newreview.id, create_message="New Review Added!")
-
+# if request.method=='POST':
+	newreview = models.Review.create(heading=request.POST['heading'])
+	book_to_assign = models.Book.objects.get(id=int(request.POST['book_id']))
+	newreview.status= request.POST['status']
+	newreview.critic = models.Critic.objects.get(user_id=request.user.id)
+	newreview.book = book_to_assign
+	newreview.review = request.POST['review']
+	newreview.save()
+	redirect_url = "/readbooks/review/%s" %(newreview.id)	
+	return redirect(redirect_url)
+	
 @login_required
 def edit_review(request):
 	review_to_edit = models.Review.objects.get(id=request.POST['review_id'])
@@ -332,7 +336,8 @@ def edit_review(request):
 	review_to_edit.status = request.POST['status']
 	review_to_edit.review = request.POST['review']
 	review_to_edit.save()
-	return show_review_by_id(request, request.POST['review_id'], update_message="Review Updated!")
+	redirect_url = "/readbooks/review/%s" %(review_to_edit.id)	
+	return redirect(redirect_url)
 
 @login_required
 def add_publisher(request):
@@ -341,13 +346,17 @@ def add_publisher(request):
 	new_publisher.website = request.POST['publisher_website']
 	new_publisher.cover_picture = request.FILES['publisher_cover_photo']
 	new_publisher.save()
-	return show_publisher_by_id(request, new_publisher.id, create_message="New Publisher Added!")
+	redirect_url = "/readbooks/publisher/%s" %(new_publisher.id)	
+	return redirect(redirect_url)
 
 @login_required
 def add_genre(request):
 	new_genre = models.Genre.create(name=request.POST['genre_name'])
 	new_genre.save()
-	return show_genre_by_id(request, new_genre.id, create_message="New Genre Added!")
+	redirect_url = "/readbooks/genre/%s" %(new_genre.id)	
+	return redirect(redirect_url)
+
+	# return show_genre_by_id(request, new_genre.id, create_message="New Genre Added!")
 
 @login_required
 def add_group(request):
@@ -356,13 +365,14 @@ def add_group(request):
 	newgroup.group_description = request.POST['group_description']
 	newgroup.group_admin = models.Reader.objects.get(user_id=request.user.id)
 	newgroup.save()
-	return show_group_by_id(request, newgroup.id, create_message="New Group Added!")
+	redirect_url = "/readbooks/group/%s" %(newgroup.id)	
+	return redirect(redirect_url)
 
 @login_required
 def delete_review(request):
 	review_to_delete = models.Review.objects.get(id=request.POST['review_id'])
 	review_to_delete.delete()
-	return list_recent_models(request, delete_message="Review Deleted!")
+	return HttpResponseRedirect('/readbooks/new/')
 
 @login_required
 def change_password(request):
@@ -373,13 +383,13 @@ def change_password(request):
 			logged_user = models.User.objects.get(id=request.user.id)
 			logged_user.set_password(request.POST['password_new1'])
 			logged_user.save()
-			return account_info(request, success_message="Password changed Successfully")
+			return HttpResponseRedirect('/readbooks/profile_info/')
 		
 @login_required
 def delete_topic(request):
 	topic_to_delete = models.Review.objects.get(id=request.POST['topic_id'])
 	topic_to_delete.delete()
-	return list_recent_models(request, delete_message="Topic Deleted!")
+	return HttpResponseRedirect('/readbooks/new/')
 
 @login_required
 def create_topic(request):
