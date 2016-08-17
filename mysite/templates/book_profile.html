@@ -8,8 +8,10 @@
 .iconspace { padding-right: 2%;} 
 .btnsize1 { height:7%; margin-top:7%; margin-bottom: 5%;border-radius: 0;}
 .btnsize2 {height:10%; text-transform:uppercase;border-radius:0;}
-.pic-container{ background-color: #f5f5f5; height:45%;border:0;padding:4% 0 2% 0;}
+.pic-container{ background-color: #f5f5f5; height:45%;border:0;padding:0% 0 2% 0;}
 .pad-zero{padding:0;}
+.btnround{ height:15%; width: 20%; border-radius: 100%; margin:5% 25% 5% 40%; }
+/*.pad-marg-zero{padding:0; margin:0;}*/
 </style>
 
 <div class='col-md-10 col-md-offset-1 top-marg3'>
@@ -20,8 +22,8 @@
 		</div>
 	</div>
 	{% endif %}
-	<div class='col-md-6' style='padding:0 0.5% 0 0;'>
-		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
+	<div class='col-md-6' id= 'books_main_div' style='padding:0 0.5% 0 0; max-height: 60%;'>
+		<div class="col-md-12 well bordrad-zero " id = "book_profile_div" style='padding-bottom:0;'>
 			<p class='text-center text-uppercase' style='font-size: 240%;'> {{ book_obj.title }} </p>
 			<div class=' pic-container'>
 				<img src="{{ book_obj.cover_picture.url }}" class="img-responsive image-fit-frame"/>
@@ -33,8 +35,10 @@
 					Genre {% for genre in book_obj.genre.all %}
 						<a href="/readbooks/genre/{{ genre.id }}"> {{ genre.name }}</a>
 					{% endfor %} <br>
-					<small class='pad-right'> The story is about: </small> {{ book_obj.book_synopsis|truncatechars:200 }}
-				</div>
+						<div id="book_description" style='max-height:14%; padding-top:2%;'>
+							<small class='pad-right'> The story is about: </small> {{ book_obj.book_synopsis }} and lorem ipsumn huge chunk text blajh thtes and lorem ipsumn huge chunk text blajh thtes and lorem ipsumn huge chunk text blajh thtes and lorem ipsumn huge chunk text blajh thtes and lorem ipsumn huge chunk text blajh thtes and lorem ipsumn huge chunk text blajh thtes and lorem ipsumn huge chunk text blajh thtes and lorem ipsumn huge chunk text blajh thtes 	
+						</div>
+					</div>
 			</div>						
 		</div>
 	</div>
@@ -55,7 +59,7 @@
 			{% endif %}
 
 			{% if user_type == 'Critic' %}
-			<button type="button" class="btn col-md-6 col-md-offset-3 btn-info text-uppercase btnsize1" data-toggle="modal" data-target="#addReview"> <i class="fa fa-plus iconspace"> </i> Add Review </button>
+			<button type="button" class="btn btn-info text-uppercase btnround" data-toggle="modal" data-target="#addReview"> <h2> <i class="fa fa-plus iconspace"> </i> </h2></button> 
 				<div class="modal fade" id="addReview" tabindex="-1" role="dialog">
 				  <div class="modal-dialog" role="document">
 				  	<div class="modal-content">
@@ -107,7 +111,7 @@
 
 			{% endif %}
 
-			<div class='col-md-12' style='padding:0;'>
+			<div class='col-md-12 pre-scrollable' style='padding:0; max-height:50%;'>
 				{% for review in reviews_book_obj %}
 					<div class='col-md-6 pad-zero' >
 						<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-star-o iconspace'> </i> {{ review.heading }} </button> </a>
@@ -120,22 +124,23 @@
 		</div>
 	</div>	
 
-	<div class='col-md-6' id="comments_col" style='padding:0 0 0 0.5%;'>
-		<div class='col-md-12 well bordrad-zero' >
-			{% if user_type == 'Reader' %}
+	<div class='col-md-6' id="comments_main_div" style='padding:0 0 0 0.5%; max-height:77%;'>
+	<div class='col-md-12 pad-zero'>
+		{% if user_type == 'Reader' %}
 			<form action="/readbooks/add_book_comment/" method='POST'>{% csrf_token %}
 			<fieldset>
-				<div class="col-md-12">
+				<!-- <div class="col-md-12 pad-zero" style='margin:0;'> -->
 					<div class="input-group pad-zero">
 					<input hidden="true" name='book_id' value="{{book_obj.id}}">
-						<input type="text" name="new_comment" class="form-control" placeholder="Add Your Comment">
+						<input type="text" name="new_comment" class="form-control" placeholder="Add Your Comment" >
 						<span class="input-group-btn"> <button type="button submit" class="btn btn-default"> <i class="fa fa-comment"></i> Comment </button> </span>
 					</div>
-				</div>
-			</div>
+				<!-- </div> -->
 			</fieldset>
 			</form>
 			{% endif %}
+	</div>
+		<div class='col-md-12 well pre-scrollable bordrad-zero pad-zero' id="all_comments_div" style='max-height:69%;'>
 			{% if not comments_by_book_obj %}
 				<div class='text-center well bordrad-zero'> Not really popular among people</div>
 			{% endif %}
@@ -148,31 +153,34 @@
 			{% endfor %}
 		</div>
 	</div>	
+
+
 </div>
 
 <script>
 $(document).ready(function(){
 	$("#reviews_col").hide();
-	$("#comments_col").hide();
-	// $("#review_btn").tooltip({
-	// 	show: {
-	// 		effect: "slideDown",
-	// 		delay: 250
-	// 	}
-	// });
-	// $("#comments_btn").tooltip({
-	// 	show: {
-	// 		effect: "slideDown",
-	// 		delay: 250
-	// 	}
-	// });
+	$("#comments_main_div").hide();
+
+	var bookMainDivHeightPercent = $("#books_main_div").outerHeight()/window.innerHeight*100;
+	if (bookMainDivHeightPercent>60){
+		$("#book_description").addClass("pre-scrollable");
+	}
+
 	$("#reviews_btn").click(function(){
-		$("#comments_col").hide();
+		$("#comments_main_div").hide();
 		$("#reviews_col").toggle("fade");
 	});
+
 	$("#comments_btn").click(function(){
 		$("#reviews_col").hide();
-		$("#comments_col").toggle("fade");
+		$("#comments_main_div").toggle("fade");
+
+			// var commentsMainDivHeightPercent=$("#comments_main_div").outerHeight()/window.innerHeight*100;
+			// if (commentsMainDivHeightPercent>77){
+			// 	$("#all_comments_div").addClass("pre-scrollable");
+			// }
+
 	});
 });
 </script>

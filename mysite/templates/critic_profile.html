@@ -23,7 +23,7 @@
 				<div class='panel-heading' >
 					<div class='col-md-6 pad-zero'>{{ critic_obj.gender }}</div> 
 					<div class='col-md-6 pad-zero'><small class='pad-right'> Birthday: </small> {{ critic_obj.date_of_birth }}</div>
-					{{ critic_obj.bio }}
+					{{ critic_obj.bio|truncatechars:200 }}
 				</div>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 			{% if not reviews_by_critic_obj %}
 				<div class='text-center well bordrad-zero'> No Reviews Published</div>
 			{% endif %}
-			<div class='col-md-12 pad-zero' >
+			<div class='col-md-12 pad-zero pre-scrollable' style='max-height: 80%;'>
 				{% for review in reviews_by_critic_obj %}
 					{% if review.status == 'Published' %}
 						<div class='col-md-6 pad-zero'>

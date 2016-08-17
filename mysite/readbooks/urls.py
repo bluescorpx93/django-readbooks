@@ -2,7 +2,7 @@ from django.conf.urls import url
 from readbooks import views
 
 urlpatterns	= [
-	url(r'^$', views.sitelogin, name='login_url'),
+	url(r'^signin/$', views.sitelogin, name='login_url'),
 	url(r'^$', views.sitelogout, name='logout_url'),
 	url(r'^register/$', views.register, name='signup_url'),
 	url(r'^create_pdf/$', views.create_pdf, name="create_pdf_url"),

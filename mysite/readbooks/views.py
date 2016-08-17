@@ -139,9 +139,8 @@ def add_book_comment(request):
 	new_comment.book = models.Book.objects.get(id=request.POST['book_id'])
 	new_comment.reader = models.Reader.objects.get(user_id=request.user.id)
 	new_comment.save()
-	redirect_url = "/readbooks/book/%s" %(new_comment.book.id)
-	return show_book_by_id(request, request.POST['book_id'], create_message="Comment Added")
-	# return HttpResponseRedirect(redirect_url)
+	redirect_url = "/readbooks/book/%s" %(new_comment.book.id)	
+	return redirect(redirect_url)
 
 @login_required
 def show_group_by_id(request, group_id, create_message=None):
