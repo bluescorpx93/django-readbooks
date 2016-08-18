@@ -26,13 +26,12 @@
 		<div class="col-md-12 well bordrad-zero" >
 			<p class='text-center text-uppercase' style='font-size: 240%;'> {{ author_obj.first_name }} {{ author_obj.last_name }} </p>
 			<div class='pic-container'>
-				<img src="{{ author_obj.profile_picture.url }}" class="img-responsive image-fit-frame"/>
+				<img src="{{ author_obj.profile_picture.url }}" class="img-responsive image-fit-frame" title="{{ author_obj.first_name }} {{ author_obj.last_name }} has written {{total_books_by_author}} books"/>
 			</div>
 			<div class=' well' >
 					<div class='col-md-6 pad-zero'>{{ author_obj.gender }}</div> 
 					<div class='col-md-6 pad-zero'><small class='pad-right'> Birthday: </small> {{ author_obj.date_of_birth }}</div>
 					<div class='pad-zero'> {{ author_obj.bio|truncatechars:200 }} show something</div>
-		
 			</div>
 		</div>
 	</div>

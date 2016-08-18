@@ -70,7 +70,7 @@
 	<div class='col-md-4' id="critic_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero'>
 			<div class='pic-container '>
-				<img src="{{ review_obj.critic.profile_picture.url }}" class='img-responsive image-fit-frame' />
+				<a href="/readbooks/critic/{{ review_obj.critic.id }}" style='text-decoration: none;'><img src="{{ review_obj.critic.profile_picture.url }}" class='img-responsive image-fit-frame' title="{{total_reviews_by_this_critic}} Reviews Written" /> </a>
 			</div>	
 			<div class='col-md-12 pad-zero'>
 				<a href="/readbooks/critic/{{ review_obj.critic.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-user iconspace'></i> {{ review_obj.critic.first_name }} {{ review_obj.critic.last_name }}</button> </a>
@@ -81,7 +81,7 @@
 	<div class='col-md-4' id="book_col" style='padding:0 0 0 0.5%;'>
 		<div class='col-md-12 pad-zero'	>
 			<div class='pic-container '>
-				<img src="{{ review_obj.book.cover_picture.url }}" class='img-responsive image-fit-frame' />
+				<a href="/readbooks/book/{{ review_obj.book.id }}" style='text-decoration: none;'> <img src="{{ review_obj.book.cover_picture.url }}" class='img-responsive image-fit-frame' title=" {{review_obj.book.title}} has {{total_reviews_of_this_book}} reviews" /> </a>
 			</div>
 			<div class='col-md-12 pad-zero'>
 				<a href="/readbooks/book/{{ review_obj.book.id }}" style='text-decoration: none;'> <button type="button" class='btn btn-default btn-block btnsize1'> <i class='fa fa-book iconspace'></i> {{ review_obj.book.title }}</button> </a>
@@ -109,14 +109,14 @@
 									</div>
 								</div>
 								<div class="form-group">
-				            	<label for="id_status" class=" col-md-3 control-label">Change Status </label>
-				            	<div class='col-md-9'>
-			            			<select id="id_review_status" required="true" class="form-control" name="status">
+									<label for="id_status" class=" col-md-3 control-label">Change Status </label>
+									<div class='col-md-9'>
+										<select id="id_review_status" required="true" class="form-control" name="status">
 											<option value = "Published"> Publish</option>
 											<option value= "Draft"> Draft </option>
 										</select>								
-				            	</div>
-				          	</div>
+									</div>
+								</div>
 								<div class="form-group">
 									<label for="id_review" class=" col-md-3 control-label">Review</label>
 									<div class='col-md-9'>
@@ -160,8 +160,7 @@
 								<div class='col-md-6 col-md-offset-2'>
 									<button type="submit" class="btn btn-danger"> <i class='fa fa-trash iconspace'> </i> Delete </button>
 									<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-								</div>
-								
+								</div>							
 							</div>
 						</fieldset>
 					</form>
@@ -193,7 +192,7 @@
 							<div class='well bordrad-zero'>
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			  						<h2 class="modal-title text-capitalize text-center">Edit <small> {{review_obj.heading}} </small></h2>
+											<h2 class="modal-title text-capitalize text-center">Edit <small> {{review_obj.heading}} </small></h2>
 									<h4 class='text-center'> <small> Set as: </small> {{ review_obj.status }}</h4>
 								</div>
 								<form action = "/readbooks/edit_review/" method="post">{% csrf_token %}
@@ -207,14 +206,14 @@
 												</div>
 											</div>
 											<div class="form-group">
-							            	<label for="id_status" class=" col-md-3 control-label"> Change Status TO</label>
-							            	<div class='col-md-9'>
+												<label for="id_status" class=" col-md-3 control-label"> Change Status TO</label>
+												<div class='col-md-9'>
 													<select id="id_review_status" required="true" class="form-control" name="status">
 														<option value = "Published"> Publish</option>
 														<option value="Draft"> Draft </option>
 													</select>
-							            	</div>
-							          	</div>
+												</div>
+											</div>
 											<div class="form-group">
 												<label for="id_review" class=" col-md-3 control-label">Review</label>
 												<div class='col-md-9'>
@@ -269,7 +268,7 @@
 
 			{% endif %}
 		</div>	 
-	 
+		
 	</div>
 	{% endif %}
 
@@ -279,24 +278,24 @@
 $(document).ready(function(){
 	$("#critic_col").hide();
 	$("#book_col").hide();
-	$("#gplus_anchor").tooltip({
-		show: {
-			effect: "slideDown",
-			delay: 250
-		}
-	});
-	$("#twitter_anchor").tooltip({
-		show: {
-			effect: "slideDown",
-			delay: 250
-		}
-	});
-	$("#fb_anchor").tooltip({
-		show: {
-			effect: "slideDown",
-			delay: 250
-		}
-	});
+	// $("#gplus_anchor").tooltip({
+	// 	show: {
+	// 		effect: "slideDown",
+	// 		delay: 250
+	// 	}
+	// });
+	// $("#twitter_anchor").tooltip({
+	// 	show: {
+	// 		effect: "slideDown",
+	// 		delay: 250
+	// 	}
+	// });
+	// $("#fb_anchor").tooltip({
+	// 	show: {
+	// 		effect: "slideDown",
+	// 		delay: 250
+	// 	}
+	// });
 	
 	$("#critic_btn").click(function(){
 		$("#book_col").hide();

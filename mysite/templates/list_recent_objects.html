@@ -34,12 +34,11 @@
 				<div class='well bordrad-zero col-md-4 text-center'>
 					<a href="{% url 'book_byID_url' book.id %}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-info btnsize2" > {{ book.title }} </button>  </a>
 					<div class='pic-container'>
-						<img src="{{ book.cover_picture.url }}" class="img-responsive image-fit-frame" />
+						<a href="{% url 'book_byID_url' book.id %}" title="{{ book.book_synopsis|truncatechars:30 }}"> <img src="{{ book.cover_picture.url }}" class="img-responsive image-fit-frame" /> </a>
 					</div>
-					<div class="well bordrad-zero">
+					<div class="well text-center bordrad-zero">
 						<a href="/readbooks/author/{{ book.author.id }}" > {{ book.author.first_name }} {{book.author.last_name}} </a> <br>
 						<a href="/readbooks/publisher/{{ book.publisher.id }}" > <i> {{ book.publisher }} Publishers</i></a>
-						<h5> {{ book.book_synopsis|truncatechars:30 }}</h5>
 					</div>				
 				</div>
 				{% endfor %}
@@ -50,10 +49,10 @@
 				<div class=' well bordrad-zero col-md-4'>
 					<a href="/readbooks/author/{{ author.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-primary btnsize2" > {{ author.first_name }} {{ author.last_name }} </button>  </a>
 					<div class='pic-container'>
-						<img src="{{ author.profile_picture.url }}" class="img-responsive image-fit-frame" />
+						<a href="/readbooks/author/{{ author.id }}"> <img src="{{ author.profile_picture.url }}" class="img-responsive image-fit-frame" /> </a>
 					</div>
-					<div class="well bordrad-zero">
-						{{ author.bio|truncatechars:30 }}
+					<div class="well text-center bordrad-zero">
+						{{ author.bio|truncatechars:100 }}
 					</div>
 				</div>
 				{% endfor %}
@@ -65,9 +64,9 @@
 						<div class='well bordrad-zero col-md-4'>
 							<a href="/readbooks/review/{{ review.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-warning btnsize2" > {{ review.heading }} </button>  </a>
 							<div class='pic-container'>
-								<img src="{{ review.critic.profile_picture.url }}" class="img-responsive image-fit-frame"/>
+								<a href="/readbooks/review/{{ review.id }}"> <img src="{{ review.critic.profile_picture.url }}" class="img-responsive image-fit-frame"/> </a>
 							</div>
-							<div class='well bordrad-zero'>
+							<div class='well bordrad-zero text-center'>
 								<a href="/readbooks/critic/{{ review.critic.id }}" >{{ review.critic }} </a> reviews <br> <a href="/readbooks/book/{{ review.book.id }}" ><strong >{{ review.book }} </strong> </a>
 							</div>
 						</div>
@@ -80,28 +79,25 @@
 					<div class='well bordrad-zero col-md-4'>
 						<a href="/readbooks/group/{{ group.id }}" style='text-decoration: none;'> <button type="button" class="btn btn-block btn-success btnsize2" > {{ group.name }} </button>  </a>
 						<div class='pic-container'>
-							<img src="{{ group.cover_picture.url }}" class="img-responsive image-fit-frame" />
+							<a href="/readbooks/group/{{ group.id }}" title="{{ group.topic_count }} Topics, {{ group.member_count }} Members"> <img src="{{ group.cover_picture.url }}" class="img-responsive image-fit-frame" /> </a>
 						</div>
 						<div class="well bordrad-zero">
-							{{ group.group_description|truncatechars:30 }} <br>
-							{{ group.topic_count }} Topics, {{ group.member_count }} Members
+							{{ group.group_description|truncatechars:100 }}
 						</div>
 					</div>
 				{% endfor %}
 			</div>
 
 			<div role="tabpanel" class="tab-pane fade" id="topics_div">
-				<div class='col-md-12' style='padding-top: 3%;' >
+				<div class='col-md-12' style='padding: 0;' >
 					<div class='panel panel-success'  >
 						<div class='panel-heading'>
 							<h3 class='text-center text-uppercase'> <i class='fa fa-fire iconspace'></i> Topics </h3>
 						</div>
 						<div class='panel-body'>
-							<div class='list-group'>
-								{% for topic in recent_topics %}
-								<a href='/readbooks/topic/{{ topic.id }}' class='list-group-item'>  <h4 style='padding-left: 2%;'><i class='fa fa-comments'> </i> {{ topic.topic_heading }} </h4> </a>
-								{% endfor %}
-							</div>
+							{% for topic in recent_topics %}
+							<a href='/readbooks/topic/{{ topic.id }}' class='list-group-item' title='{{topic.reply_count}} replies'>  <div style='padding: 1% ;'><i class='fa fa-comments' style='padding-right: 2%;'> </i> {{ topic.topic_heading }} <small class='pull-right' >Started: {{topic.creator}}, <br> - {{topic.creation_date|timesince}} ago</small></div> </a>
+							{% endfor %}
 						</div>
 					</div>
 				</div>

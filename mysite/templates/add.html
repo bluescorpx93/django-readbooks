@@ -229,32 +229,32 @@
 	<div class='col-md-4'>
 
 		<div class='col-md-12 pad-zero' >
-			<button type="button" class="btn btn-block btn-info btnsize2 " id="current_stats_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-area-chart"></i> </h3> </div> <div class='col-md-4 text-center'> Current Stats </div> </button> 
+			<button type="button" class="btn btn-block btn-info btnsize2 " id="current_stats_btn" title="Check out the inventory"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-area-chart"></i> </h3> </div> <div class='col-md-4 text-center'> Current Stats </div> </button> 
 		</div>
 
 		<div class='col-md-12 well text-center' id='currents_stats_div'>
-			<div class='well col-md-12'> <p> Books: {{ all_books_count }} </p> </div>
-			<div class='well col-md-12'> <p> Authors: {{ all_authors_count }} </p> </div>
-			<!-- <div class='well col-md-12'> <p> Groups: {{ all_groups_count }} </p></div> -->
-			<div class='well col-md-12'> <p> Publishers: {{ all_publishers_count }} </p> </div> 
-			<div class='well col-md-12'> <p> Genres: {{ all_genre_count }} </p>  </div>
+			<div class='well'> Books: {{ all_books_count }} </div>
+			<div class='well'> Authors: {{ all_authors_count }} </div>
+			<div class='well'> Groups: {{ all_groups_count }} </div>
+			<div class='well'> Publishers: {{all_publishers_count}} </div> 
+			<div class='well'> Genres: {{ all_genre_count }}</div>
 		</div>
 
 		<div id="all_form_btns_div">
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="book_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-book"></i> </h3> </div> <div class='col-md-4 text-center'> New Book </div> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="book_form_btn" title="Click here to Add a new Book"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-book"></i> </h3> </div> <div class='col-md-4 text-center'> New Book </div> </button> 
 			</div>
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="author_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-user"></i> </h3> </div> <div class='col-md-4 text-center'> New Author </div> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="author_form_btn" title="Add a New Author"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-user"></i> </h3> </div> <div class='col-md-4 text-center'> New Author </div> </button> 
 			</div>
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="group_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-group"></i> </h3> </div> <div class='col-md-4 text-center' > New Group </div> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="group_form_btn" title="Create a New Group"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-group"></i> </h3> </div> <div class='col-md-4 text-center' > New Group </div> </button> 
 			</div>
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="publisher_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-leanpub"></i> </h3> </div> <div class='col-md-4 text-center'> New Publisher </div> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="publisher_form_btn" title="Add a New Publisher"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-leanpub"></i> </h3> </div> <div class='col-md-4 text-center'> New Publisher </div> </button> 
 			</div>
 			<div class='col-md-12 pad-zero' >
-				<button type="button" class="btn btn-block btn-info btnsize2" id="genre_form_btn"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-flag-o"></i> </h3> </div> <div class='col-md-4 text-center' > New Genre </div> </button> 
+				<button type="button" class="btn btn-block btn-info btnsize2" id="genre_form_btn" title="Include a New Genre"> <div class='col-md-4'> <h3 class='bord-zero'> <i class="fa fa-flag-o"></i> </h3> </div> <div class='col-md-4 text-center' > New Genre </div> </button> 
 			</div>
 		</div>
 

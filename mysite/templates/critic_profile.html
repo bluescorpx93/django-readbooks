@@ -17,7 +17,7 @@
 		<div class="col-md-12 well bordrad-zero " style='padding-bottom:0;'>
 			<p class='text-center text-uppercase' style='font-size: 240%;'> {{ critic_obj.first_name }} {{ critic_obj.last_name }} </p>
 			<div class='pic-container'>
-				<img src="{{ critic_obj.profile_picture.url }}" class="img-responsive image-fit-frame"/>
+				<img src="{{ critic_obj.profile_picture.url }}" class="img-responsive image-fit-frame" title="{{ critic_obj.first_name }} {{ critic_obj.last_name }} has written {{total_reviews_by_critic}} reviews"/>
 			</div>
 			<div class='panel panel-default' style='border-radius: 0;'>
 				<div class='panel-heading' >
@@ -30,7 +30,7 @@
 	</div>
 
 	<div class='col-md-6' style='padding:0 0 0 0.5%'>
-		<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"  data-placement="bottom" title="Reviews by {{critic_obj.first_name}} {{critic_obj.last_name}}"> <i class="fa fa-star-o iconspace"></i> Reviews </button> 
+		<button type="button" class="btn btn-block btn-info btnsize2" id="reviews_btn"  data-placement="bottom" title="Published Reviews by {{critic_obj.first_name}} {{critic_obj.last_name}}"> <i class="fa fa-star-o iconspace"></i> Reviews </button> 
 	</div>
 
 	<div class='col-md-6' id="reviews_col" style='padding:0 0 0 0.5%;'>

@@ -73,48 +73,52 @@ def list_recent_models(request, delete_message=None):
 def show_book_by_id(request, book_id, create_message=None):
 	try:
 		book_obj = models.Book.objects.get(id=int(book_id))
-		reviews_book_obj = models.Review.objects.filter(book=int(book_id)).order_by('-id')[:10]
-		comments_by_book_obj = models.Comment.objects.filter(book=int(book_id)).order_by('-id')
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html',)
+	reviews_book_obj = models.Review.objects.filter(book=int(book_id)).order_by('-id')[:10]
+	comments_by_book_obj = models.Comment.objects.filter(book=int(book_id)).order_by('-id')
 	return render(request, 'book_profile.html', {'book_obj': book_obj,'reviews_book_obj': reviews_book_obj, 'comments_by_book_obj': comments_by_book_obj,'user_type': reader_or_critic(request.user.id), 'create_new': create_message})
 
 @login_required
 def show_author_by_id(request, author_id, create_message=None):
 	try:
 		author_obj = models.Author.objects.get(id=int(author_id))
-		books_by_author_obj= models.Book.objects.filter(author=int(author_id)).order_by('-id')[:10]
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'author_profile.html', { 'author_obj': author_obj,'books_by_author_obj': books_by_author_obj, 'create_new': create_message})
+	books_by_author_obj= models.Book.objects.filter(author=int(author_id)).order_by('-id')
+	total_books_by_author = books_by_author_obj.count
+	return render(request, 'author_profile.html', { 'author_obj': author_obj,'books_by_author_obj': books_by_author_obj, 'create_new': create_message, 'total_books_by_author': total_books_by_author})
 
 @login_required
 def show_publisher_by_id(request, publisher_id, create_message=None):
 	try:
 		publisher_obj = models.Publisher.objects.get(id=int(publisher_id))
-		books_by_publisher_obj = models.Book.objects.filter(publisher=int(publisher_id)).order_by('-id')[:10]
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'publisher_profile.html', { 'publisher_obj': publisher_obj, 'books_by_publisher_obj': books_by_publisher_obj, 'create_new': create_message})
+	books_by_publisher_obj = models.Book.objects.filter(publisher=int(publisher_id)).order_by('-id')
+	total_books_by_publisher=books_by_publisher_obj.count
+	return render(request, 'publisher_profile.html', { 'publisher_obj': publisher_obj, 'books_by_publisher_obj': books_by_publisher_obj, 'create_new': create_message, 'total_books_by_publisher':total_books_by_publisher,})
 
 @login_required
 def show_reader_by_id(request, reader_id, update_message=None, ):
 	try:
 		reader_obj =models.Reader.objects.get(id=int(reader_id))
-		reader_obj_age = calculate_age(reader_obj.date_of_birth)
-		currentbooks_by_reader_obj = models.ReadersCurrentlyRead.objects.filter(reader=int(reader_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'reader_profile.html', { 'reader_obj': reader_obj, 'reader_obj_age': reader_obj_age, 'currentbooks_by_reader_obj': currentbooks_by_reader_obj, 'edit_success': update_message,})
+	reader_obj_age = calculate_age(reader_obj.date_of_birth)
+	currentbooks_by_reader_obj = models.ReadersCurrentlyRead.objects.filter(reader=int(reader_id))
+	total_readingbooks_of_reader=currentbooks_by_reader_obj.count
+	return render(request, 'reader_profile.html', { 'reader_obj': reader_obj, 'reader_obj_age': reader_obj_age, 'currentbooks_by_reader_obj': currentbooks_by_reader_obj, 'edit_success': update_message, 'total_readingbooks_of_reader': total_readingbooks_of_reader, })
 
 @login_required
 def show_critic_by_id(request, critic_id, update_message=None):
 	try:
 		critic_obj =  models.Critic.objects.get(id=int(critic_id))
-		reviews_by_critic_obj = models.Review.objects.filter(critic=int(critic_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'critic_profile.html', {	'critic_obj': critic_obj, 'reviews_by_critic_obj': reviews_by_critic_obj, 'edit_success': update_message,})
+	reviews_by_critic_obj = models.Review.objects.filter(critic=int(critic_id))
+	total_reviews_by_critic=reviews_by_critic_obj.count
+	return render(request, 'critic_profile.html', {	'critic_obj': critic_obj, 'reviews_by_critic_obj': reviews_by_critic_obj, 'edit_success': update_message,'total_reviews_by_critic': total_reviews_by_critic,})
 
 def isLoggedUserReviewWriter(request, review_id):
 	logged_user = models.User.objects.get(id=request.user.id)
@@ -128,10 +132,12 @@ def isLoggedUserReviewWriter(request, review_id):
 def show_review_by_id(request, review_id, create_message=None, update_message=None):
 	try:
 		review_obj= models.Review.objects.get(id=int(review_id))
-		review_owner = isLoggedUserReviewWriter(request, review_id)
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'book_review.html', {'review_obj': review_obj, 'review_owner': review_owner, 'create_new': create_message, 'edit_success': update_message, 'share_string': quote_plus(review_obj.review), })
+	review_owner = isLoggedUserReviewWriter(request, review_id)
+	total_reviews_by_this_critic = models.Review.objects.filter(critic=review_obj.critic).count()
+	total_reviews_of_this_book = models.Review.objects.filter(book=review_obj.book).count()
+	return render(request, 'book_review.html', {'review_obj': review_obj, 'review_owner': review_owner, 'create_new': create_message, 'edit_success': update_message, 'share_string': quote_plus(review_obj.review), 'total_reviews_by_this_critic': total_reviews_by_this_critic, 'total_reviews_of_this_book': total_reviews_of_this_book})
 
 @login_required
 def add_book_comment(request):
@@ -146,10 +152,11 @@ def add_book_comment(request):
 def show_group_by_id(request, group_id, create_message=None):
 	try:
 		group_obj = models.Group.objects.get(id=int(group_id))
-		topics_by_group_obj = models.Topic.objects.filter(group=int(group_id))
 	except ObjectDoesNotExist:
 		return render(request, 'default404.html')
-	return render(request, 'group_page.html', {'group_obj': group_obj, 'topics_by_group_obj': topics_by_group_obj, 'user_type': reader_or_critic(request.user.id), 'create_new': create_message,})
+	topics_by_group_obj = models.Topic.objects.filter(group=int(group_id))
+	total_topics_in_group = topics_by_group_obj.count
+	return render(request, 'group_page.html', {'group_obj': group_obj, 'topics_by_group_obj': topics_by_group_obj, 'user_type': reader_or_critic(request.user.id), 'create_new': create_message, 'total_topics_in_group': total_topics_in_group})
 
 def is_user_topic_author(request,topic_id):
 	topic = models.Topic.objects.get(id=topic_id)

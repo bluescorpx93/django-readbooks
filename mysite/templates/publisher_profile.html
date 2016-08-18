@@ -17,12 +17,12 @@
 		<div class="col-md-12 well bordrad-zero " style='padding-bottom: 0;'>
 			<p class='text-center text-uppercase' style='font-size: 240%'> {{ publisher_obj.name }} </p>
 			<div class='pic-container'>
-				<img src="{{  publisher_obj.cover_picture.url }}" class="img-responsive image-fit-frame"/>
+				<img src="{{  publisher_obj.cover_picture.url }}" class="img-responsive image-fit-frame" title="{{ publisher_obj.name }} has published {{total_books_by_publisher}} books"/>
 			</div>
 			<div class='panel panel-default' style='border-radius: 0;'>
 				<div class='panel-heading' >
 					Location: {{ publisher_obj.address }}  <br>
-					Visit: <a href="{{ publisher_obj.website }}"> {{ publisher_obj.website }} </a>
+					Visit: <a href="{{publisher_obj.website}}"> {{ publisher_obj.website }} </a>
 				</div>
 			</div>
 		</div>
