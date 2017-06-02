@@ -14,7 +14,7 @@ This Project:
  - Jquery for "liveliness"
  - SQLite3 for Database
 
-### Installation
+### Checkout Demo
 ###### 1) Download & Extract the source code
 ###### 2) Install Dependencies
 - Django v1.9 or greater
